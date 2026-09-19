@@ -132,6 +132,35 @@ button,.btn{
     color:#071426;
 }
 
+/* ================= STOCK STATUS ================= */
+
+.stock-message{
+    display:none;
+    margin-top:15px;
+    padding:12px 15px;
+    border-radius:7px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.stock-success{
+    background:#dff7e5;
+    color:#176b2c;
+    border-left:4px solid #20a044;
+}
+
+.stock-warning{
+    background:#fff1cc;
+    color:#805d00;
+    border-left:4px solid #f5b400;
+}
+
+.stock-error{
+    background:#ffe0e0;
+    color:#9b1c1c;
+    border-left:4px solid #d93025;
+}
+
 /* ================= INVOICE ================= */
 
 .invoice-wrapper{
@@ -144,8 +173,6 @@ button,.btn{
     position:relative;
     overflow:hidden;
 }
-
-/* TOP BLACK BAR */
 
 .invoice-wrapper:before{
     content:"";
@@ -168,8 +195,6 @@ button,.btn{
     display:flex;
     flex-direction:column;
 }
-
-/* PREMIUM LOGO */
 
 .logo-row{
     display:flex;
@@ -859,7 +884,7 @@ enter the official Company TRN and enable 5% VAT.
 
 <div class="buttons">
 
-<button class="generate" onclick="generateInvoice()">
+<button class="generate" id="generateButton" onclick="generateInvoice()">
 Generate Invoice
 </button>
 
@@ -876,6 +901,8 @@ Dashboard
 </a>
 
 </div>
+
+<div id="stockMessage" class="stock-message"></div>
 
 </div>
 </div>
@@ -1232,296 +1259,701 @@ FAST | RELIABLE | PROFESSIONAL
 
 <script>
 
+/* =========================================================
+   800PowerBat STOCK INTEGRATION
+   STOCK STORAGE KEY:
+   800PowerBatStock
+========================================================= */
+
+let invoiceGenerated = false;
+
+
+/* NORMALIZE TEXT */
+
+function normalizeText(value){
+
+    return String(value || "")
+        .trim()
+        .toLowerCase();
+
+}
+
+
+/* SHOW STOCK MESSAGE */
+
+function showStockMessage(message,type){
+
+    const box =
+    document.getElementById("stockMessage");
+
+    box.innerText = message;
+
+    box.className =
+    "stock-message " +
+    (
+        type === "success"
+        ? "stock-success"
+        : type === "error"
+        ? "stock-error"
+        : "stock-warning"
+    );
+
+    box.style.display = "block";
+
+}
+
+
+/* =========================================================
+   DEDUCT ONE BATTERY FROM STOCK
+========================================================= */
+
+function deductBatteryFromStock(brand,model){
+
+    let stock =
+    JSON.parse(
+        localStorage.getItem("800PowerBatStock")
+    ) || [];
+
+
+    const wantedBrand =
+    normalizeText(brand);
+
+    const wantedModel =
+    normalizeText(model);
+
+
+    if(!wantedBrand || !wantedModel){
+
+        return {
+            success:false,
+            reason:"missing"
+        };
+
+    }
+
+
+    const index =
+    stock.findIndex(function(item){
+
+        return (
+            normalizeText(item.brand) === wantedBrand &&
+            normalizeText(item.model) === wantedModel
+        );
+
+    });
+
+
+    /* BATTERY NOT FOUND */
+
+    if(index === -1){
+
+        return {
+            success:false,
+            reason:"not_found"
+        };
+
+    }
+
+
+    const currentQuantity =
+    Number(stock[index].quantity) || 0;
+
+
+    /* NO STOCK */
+
+    if(currentQuantity <= 0){
+
+        return {
+            success:false,
+            reason:"out_of_stock"
+        };
+
+    }
+
+
+    /* DEDUCT ONE */
+
+    const newQuantity =
+    currentQuantity - 1;
+
+
+    if(newQuantity <= 0){
+
+        /*
+         * Quantity reached zero.
+         * Remove battery completely from stock.
+         */
+
+        stock.splice(index,1);
+
+        localStorage.setItem(
+            "800PowerBatStock",
+            JSON.stringify(stock)
+        );
+
+        return {
+            success:true,
+            remaining:0,
+            removed:true
+        };
+
+    }
+
+
+    /* UPDATE QUANTITY */
+
+    stock[index].quantity =
+    newQuantity;
+
+
+    /* AUTOMATIC STATUS */
+
+    if(newQuantity <= 2){
+
+        stock[index].status =
+        "Low Stock";
+
+    }else{
+
+        stock[index].status =
+        "In Stock";
+
+    }
+
+
+    localStorage.setItem(
+        "800PowerBatStock",
+        JSON.stringify(stock)
+    );
+
+
+    return {
+        success:true,
+        remaining:newQuantity,
+        removed:false
+    };
+
+}
+
+
+/* =========================================================
+   GENERATE INVOICE
+========================================================= */
+
 function generateInvoice(){
 
-const customer =
-document.getElementById("customer").value.trim();
+    /*
+     * Prevent accidental second click on the same invoice.
+     * If user wants another invoice, they must confirm.
+     */
 
-const phone =
-document.getElementById("phone").value.trim();
+    if(invoiceGenerated){
 
-const customerTRN =
-document.getElementById("customerTRN").value.trim();
+        const createNew =
+        confirm(
+            "This invoice has already been generated.\n\n" +
+            "Do you want to create a NEW invoice?\n\n" +
+            "A new invoice will deduct another battery from stock."
+        );
 
-const carBrand =
-document.getElementById("carBrand").value.trim();
+        if(!createNew){
 
-const carModel =
-document.getElementById("carModel").value.trim();
+            return;
 
-const batteryBrand =
-document.getElementById("batteryBrand").value;
+        }
 
-const batteryModel =
-document.getElementById("batteryModel").value.trim();
-
-const batteryPrice =
-parseFloat(document.getElementById("batteryPrice").value) || 0;
-
-const service =
-parseFloat(document.getElementById("servicePrice").value) || 0;
-
-const discount =
-parseFloat(document.getElementById("discount").value) || 0;
-
-const warranty =
-document.getElementById("warranty").value;
-
-const payment =
-document.getElementById("payment").value;
-
-const paymentMethod =
-document.getElementById("paymentMethod").value;
-
-const companyTRN =
-document.getElementById("companyTRN").value.trim();
-
-const vatEnabled =
-document.getElementById("vatEnabled").checked;
+    }
 
 
-/* CALCULATION */
+    const customer =
+    document.getElementById("customer").value.trim();
 
-const subtotal = batteryPrice + service;
+    const phone =
+    document.getElementById("phone").value.trim();
 
-const taxable = Math.max(0, subtotal - discount);
+    const customerTRN =
+    document.getElementById("customerTRN").value.trim();
 
-const vat = vatEnabled ? taxable * 0.05 : 0;
+    const carBrand =
+    document.getElementById("carBrand").value.trim();
 
-const total = taxable + vat;
+    const carModel =
+    document.getElementById("carModel").value.trim();
 
+    const batteryBrand =
+    document.getElementById("batteryBrand").value.trim();
 
-/* INVOICE NUMBER */
+    const batteryModel =
+    document.getElementById("batteryModel").value.trim();
 
-const invoiceNumber =
-"800-" + Math.floor(100000 + Math.random() * 900000);
+    const batteryPrice =
+    parseFloat(
+        document.getElementById("batteryPrice").value
+    ) || 0;
 
+    const service =
+    parseFloat(
+        document.getElementById("servicePrice").value
+    ) || 0;
 
-/* DATE */
+    const discount =
+    parseFloat(
+        document.getElementById("discount").value
+    ) || 0;
 
-const today = new Date();
+    const warranty =
+    document.getElementById("warranty").value;
 
-const date =
-today.toLocaleDateString("en-GB");
+    const payment =
+    document.getElementById("payment").value;
 
+    const paymentMethod =
+    document.getElementById("paymentMethod").value;
 
-/* OUTPUT */
+    const companyTRN =
+    document.getElementById("companyTRN").value.trim();
 
-document.getElementById("invoiceNo").innerText =
-invoiceNumber;
-
-document.getElementById("invoiceDate").innerText =
-date;
-
-document.getElementById("outCustomer").innerText =
-customer || "Customer";
-
-document.getElementById("outPhone").innerText =
-phone || "—";
-
-document.getElementById("outCar").innerText =
-(carBrand + " " + carModel).trim() || "Vehicle";
-
-document.getElementById("outBattery").innerText =
-batteryModel || "—";
-
-document.getElementById("outBatteryBrand").innerText =
-batteryBrand || "Battery";
-
-document.getElementById("outBatteryModel").innerText =
-batteryModel || "—";
-
-document.getElementById("outBatteryPrice").innerText =
-batteryPrice.toFixed(2);
-
-document.getElementById("outService").innerText =
-service.toFixed(2);
-
-document.getElementById("outSubtotal").innerText =
-subtotal.toFixed(2);
-
-document.getElementById("outDiscount").innerText =
-discount.toFixed(2);
-
-document.getElementById("outTotal").innerText =
-total.toFixed(2);
-
-document.getElementById("outWarranty").innerText =
-warranty;
-
-document.getElementById("outItemWarranty").innerText =
-warranty;
-
-document.getElementById("outPaymentMethod").innerText =
-paymentMethod;
+    const vatEnabled =
+    document.getElementById("vatEnabled").checked;
 
 
-/* PAYMENT */
+    /* =====================================================
+       BASIC BATTERY VALIDATION
+    ===================================================== */
 
-const paymentElement =
-document.getElementById("outPayment");
+    if(!batteryBrand){
 
-paymentElement.innerText = payment;
+        alert(
+            "Please select the Battery Brand before generating the invoice."
+        );
 
-paymentElement.className =
-payment === "PAID" ? "paid" : "pending";
+        return;
+
+    }
 
 
-/* CUSTOMER TRN */
+    if(!batteryModel){
 
-const customerTRNOutput =
-document.getElementById("customerTRNOutput");
+        alert(
+            "Please enter the Battery Model / Size before generating the invoice."
+        );
 
-if(customerTRN){
+        return;
 
-customerTRNOutput.innerHTML =
-"Customer TRN: <strong>" +
-customerTRN +
-"</strong>";
+    }
 
-customerTRNOutput.style.display = "block";
 
-}else{
+    /* =====================================================
+       CALCULATION
+    ===================================================== */
 
-customerTRNOutput.style.display = "none";
+    const subtotal =
+    batteryPrice + service;
+
+    const taxable =
+    Math.max(
+        0,
+        subtotal - discount
+    );
+
+    const vat =
+    vatEnabled
+    ? taxable * 0.05
+    : 0;
+
+    const total =
+    taxable + vat;
+
+
+    /* =====================================================
+       INVOICE NUMBER
+    ===================================================== */
+
+    const invoiceNumber =
+    "800-" +
+    Math.floor(
+        100000 +
+        Math.random() * 900000
+    );
+
+
+    /* =====================================================
+       DATE
+    ===================================================== */
+
+    const today =
+    new Date();
+
+    const date =
+    today.toLocaleDateString("en-GB");
+
+
+    /* =====================================================
+       STOCK DEDUCTION
+    ===================================================== */
+
+    const stockResult =
+    deductBatteryFromStock(
+        batteryBrand,
+        batteryModel
+    );
+
+
+    /*
+     * Show result to user.
+     */
+
+    if(stockResult.success){
+
+        if(stockResult.removed){
+
+            showStockMessage(
+                "✓ " +
+                batteryBrand +
+                " " +
+                batteryModel +
+                " sold. Stock quantity reached 0 and the battery was removed from Battery Stock.",
+                "success"
+            );
+
+        }else{
+
+            showStockMessage(
+                "✓ " +
+                batteryBrand +
+                " " +
+                batteryModel +
+                " deducted from stock. Remaining quantity: " +
+                stockResult.remaining,
+                "success"
+            );
+
+        }
+
+    }else if(stockResult.reason === "out_of_stock"){
+
+        showStockMessage(
+            "⚠ " +
+            batteryBrand +
+            " " +
+            batteryModel +
+            " is already Out of Stock. Invoice was created, but stock was not deducted.",
+            "warning"
+        );
+
+    }else if(stockResult.reason === "not_found"){
+
+        showStockMessage(
+            "⚠ " +
+            batteryBrand +
+            " " +
+            batteryModel +
+            " was not found in Battery Stock. Invoice was created, but stock was not deducted.",
+            "warning"
+        );
+
+    }
+
+
+    /* =====================================================
+       OUTPUT
+    ===================================================== */
+
+    document.getElementById("invoiceNo").innerText =
+    invoiceNumber;
+
+    document.getElementById("invoiceDate").innerText =
+    date;
+
+    document.getElementById("outCustomer").innerText =
+    customer || "Customer";
+
+    document.getElementById("outPhone").innerText =
+    phone || "—";
+
+    document.getElementById("outCar").innerText =
+    (carBrand + " " + carModel).trim()
+    || "Vehicle";
+
+    document.getElementById("outBattery").innerText =
+    batteryModel || "—";
+
+    document.getElementById("outBatteryBrand").innerText =
+    batteryBrand || "Battery";
+
+    document.getElementById("outBatteryModel").innerText =
+    batteryModel || "—";
+
+    document.getElementById("outBatteryPrice").innerText =
+    batteryPrice.toFixed(2);
+
+    document.getElementById("outService").innerText =
+    service.toFixed(2);
+
+    document.getElementById("outSubtotal").innerText =
+    subtotal.toFixed(2);
+
+    document.getElementById("outDiscount").innerText =
+    discount.toFixed(2);
+
+    document.getElementById("outTotal").innerText =
+    total.toFixed(2);
+
+    document.getElementById("outWarranty").innerText =
+    warranty;
+
+    document.getElementById("outItemWarranty").innerText =
+    warranty;
+
+    document.getElementById("outPaymentMethod").innerText =
+    paymentMethod;
+
+
+    /* =====================================================
+       PAYMENT
+    ===================================================== */
+
+    const paymentElement =
+    document.getElementById("outPayment");
+
+    paymentElement.innerText =
+    payment;
+
+    paymentElement.className =
+    payment === "PAID"
+    ? "paid"
+    : "pending";
+
+
+    /* =====================================================
+       CUSTOMER TRN
+    ===================================================== */
+
+    const customerTRNOutput =
+    document.getElementById("customerTRNOutput");
+
+    if(customerTRN){
+
+        customerTRNOutput.innerHTML =
+        "Customer TRN: <strong>" +
+        customerTRN +
+        "</strong>";
+
+        customerTRNOutput.style.display =
+        "block";
+
+    }else{
+
+        customerTRNOutput.style.display =
+        "none";
+
+    }
+
+
+    /* =====================================================
+       VAT
+    ===================================================== */
+
+    const vatRow =
+    document.getElementById("vatRow");
+
+    const taxableRow =
+    document.getElementById("taxableRow");
+
+    const invoiceHeading =
+    document.getElementById("invoiceHeading");
+
+    const companyTRNOutput =
+    document.getElementById("companyTRNOutput");
+
+
+    if(vatEnabled){
+
+        taxableRow.style.display =
+        "flex";
+
+        vatRow.style.display =
+        "flex";
+
+        document.getElementById("outTaxable").innerText =
+        taxable.toFixed(2);
+
+        document.getElementById("outVAT").innerText =
+        vat.toFixed(2);
+
+        invoiceHeading.innerText =
+        "TAX INVOICE";
+
+        companyTRNOutput.innerText =
+        companyTRN
+        ? "Company TRN: " + companyTRN
+        : "Company TRN: —";
+
+    }else{
+
+        taxableRow.style.display =
+        "none";
+
+        vatRow.style.display =
+        "none";
+
+        invoiceHeading.innerText =
+        "INVOICE";
+
+        companyTRNOutput.innerText =
+        companyTRN
+        ? "Company TRN: " + companyTRN
+        : "";
+
+    }
+
+
+    /* =====================================================
+       SHOW INVOICE
+    ===================================================== */
+
+    document.getElementById("invoicePreview").style.display =
+    "block";
+
+
+    /* =====================================================
+       SAVE INVOICE HISTORY
+    ===================================================== */
+
+    let invoices =
+    JSON.parse(
+        localStorage.getItem("invoices")
+    ) || [];
+
+
+    const invoiceData = {
+
+        number:invoiceNumber,
+
+        date:date,
+
+        customer:customer,
+
+        phone:phone,
+
+        customerTRN:customerTRN,
+
+        car:
+        (carBrand + " " + carModel).trim(),
+
+        batteryBrand:batteryBrand,
+
+        batteryModel:batteryModel,
+
+        batteryPrice:batteryPrice,
+
+        service:service,
+
+        discount:discount,
+
+        subtotal:subtotal,
+
+        taxable:taxable,
+
+        vatEnabled:vatEnabled,
+
+        vatRate:
+        vatEnabled ? 5 : 0,
+
+        vat:vat,
+
+        total:total,
+
+        companyTRN:companyTRN,
+
+        warranty:warranty,
+
+        payment:payment,
+
+        paymentMethod:paymentMethod,
+
+        /* STOCK INFORMATION */
+
+        stockDeducted:
+        stockResult.success,
+
+        stockRemaining:
+        stockResult.success
+        ? stockResult.remaining
+        : null,
+
+        stockRemoved:
+        stockResult.success
+        ? stockResult.removed
+        : false
+
+    };
+
+
+    invoices.push(invoiceData);
+
+
+    localStorage.setItem(
+        "invoices",
+        JSON.stringify(invoices)
+    );
+
+
+    /*
+     * Mark current invoice as generated.
+     * Clicking Generate again will ask before
+     * creating another invoice and deducting another battery.
+     */
+
+    invoiceGenerated =
+    true;
+
+
+    /* =====================================================
+       SCROLL
+    ===================================================== */
+
+    document.getElementById("invoicePreview")
+    .scrollIntoView({
+        behavior:"smooth"
+    });
 
 }
 
 
-/* VAT */
-
-const vatRow =
-document.getElementById("vatRow");
-
-const taxableRow =
-document.getElementById("taxableRow");
-
-const invoiceHeading =
-document.getElementById("invoiceHeading");
-
-const companyTRNOutput =
-document.getElementById("companyTRNOutput");
-
-if(vatEnabled){
-
-taxableRow.style.display = "flex";
-vatRow.style.display = "flex";
-
-document.getElementById("outTaxable").innerText =
-taxable.toFixed(2);
-
-document.getElementById("outVAT").innerText =
-vat.toFixed(2);
-
-invoiceHeading.innerText =
-"TAX INVOICE";
-
-companyTRNOutput.innerText =
-companyTRN
-? "Company TRN: " + companyTRN
-: "Company TRN: —";
-
-}else{
-
-taxableRow.style.display = "none";
-vatRow.style.display = "none";
-
-invoiceHeading.innerText =
-"INVOICE";
-
-companyTRNOutput.innerText =
-companyTRN
-? "Company TRN: " + companyTRN
-: "";
-
-}
-
-
-/* SHOW */
-
-document.getElementById("invoicePreview").style.display =
-"block";
-
-
-/* SAVE */
-
-let invoices =
-JSON.parse(localStorage.getItem("invoices")) || [];
-
-
-const invoiceData = {
-
-number:invoiceNumber,
-date:date,
-customer:customer,
-phone:phone,
-customerTRN:customerTRN,
-
-car:(carBrand + " " + carModel).trim(),
-
-batteryBrand:batteryBrand,
-batteryModel:batteryModel,
-
-batteryPrice:batteryPrice,
-service:service,
-discount:discount,
-
-subtotal:subtotal,
-taxable:taxable,
-
-vatEnabled:vatEnabled,
-vatRate:vatEnabled ? 5 : 0,
-vat:vat,
-
-total:total,
-
-companyTRN:companyTRN,
-warranty:warranty,
-
-payment:payment,
-paymentMethod:paymentMethod
-
-};
-
-
-invoices.push(invoiceData);
-
-localStorage.setItem(
-"invoices",
-JSON.stringify(invoices)
-);
-
-
-/* SCROLL */
-
-document.getElementById("invoicePreview")
-.scrollIntoView({
-behavior:"smooth"
-});
-
-}
-
-
-/* PRINT */
+/* =========================================================
+   PRINT / SAVE PDF
+========================================================= */
 
 function printInvoice(){
 
-const preview =
-document.getElementById("invoicePreview");
+    const preview =
+    document.getElementById("invoicePreview");
 
-if(preview.style.display !== "block"){
 
-generateInvoice();
+    if(preview.style.display !== "block"){
 
-setTimeout(function(){
-window.print();
-},500);
+        generateInvoice();
 
-}else{
 
-window.print();
+        setTimeout(function(){
 
-}
+            if(
+                document.getElementById("invoicePreview")
+                .style.display === "block"
+            ){
+
+                window.print();
+
+            }
+
+        },500);
+
+    }else{
+
+        window.print();
+
+    }
 
 }
 
