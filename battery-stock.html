@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Battery Stock | 800PowerBat</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f6f8;
+    color:#17202a;
+}
+
+/* HEADER */
+.header{
+    background:#111827;
+    color:white;
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+    letter-spacing:.5px;
+}
+
+.logo span{
+    color:#f5b400;
+}
+
+.back-btn{
+    background:#f5b400;
+    color:#111827;
+    text-decoration:none;
+    padding:10px 15px;
+    border-radius:8px;
+    font-weight:700;
+}
+
+/* MAIN */
+.container{
+    max-width:1200px;
+    margin:25px auto;
+    padding:0 15px;
+}
+
+.page-title{
+    margin-bottom:20px;
+}
+
+.page-title h1{
+    margin:0 0 6px;
+    font-size:30px;
+}
+
+.page-title p{
+    margin:0;
+    color:#667085;
+}
+
+/* DASHBOARD CARDS */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.07);
+    border-left:5px solid #f5b400;
+}
+
+.card h3{
+    margin:0 0 8px;
+    font-size:14px;
+    color:#667085;
+}
+
+.card strong{
+    font-size:28px;
+}
+
+/* FORM */
+.form-box{
+    background:white;
+    padding:22px;
+    border-radius:14px;
+    box-shadow:0 3px 12px rgba(0,0,0,.07);
+    margin-bottom:20px;
+}
+
+.form-box h2{
+    margin-top:0;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+input,select{
+    width:100%;
+    padding:13px;
+    border:1px solid #d0d5dd;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+}
+
+input:focus,select:focus{
+    border-color:#f5b400;
+}
+
+.add-btn{
+    margin-top:15px;
+    width:100%;
+    border:0;
+    background:#111827;
+    color:white;
+    padding:14px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.add-btn:hover{
+    background:#263142;
+}
+
+/* SEARCH */
+.search-box{
+    background:white;
+    padding:15px;
+    border-radius:14px;
+    box-shadow:0 3px 12px rgba(0,0,0,.07);
+    margin-bottom:15px;
+}
+
+/* TABLE */
+.table-box{
+    background:white;
+    border-radius:14px;
+    box-shadow:0 3px 12px rgba(0,0,0,.07);
+    overflow:hidden;
+}
+
+.table-scroll{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+}
+
+th{
+    background:#111827;
+    color:white;
+    padding:14px 12px;
+    text-align:left;
+    font-size:14px;
+}
+
+td{
+    padding:13px 12px;
+    border-bottom:1px solid #eaecf0;
+    font-size:14px;
+}
+
+tr:hover{
+    background:#fafafa;
+}
+
+/* STATUS */
+.status{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.in-stock{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.low-stock{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.out-stock{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+/* ACTIONS */
+.action-btn{
+    border:0;
+    padding:7px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:600;
+    margin-right:4px;
+}
+
+.edit{
+    background:#e0f2fe;
+    color:#0369a1;
+}
+
+.delete{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+/* EMPTY */
+.empty{
+    text-align:center;
+    padding:40px;
+    color:#667085;
+}
+
+/* MOBILE */
+@media(max-width:800px){
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .header{
+        padding:15px;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .page-title h1{
+        font-size:25px;
+    }
+}
+
+@media(max-width:500px){
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .container{
+        margin:18px auto;
+    }
+
+    .back-btn{
+        padding:8px 10px;
+        font-size:13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+        800<span>PowerBat</span>
+    </div>
+
+    <a href="index.html" class="back-btn">
+        ← Back
+    </a>
+
+</header>
+
+
+<main class="container">
+
+    <div class="page-title">
+        <h1>Battery Stock Management</h1>
+        <p>Manage your battery brands, models, quantities and stock status.</p>
+    </div>
+
+
+    <!-- DASHBOARD -->
+    <section class="cards">
+
+        <div class="card">
+            <h3>Total Battery Models</h3>
+            <strong id="totalModels">0</strong>
+        </div>
+
+        <div class="card">
+            <h3>Total Quantity</h3>
+            <strong id="totalQuantity">0</strong>
+        </div>
+
+        <div class="card">
+            <h3>Low / Out of Stock</h3>
+            <strong id="lowStock">0</strong>
+        </div>
+
+    </section>
+
+
+    <!-- ADD BATTERY -->
+    <section class="form-box">
+
+        <h2 id="formTitle">Add Battery</h2>
+
+        <div class="form-grid">
+
+            <input
+                type="text"
+                id="brand"
+                placeholder="Battery Brand e.g. Amaron"
+            >
+
+            <input
+                type="text"
+                id="model"
+                placeholder="Battery Model e.g. 55D23L"
+            >
+
+            <input
+                type="number"
+                id="quantity"
+                placeholder="Quantity"
+                min="0"
+            >
+
+            <select id="status">
+                <option value="In Stock">In Stock</option>
+                <option value="Low Stock">Low Stock</option>
+                <option value="Out of Stock">Out of Stock</option>
+            </select>
+
+        </div>
+
+        <button class="add-btn" onclick="saveBattery()" id="saveButton">
+            + Add Battery
+        </button>
+
+    </section>
+
+
+    <!-- SEARCH -->
+    <section class="search-box">
+
+        <input
+            type="text"
+            id="search"
+            placeholder="Search brand or model..."
+            oninput="displayBatteries()"
+        >
+
+    </section>
+
+
+    <!-- STOCK TABLE -->
+    <section class="table-box">
+
+        <div class="table-scroll">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>#</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Quantity</th>
+                        <th>Stock Status</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="stockTable"></tbody>
+
+            </table>
+
+        </div>
+
+        <div class="empty" id="emptyMessage">
+            No batteries added yet.
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+let batteries = JSON.parse(
+    localStorage.getItem("800PowerBatStock")
+) || [];
+
+let editIndex = -1;
+
+
+/* SAVE DATA */
+
+function saveData(){
+
+    localStorage.setItem(
+        "800PowerBatStock",
+        JSON.stringify(batteries)
+    );
+
+}
+
+
+/* ADD / UPDATE */
+
+function saveBattery(){
+
+    const brand =
+        document.getElementById("brand").value.trim();
+
+    const model =
+        document.getElementById("model").value.trim();
+
+    const quantity =
+        parseInt(document.getElementById("quantity").value);
+
+    const status =
+        document.getElementById("status").value;
+
+
+    if(!brand || !model || isNaN(quantity)){
+
+        alert("Please enter Brand, Model and Quantity.");
+
+        return;
+
+    }
+
+
+    const battery = {
+        brand: brand,
+        model: model,
+        quantity: quantity,
+        status: status
+    };
+
+
+    if(editIndex === -1){
+
+        batteries.push(battery);
+
+    }else{
+
+        batteries[editIndex] = battery;
+
+        editIndex = -1;
+
+        document.getElementById("formTitle").innerText =
+            "Add Battery";
+
+        document.getElementById("saveButton").innerText =
+            "+ Add Battery";
+
+    }
+
+
+    saveData();
+
+    clearForm();
+
+    displayBatteries();
+
+}
+
+
+/* DISPLAY */
+
+function displayBatteries(){
+
+    const table =
+        document.getElementById("stockTable");
+
+    const empty =
+        document.getElementById("emptyMessage");
+
+    const search =
+        document.getElementById("search").value
+        .toLowerCase()
+        .trim();
+
+
+    table.innerHTML = "";
+
+
+    const filtered =
+        batteries.filter(item =>
+
+            item.brand.toLowerCase().includes(search) ||
+            item.model.toLowerCase().includes(search)
+
+        );
+
+
+    if(filtered.length === 0){
+
+        empty.style.display = "block";
+
+    }else{
+
+        empty.style.display = "none";
+
+    }
+
+
+    filtered.forEach((item, index) => {
+
+        const originalIndex =
+            batteries.indexOf(item);
+
+
+        let statusClass = "";
+
+        if(item.status === "In Stock"){
+            statusClass = "in-stock";
+        }
+
+        if(item.status === "Low Stock"){
+            statusClass = "low-stock";
+        }
+
+        if(item.status === "Out of Stock"){
+            statusClass = "out-stock";
+        }
+
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>${index + 1}</td>
+
+            <td>
+                <strong>${escapeHTML(item.brand)}</strong>
+            </td>
+
+            <td>
+                ${escapeHTML(item.model)}
+            </td>
+
+            <td>
+                <strong>${item.quantity}</strong>
+            </td>
+
+            <td>
+                <span class="status ${statusClass}">
+                    ${item.status}
+                </span>
+            </td>
+
+            <td>
+
+                <button
+                    class="action-btn edit"
+                    onclick="editBattery(${originalIndex})"
+                >
+                    Edit
+                </button>
+
+                <button
+                    class="action-btn delete"
+                    onclick="deleteBattery(${originalIndex})"
+                >
+                    Delete
+                </button>
+
+            </td>
+
+        `;
+
+        table.appendChild(row);
+
+    });
+
+
+    updateDashboard();
+
+}
+
+
+/* EDIT */
+
+function editBattery(index){
+
+    const item = batteries[index];
+
+    document.getElementById("brand").value =
+        item.brand;
+
+    document.getElementById("model").value =
+        item.model;
+
+    document.getElementById("quantity").value =
+        item.quantity;
+
+    document.getElementById("status").value =
+        item.status;
+
+
+    editIndex = index;
+
+
+    document.getElementById("formTitle").innerText =
+        "Edit Battery";
+
+    document.getElementById("saveButton").innerText =
+        "✓ Update Battery";
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* DELETE */
+
+function deleteBattery(index){
+
+    const item = batteries[index];
+
+    const confirmDelete =
+        confirm(
+            "Delete " +
+            item.brand +
+            " " +
+            item.model +
+            " from stock?"
+        );
+
+
+    if(!confirmDelete) return;
+
+
+    batteries.splice(index,1);
+
+    saveData();
+
+    displayBatteries();
+
+}
+
+
+/* CLEAR FORM */
+
+function clearForm(){
+
+    document.getElementById("brand").value = "";
+
+    document.getElementById("model").value = "";
+
+    document.getElementById("quantity").value = "";
+
+    document.getElementById("status").value =
+        "In Stock";
+
+}
+
+
+/* DASHBOARD */
+
+function updateDashboard(){
+
+    document.getElementById("totalModels").innerText =
+        batteries.length;
+
+
+    const total =
+        batteries.reduce(
+            (sum,item) =>
+            sum + Number(item.quantity),
+            0
+        );
+
+
+    document.getElementById("totalQuantity").innerText =
+        total;
+
+
+    const low =
+        batteries.filter(item =>
+            item.status === "Low Stock" ||
+            item.status === "Out of Stock"
+        ).length;
+
+
+    document.getElementById("lowStock").innerText =
+        low;
+
+}
+
+
+/* SECURITY */
+
+function escapeHTML(text){
+
+    return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* LOAD */
+
+displayBatteries();
+
+</script>
+
+</body>
+</html>
