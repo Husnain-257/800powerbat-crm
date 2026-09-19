@@ -4,139 +4,635 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>800PowerBat CRM</title>
+<title>800PowerBat | CRM Dashboard</title>
 
 <style>
+
 *{
     box-sizing:border-box;
 }
 
 body{
     margin:0;
-    font-family:Arial,sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
     background:#f4f6f8;
     color:#17202a;
 }
 
+/* HEADER */
+
 header{
     background:#101820;
     color:#fff;
-    padding:20px;
-    text-align:center;
+    padding:18px 25px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 3px 15px rgba(0,0,0,.15);
 }
 
-header h1{
-    margin:0;
+.logo{
+    font-size:25px;
+    font-weight:800;
+    letter-spacing:.4px;
+}
+
+.logo span{
     color:#f5b400;
 }
 
-.container{
-    padding:20px;
-    max-width:1000px;
-    margin:auto;
+.header-right{
+    font-size:13px;
+    color:#cbd5e1;
 }
+
+/* MAIN */
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+/* WELCOME */
+
+.welcome{
+    margin-bottom:25px;
+}
+
+.welcome h2{
+    margin:0 0 6px;
+    font-size:28px;
+    color:#101820;
+}
+
+.welcome p{
+    margin:0;
+    color:#667085;
+}
+
+/* DASHBOARD CARDS */
 
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:15px;
+    grid-template-columns:
+    repeat(auto-fit,minmax(210px,1fr));
+
+    gap:18px;
+    margin-bottom:30px;
 }
 
 .card{
     background:#fff;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    padding:22px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,.06);
+    border:1px solid #eaecf0;
+    position:relative;
+    overflow:hidden;
+}
+
+.card::after{
+    content:"";
+    position:absolute;
+    right:-25px;
+    bottom:-30px;
+    width:90px;
+    height:90px;
+    background:#f5b400;
+    opacity:.08;
+    border-radius:50%;
 }
 
 .card h3{
-    margin-top:0;
+    margin:0 0 12px;
+    font-size:14px;
+    color:#667085;
+    font-weight:600;
 }
 
 .number{
     font-size:28px;
-    font-weight:bold;
-    color:#f5b400;
+    font-weight:800;
+    color:#101820;
 }
+
+.card-icon{
+    font-size:25px;
+    margin-bottom:10px;
+}
+
+/* SECTION TITLE */
+
+.section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:15px;
+}
+
+.section-title h2{
+    margin:0;
+    font-size:21px;
+}
+
+.section-title span{
+    font-size:13px;
+    color:#667085;
+}
+
+/* QUICK ACTIONS */
 
 .buttons{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+
     gap:15px;
-    margin-top:25px;
 }
 
-button{
-    border:0;
-    padding:16px;
-    border-radius:10px;
-    background:#101820;
-    color:#fff;
-    font-size:16px;
+.action{
+    border:1px solid #eaecf0;
+    padding:0;
+    border-radius:14px;
+    background:#fff;
+    color:#101820;
     cursor:pointer;
+    text-align:left;
+    box-shadow:0 3px 12px rgba(0,0,0,.05);
+    transition:.2s;
+    overflow:hidden;
 }
 
-button:hover{
+.action:hover{
+    transform:translateY(-3px);
+    box-shadow:0 7px 20px rgba(0,0,0,.10);
+    border-color:#f5b400;
+}
+
+.action-top{
+    padding:20px 20px 10px;
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.action-icon{
+    width:46px;
+    height:46px;
+    border-radius:11px;
+    background:#101820;
+    color:#f5b400;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+}
+
+.action h3{
+    margin:0;
+    font-size:16px;
+}
+
+.action p{
+    margin:4px 0 0;
+    font-size:12px;
+    color:#667085;
+}
+
+.action-bottom{
+    padding:12px 20px;
+    border-top:1px solid #f0f0f0;
+    color:#f5b400;
+    font-size:13px;
+    font-weight:bold;
+}
+
+/* STOCK SPECIAL */
+
+.stock .action-icon{
     background:#f5b400;
     color:#101820;
 }
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+    padding:25px 15px;
+    margin-top:35px;
+    color:#98a2b3;
+    font-size:12px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    header{
+        padding:16px;
+    }
+
+    .logo{
+        font-size:21px;
+    }
+
+    .header-right{
+        display:none;
+    }
+
+    .container{
+        padding:22px 15px;
+    }
+
+    .welcome h2{
+        font-size:24px;
+    }
+
+    .cards{
+        grid-template-columns:1fr 1fr;
+        gap:12px;
+    }
+
+    .card{
+        padding:16px;
+    }
+
+    .number{
+        font-size:22px;
+    }
+
+    .buttons{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:380px){
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+}
+
 </style>
 </head>
 
+
 <body>
 
+
+<!-- HEADER -->
+
 <header>
-    <h1>800PowerBat</h1>
-    <p>CRM & Invoice Management</p>
+
+    <div class="logo">
+        800<span>PowerBat</span>
+    </div>
+
+    <div class="header-right">
+        CRM &nbsp;•&nbsp; Battery Management
+    </div>
+
 </header>
+
+
+<!-- MAIN -->
 
 <div class="container">
 
-    <div class="cards">
 
-        <div class="card">
-            <h3>Total Customers</h3>
-            <div class="number">0</div>
-        </div>
+    <!-- WELCOME -->
 
-        <div class="card">
-            <h3>Total Invoices</h3>
-            <div class="number">0</div>
-        </div>
+    <div class="welcome">
 
-        <div class="card">
-            <h3>Paid</h3>
-            <div class="number">AED 0</div>
-        </div>
+        <h2>CRM Dashboard</h2>
 
-        <div class="card">
-            <h3>Pending</h3>
-            <div class="number">AED 0</div>
-        </div>
+        <p>
+            Manage customers, invoices, payments and battery stock
+            from one place.
+        </p>
 
     </div>
+
+
+    <!-- DASHBOARD -->
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <div class="card-icon">👤</div>
+
+            <h3>Total Customers</h3>
+
+            <div class="number" id="totalCustomers">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">🧾</div>
+
+            <h3>Total Invoices</h3>
+
+            <div class="number" id="totalInvoices">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">✓</div>
+
+            <h3>Total Paid</h3>
+
+            <div class="number" id="totalPaid">
+                AED 0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">⏳</div>
+
+            <h3>Total Pending</h3>
+
+            <div class="number" id="totalPending">
+                AED 0
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <div class="section-title">
+
+        <h2>Quick Actions</h2>
+
+        <span>800PowerBat Management</span>
+
+    </div>
+
 
     <div class="buttons">
 
-        <button onclick="location.href='customers.html'">
-            👤 Customers
+
+        <!-- CUSTOMERS -->
+
+        <button
+            class="action"
+            onclick="location.href='customers.html'"
+        >
+
+            <div class="action-top">
+
+                <div class="action-icon">
+                    👤
+                </div>
+
+                <div>
+
+                    <h3>Customers</h3>
+
+                    <p>
+                        Manage customer information
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="action-bottom">
+                Open Customers →
+            </div>
+
         </button>
 
-        <button onclick="location.href='invoice.html'">
-            🧾 Create Invoice
+
+        <!-- CREATE INVOICE -->
+
+        <button
+            class="action"
+            onclick="location.href='invoice.html'"
+        >
+
+            <div class="action-top">
+
+                <div class="action-icon">
+                    🧾
+                </div>
+
+                <div>
+
+                    <h3>Create Invoice</h3>
+
+                    <p>
+                        Create a new battery invoice
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="action-bottom">
+                Create Invoice →
+            </div>
+
         </button>
 
-        <button onclick="location.href='invoices.html'">
-            📋 Previous Invoices
+
+        <!-- PREVIOUS INVOICES -->
+
+        <button
+            class="action"
+            onclick="location.href='invoices.html'"
+        >
+
+            <div class="action-top">
+
+                <div class="action-icon">
+                    📋
+                </div>
+
+                <div>
+
+                    <h3>Previous Invoices</h3>
+
+                    <p>
+                        View your invoice history
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="action-bottom">
+                View Invoices →
+            </div>
+
         </button>
 
-        <button onclick="location.href='batteries.html'">
-            🔋 Battery Stock
+
+        <!-- BATTERY STOCK -->
+
+        <button
+            class="action stock"
+            onclick="location.href='battery-stock.html'"
+        >
+
+            <div class="action-top">
+
+                <div class="action-icon">
+                    🔋
+                </div>
+
+                <div>
+
+                    <h3>Battery Stock</h3>
+
+                    <p>
+                        Manage battery inventory
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="action-bottom">
+                Manage Stock →
+            </div>
+
         </button>
+
 
     </div>
 
+
 </div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    800PowerBat CRM &nbsp;•&nbsp;
+    Professional Battery Management System
+
+</footer>
+
+
+<script>
+
+/*
+    Dashboard counters
+
+    These are connected to localStorage so
+    they can later be connected with your
+    Customers and Invoice pages.
+*/
+
+
+function updateDashboard(){
+
+    /*
+        Customers
+    */
+
+    let customers =
+        JSON.parse(
+            localStorage.getItem("800PowerBatCustomers")
+        ) || [];
+
+    document.getElementById("totalCustomers")
+        .innerText = customers.length;
+
+
+    /*
+        Invoices
+    */
+
+    let invoices =
+        JSON.parse(
+            localStorage.getItem("800PowerBatInvoices")
+        ) || [];
+
+
+    document.getElementById("totalInvoices")
+        .innerText = invoices.length;
+
+
+    /*
+        Paid / Pending
+    */
+
+    let paid = 0;
+    let pending = 0;
+
+
+    invoices.forEach(invoice => {
+
+        let amount =
+            Number(
+                invoice.total ||
+                invoice.amount ||
+                0
+            );
+
+
+        let status =
+            String(
+                invoice.status || ""
+            ).toLowerCase();
+
+
+        if(
+            status === "paid" ||
+            status === "complete"
+        ){
+
+            paid += amount;
+
+        }else{
+
+            pending += amount;
+
+        }
+
+    });
+
+
+    document.getElementById("totalPaid")
+        .innerText =
+        "AED " + paid.toFixed(2);
+
+
+    document.getElementById("totalPending")
+        .innerText =
+        "AED " + pending.toFixed(2);
+
+}
+
+
+/* Load dashboard */
+
+updateDashboard();
+
+</script>
+
 
 </body>
 </html>
