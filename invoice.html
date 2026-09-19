@@ -7,13 +7,11 @@
 <title>Invoice | 800PowerBat</title>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
     margin:0;
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
     background:#eef1f4;
     color:#17202a;
 }
@@ -28,11 +26,6 @@ body{
 .header h1{
     margin:0;
     color:#f5b400;
-    font-size:28px;
-}
-
-.header p{
-    margin:6px 0 0;
 }
 
 .container{
@@ -41,20 +34,20 @@ body{
     padding:15px;
 }
 
-.form-box,
-.invoice{
+.form-box,.invoice{
     background:white;
     border-radius:14px;
     padding:22px;
     box-shadow:0 4px 18px rgba(0,0,0,.08);
 }
 
-.form-box h2{
-    margin-top:0;
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
 }
 
-input,
-select{
+input,select{
     width:100%;
     padding:13px;
     margin:6px 0 14px;
@@ -68,46 +61,21 @@ label{
     font-size:14px;
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-}
-
-button{
-    border:0;
-    border-radius:9px;
-    padding:14px 18px;
-    font-size:15px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
 .generate{
     width:100%;
+    padding:15px;
+    border:0;
+    border-radius:9px;
     background:#101820;
     color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 .generate:hover{
     background:#f5b400;
     color:#101820;
-}
-
-.actions{
-    display:flex;
-    gap:10px;
-    margin-top:20px;
-}
-
-.print{
-    background:#f5b400;
-    color:#101820;
-}
-
-.back{
-    background:#101820;
-    color:white;
 }
 
 .invoice{
@@ -126,10 +94,9 @@ button{
 .company h1{
     margin:0;
     font-size:30px;
-    color:#101820;
 }
 
-.company strong{
+.company h1 span{
     color:#f5b400;
 }
 
@@ -151,8 +118,8 @@ button{
 
 .info-box h3{
     margin:0 0 8px;
-    font-size:15px;
     color:#666;
+    font-size:14px;
 }
 
 .info-box p{
@@ -205,6 +172,30 @@ td{
     color:#188044;
 }
 
+.actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.actions button{
+    flex:1;
+    padding:14px;
+    border:0;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.print{
+    background:#f5b400;
+}
+
+.history{
+    background:#101820;
+    color:white;
+}
+
 .footer{
     margin-top:30px;
     padding-top:15px;
@@ -216,8 +207,7 @@ td{
 
 @media(max-width:600px){
 
-    .grid,
-    .info{
+    .grid,.info{
         grid-template-columns:1fr;
     }
 
@@ -232,22 +222,16 @@ td{
     .actions{
         flex-direction:column;
     }
-
-    .company h1{
-        font-size:25px;
-    }
 }
 
 @media print{
 
-    body{
-        background:white;
-    }
+    body{background:white}
 
     .header,
     .form-box,
     .actions{
-        display:none !important;
+        display:none!important;
     }
 
     .container{
@@ -257,7 +241,7 @@ td{
     }
 
     .invoice{
-        display:block !important;
+        display:block!important;
         box-shadow:none;
         margin:0;
     }
@@ -274,8 +258,6 @@ td{
 
 <div class="container">
 
-<!-- FORM -->
-
 <div class="form-box">
 
 <h2>🧾 Create New Invoice</h2>
@@ -284,22 +266,22 @@ td{
 
 <div>
 <label>Customer Name</label>
-<input type="text" id="customer" placeholder="Customer name">
+<input id="customer" type="text" placeholder="Customer name">
 </div>
 
 <div>
 <label>Phone Number</label>
-<input type="text" id="phone" placeholder="+971">
+<input id="phone" type="text" placeholder="+971">
 </div>
 
 <div>
 <label>Car Brand</label>
-<input type="text" id="carBrand" placeholder="BMW, Toyota, Mercedes...">
+<input id="carBrand" type="text" placeholder="BMW, Toyota, Mercedes">
 </div>
 
 <div>
 <label>Car Model</label>
-<input type="text" id="carModel" placeholder="Car model">
+<input id="carModel" type="text" placeholder="Car model">
 </div>
 
 <div>
@@ -320,22 +302,22 @@ td{
 
 <div>
 <label>Battery Model / Size</label>
-<input type="text" id="batteryModel" placeholder="Example: 80Ah AGM">
+<input id="batteryModel" type="text" placeholder="80Ah AGM">
 </div>
 
 <div>
 <label>Battery Price (AED)</label>
-<input type="number" id="batteryPrice" placeholder="0" oninput="calculate()">
+<input id="batteryPrice" type="number" value="0" oninput="calculate()">
 </div>
 
 <div>
 <label>Installation / Service (AED)</label>
-<input type="number" id="servicePrice" placeholder="0" oninput="calculate()">
+<input id="servicePrice" type="number" value="0" oninput="calculate()">
 </div>
 
 <div>
 <label>Discount (AED)</label>
-<input type="number" id="discount" value="0" oninput="calculate()">
+<input id="discount" type="number" value="0" oninput="calculate()">
 </div>
 
 <div>
@@ -351,13 +333,11 @@ td{
 <br>
 
 <button class="generate" onclick="generateInvoice()">
-Generate Invoice
+Generate & Save Invoice
 </button>
 
 </div>
 
-
-<!-- INVOICE -->
 
 <div class="invoice" id="invoice">
 
@@ -382,21 +362,15 @@ Generate Invoice
 <div class="info">
 
 <div class="info-box">
-
 <h3>BILL TO</h3>
-
 <p><strong id="outCustomer"></strong></p>
 <p id="outPhone"></p>
-
 </div>
 
 <div class="info-box">
-
 <h3>VEHICLE</h3>
-
 <p><strong id="outCar"></strong></p>
 <p id="outBattery"></p>
-
 </div>
 
 </div>
@@ -460,17 +434,11 @@ Generate Invoice
 
 
 <div class="footer">
-
 <strong>Thank you for choosing 800PowerBat.</strong>
-
 <br><br>
-
-24/7 Mobile Car Battery Replacement • Jump Start • Battery Diagnosis • Roadside Assistance
-
+24/7 Mobile Car Battery Replacement • Jump Start • Battery Diagnosis
 <br>
-
 Dubai, UAE | +971 52 404 0699
-
 </div>
 
 </div>
@@ -482,8 +450,8 @@ Dubai, UAE | +971 52 404 0699
 🖨️ Print / Save PDF
 </button>
 
-<button class="back" onclick="location.href='index.html'">
-← Dashboard
+<button class="history" onclick="location.href='invoices.html'">
+📋 Invoice History
 </button>
 
 </div>
@@ -495,111 +463,173 @@ Dubai, UAE | +971 52 404 0699
 
 function calculate(){
 
-let battery =
-parseFloat(document.getElementById("batteryPrice").value) || 0;
+    let battery =
+    parseFloat(document.getElementById("batteryPrice").value) || 0;
 
-let service =
-parseFloat(document.getElementById("servicePrice").value) || 0;
+    let service =
+    parseFloat(document.getElementById("servicePrice").value) || 0;
 
-let discount =
-parseFloat(document.getElementById("discount").value) || 0;
+    let discount =
+    parseFloat(document.getElementById("discount").value) || 0;
 
-let subtotal = battery + service;
+    let subtotal = battery + service;
 
-let total = subtotal - discount;
+    let total = subtotal - discount;
 
-if(total < 0){
-    total = 0;
-}
+    if(total < 0){
+        total = 0;
+    }
 
-return {
-    battery:battery,
-    service:service,
-    discount:discount,
-    subtotal:subtotal,
-    total:total
-};
-
+    return {
+        battery,
+        service,
+        discount,
+        subtotal,
+        total
+    };
 }
 
 
 function generateInvoice(){
 
-let customer =
-document.getElementById("customer").value.trim();
+    let customer =
+    document.getElementById("customer").value.trim();
 
-let phone =
-document.getElementById("phone").value.trim();
+    let phone =
+    document.getElementById("phone").value.trim();
 
-if(customer === ""){
-    alert("Please enter customer name.");
-    return;
-}
+    if(customer === ""){
+        alert("Please enter customer name.");
+        return;
+    }
 
-let data = calculate();
+    let data = calculate();
 
-let invoiceNumber =
-"800-" + Date.now().toString().slice(-6);
+    let invoiceNumber =
+    "800-" + Date.now().toString().slice(-6);
 
-let date =
-new Date().toLocaleDateString("en-AE");
+    let date =
+    new Date().toLocaleDateString("en-AE");
 
+    let car =
+    document.getElementById("carBrand").value +
+    " " +
+    document.getElementById("carModel").value;
 
-document.getElementById("invoiceNo").textContent =
-invoiceNumber;
+    let batteryBrand =
+    document.getElementById("batteryBrand").value;
 
-document.getElementById("invoiceDate").textContent =
-date;
+    let batteryModel =
+    document.getElementById("batteryModel").value;
 
-
-document.getElementById("outCustomer").textContent =
-customer;
-
-document.getElementById("outPhone").textContent =
-phone;
-
-document.getElementById("outCar").textContent =
-document.getElementById("carBrand").value +
-" " +
-document.getElementById("carModel").value;
-
-document.getElementById("outBattery").textContent =
-"Battery: " +
-document.getElementById("batteryModel").value;
+    let payment =
+    document.getElementById("payment").value;
 
 
-document.getElementById("outBatteryBrand").textContent =
-document.getElementById("batteryBrand").value;
+    /* SAVE INVOICE */
 
-document.getElementById("outBatteryModel").textContent =
-document.getElementById("batteryModel").value;
+    let invoices =
+    JSON.parse(localStorage.getItem("invoices")) || [];
 
-document.getElementById("outBatteryPrice").textContent =
-data.battery.toFixed(2);
+    let invoiceData = {
 
-document.getElementById("outService").textContent =
-data.service.toFixed(2);
+        number: invoiceNumber,
 
-document.getElementById("outSubtotal").textContent =
-"AED " + data.subtotal.toFixed(2);
+        date: date,
 
-document.getElementById("outDiscount").textContent =
-"AED " + data.discount.toFixed(2);
+        customer: customer,
 
-document.getElementById("outTotal").textContent =
-data.total.toFixed(2);
+        phone: phone,
 
-document.getElementById("outPayment").textContent =
-document.getElementById("payment").value;
+        car: car,
+
+        batteryBrand: batteryBrand,
+
+        batteryModel: batteryModel,
+
+        batteryPrice: data.battery,
+
+        service: data.service,
+
+        discount: data.discount,
+
+        subtotal: data.subtotal,
+
+        total: data.total,
+
+        payment: payment
+
+    };
 
 
-document.getElementById("invoice").style.display =
-"block";
+    invoices.push(invoiceData);
 
-window.scrollTo({
-    top:document.getElementById("invoice").offsetTop,
-    behavior:"smooth"
-});
+    localStorage.setItem(
+        "invoices",
+        JSON.stringify(invoices)
+    );
+
+
+    /* SHOW INVOICE */
+
+    document.getElementById("invoiceNo").textContent =
+    invoiceNumber;
+
+    document.getElementById("invoiceDate").textContent =
+    date;
+
+    document.getElementById("outCustomer").textContent =
+    customer;
+
+    document.getElementById("outPhone").textContent =
+    phone;
+
+    document.getElementById("outCar").textContent =
+    car;
+
+    document.getElementById("outBattery").textContent =
+    "Battery: " + batteryModel;
+
+    document.getElementById("outBatteryBrand").textContent =
+    batteryBrand;
+
+    document.getElementById("outBatteryModel").textContent =
+    batteryModel;
+
+    document.getElementById("outBatteryPrice").textContent =
+    data.battery.toFixed(2);
+
+    document.getElementById("outService").textContent =
+    data.service.toFixed(2);
+
+    document.getElementById("outSubtotal").textContent =
+    "AED " + data.subtotal.toFixed(2);
+
+    document.getElementById("outDiscount").textContent =
+    "AED " + data.discount.toFixed(2);
+
+    document.getElementById("outTotal").textContent =
+    data.total.toFixed(2);
+
+    document.getElementById("outPayment").textContent =
+    payment;
+
+
+    document.getElementById("invoice").style.display =
+    "block";
+
+
+    alert(
+        "Invoice " +
+        invoiceNumber +
+        " saved successfully!"
+    );
+
+
+    window.scrollTo({
+        top:document.getElementById("invoice").offsetTop,
+        behavior:"smooth"
+    });
 
 }
 
