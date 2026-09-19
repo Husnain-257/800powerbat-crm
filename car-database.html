@@ -291,25 +291,52 @@ Car Database
 <div class="container">
 
 
+<!-- STATISTICS -->
+
 <div class="stats">
 
 <div class="stat">
-<small>Total Car Records</small>
-<strong id="totalCars">0</strong>
+
+<small>
+Total Car Records
+</small>
+
+<strong id="totalCars">
+0
+</strong>
+
 </div>
+
 
 <div class="stat">
-<small>Car Brands</small>
-<strong id="totalBrands">0</strong>
+
+<small>
+Car Brands
+</small>
+
+<strong id="totalBrands">
+0
+</strong>
+
 </div>
+
 
 <div class="stat">
-<small>Different Models</small>
-<strong id="totalModels">0</strong>
-</div>
+
+<small>
+Different Models
+</small>
+
+<strong id="totalModels">
+0
+</strong>
 
 </div>
 
+</div>
+
+
+<!-- ADD CAR -->
 
 <div class="card">
 
@@ -318,39 +345,57 @@ Add <span>Car</span>
 </h2>
 
 <div class="info-box">
-Major car brands and models are already available in this database.
-You can also add your own brand, model and year manually.
+Car brands and models are pre-loaded. Model years available:
+<strong>1975 - 2026</strong>. You can also add your own car manually.
 </div>
+
 
 <div class="form-grid">
 
 <div class="field">
-<label>Car Brand</label>
+
+<label>
+Car Brand
+</label>
+
 <input
 id="carBrand"
 type="text"
 placeholder="e.g. BMW"
 >
+
 </div>
 
+
 <div class="field">
-<label>Car Model</label>
+
+<label>
+Car Model
+</label>
+
 <input
 id="carModel"
 type="text"
 placeholder="e.g. X5"
 >
+
 </div>
 
+
 <div class="field">
-<label>Model Year</label>
+
+<label>
+Model Year
+</label>
+
 <input
 id="modelYear"
 type="number"
 placeholder="e.g. 2024"
-min="1900"
-max="2100"
+min="1975"
+max="2026"
 >
+
 </div>
 
 </div>
@@ -365,6 +410,7 @@ onclick="saveCar()"
 Add Car
 </button>
 
+
 <button
 class="clear-btn"
 onclick="clearForm()"
@@ -372,12 +418,14 @@ onclick="clearForm()"
 Clear
 </button>
 
+
 <button
 class="load-btn"
 onclick="loadDefaultCars()"
 >
 Load / Update Car Database
 </button>
+
 
 <a
 href="index.html"
@@ -391,11 +439,14 @@ Dashboard
 </div>
 
 
+<!-- CAR LIST -->
+
 <div class="card">
 
 <h2>
 Car <span>Database</span>
 </h2>
+
 
 <div class="search">
 
@@ -416,22 +467,41 @@ oninput="displayCars()"
 <thead>
 
 <tr>
-<th>#</th>
-<th>Car Brand</th>
-<th>Car Model</th>
-<th>Model Year</th>
-<th>Actions</th>
+
+<th>
+#
+</th>
+
+<th>
+Car Brand
+</th>
+
+<th>
+Car Model
+</th>
+
+<th>
+Model Year
+</th>
+
+<th>
+Actions
+</th>
+
 </tr>
 
 </thead>
 
-<tbody id="carTable"></tbody>
+
+<tbody id="carTable">
+</tbody>
 
 </table>
 
 </div>
 
 </div>
+
 
 </div>
 
@@ -447,11 +517,12 @@ JSON.parse(
     localStorage.getItem("800PowerBatCars")
 ) || [];
 
+
 let editIndex = -1;
 
 
 /* =====================================================
-DEFAULT CAR BRANDS + MODELS
+CAR BRANDS + MODELS
 ===================================================== */
 
 const defaultCars = {
@@ -664,7 +735,9 @@ const defaultCars = {
 ],
 
 "Volvo":[
+"S40",
 "S60",
+"S80",
 "S90",
 "V40",
 "V60",
@@ -742,7 +815,6 @@ const defaultCars = {
 "Yukon XL",
 "Acadia",
 "Terrain",
-"Denali",
 "Sierra",
 "Canyon",
 "Hummer EV"
@@ -949,7 +1021,6 @@ const defaultCars = {
 "Urus S",
 "Urus Performante",
 "Revuelto",
-"Revuelto Roadster",
 "Temerario",
 "Huracan",
 "Aventador",
@@ -1020,12 +1091,20 @@ const defaultCars = {
 ],
 
 "Peugeot":[
+"106",
+"206",
+"207",
 "208",
-"2008",
+"306",
+"307",
 "308",
+"406",
+"407",
+"408",
+"508",
+"2008",
 "3008",
 "5008",
-"508",
 "Partner",
 "Expert"
 ],
@@ -1045,6 +1124,8 @@ const defaultCars = {
 ],
 
 "Citroen":[
+"C1",
+"C2",
 "C3",
 "C4",
 "C5",
@@ -1075,7 +1156,7 @@ const defaultCars = {
 "Enyaq"
 ],
 
-"Seat":[
+"SEAT":[
 "Ibiza",
 "Leon",
 "Arona",
@@ -1083,7 +1164,7 @@ const defaultCars = {
 "Tarraco"
 ],
 
-"Mini":[
+"MINI":[
 "Cooper",
 "Cooper S",
 "Countryman",
@@ -1096,6 +1177,7 @@ const defaultCars = {
 "MG3",
 "MG5",
 "MG6",
+"MG7",
 "ZS",
 "ZS EV",
 "HS",
@@ -1141,12 +1223,12 @@ const defaultCars = {
 ],
 
 "Jetour":[
+"X50",
 "X70",
 "X70 Plus",
 "X90",
 "X90 Plus",
 "Dashing",
-"X50",
 "T2"
 ],
 
@@ -1221,11 +1303,6 @@ const defaultCars = {
 "Auman"
 ],
 
-"Zhongxing":[
-"Terralord",
-"Grand Tiger"
-],
-
 "Mahindra":[
 "Scorpio",
 "Scorpio N",
@@ -1249,7 +1326,7 @@ const defaultCars = {
 "Proton":[
 "Saga",
 "Persona",
-"IrIz",
+"Iriz",
 "Exora",
 "X50",
 "X70",
@@ -1277,18 +1354,24 @@ const defaultCars = {
 
 
 /* =====================================================
-DEFAULT YEARS
+YEARS 1975 - 2026
 ===================================================== */
 
 const defaultYears = [];
 
-for(let year = 2010; year <= 2026; year++){
+for(
+    let year = 1975;
+    year <= 2026;
+    year++
+){
+
     defaultYears.push(year);
+
 }
 
 
 /* =====================================================
-NORMALIZE TEXT
+NORMALIZE
 ===================================================== */
 
 function normalize(value){
@@ -1304,14 +1387,32 @@ function normalize(value){
 CHECK DUPLICATE
 ===================================================== */
 
-function carExists(brand,model,year){
+function carExists(
+    brand,
+    model,
+    year
+){
 
     return cars.some(function(item){
 
         return (
-            normalize(item.brand) === normalize(brand) &&
-            normalize(item.model) === normalize(model) &&
-            Number(item.year) === Number(year)
+
+            normalize(item.brand)
+            ===
+            normalize(brand)
+
+            &&
+
+            normalize(item.model)
+            ===
+            normalize(model)
+
+            &&
+
+            Number(item.year)
+            ===
+            Number(year)
+
         );
 
     });
@@ -1320,20 +1421,30 @@ function carExists(brand,model,year){
 
 
 /* =====================================================
-LOAD DEFAULT CAR DATABASE
+LOAD DEFAULT DATABASE
 ===================================================== */
 
 function loadDefaultCars(){
 
     let added = 0;
 
-    Object.keys(defaultCars).forEach(function(brand){
 
-        defaultCars[brand].forEach(function(model){
+    Object.keys(defaultCars)
+    .forEach(function(brand){
 
-            defaultYears.forEach(function(year){
+        defaultCars[brand]
+        .forEach(function(model){
 
-                if(!carExists(brand,model,year)){
+            defaultYears
+            .forEach(function(year){
+
+                if(
+                    !carExists(
+                        brand,
+                        model,
+                        year
+                    )
+                ){
 
                     cars.push({
 
@@ -1369,7 +1480,7 @@ function loadDefaultCars(){
 
     alert(
         added +
-        " car records added/updated successfully."
+        " car records added successfully."
     );
 
 }
@@ -1382,26 +1493,34 @@ SAVE CAR
 function saveCar(){
 
     const brand =
-    document.getElementById("carBrand")
+    document.getElementById(
+        "carBrand"
+    )
     .value
     .trim();
 
 
     const model =
-    document.getElementById("carModel")
+    document.getElementById(
+        "carModel"
+    )
     .value
     .trim();
 
 
     const year =
-    document.getElementById("modelYear")
+    document.getElementById(
+        "modelYear"
+    )
     .value
     .trim();
 
 
     if(!brand){
 
-        alert("Please enter Car Brand.");
+        alert(
+            "Please enter Car Brand."
+        );
 
         return;
 
@@ -1410,7 +1529,9 @@ function saveCar(){
 
     if(!model){
 
-        alert("Please enter Car Model.");
+        alert(
+            "Please enter Car Model."
+        );
 
         return;
 
@@ -1419,7 +1540,9 @@ function saveCar(){
 
     if(!year){
 
-        alert("Please enter Model Year.");
+        alert(
+            "Please enter Model Year."
+        );
 
         return;
 
@@ -1431,12 +1554,12 @@ function saveCar(){
 
 
     if(
-        yearNumber < 1900 ||
-        yearNumber > 2100
+        yearNumber < 1975 ||
+        yearNumber > 2026
     ){
 
         alert(
-            "Please enter a valid model year."
+            "Please enter a model year between 1975 and 2026."
         );
 
         return;
@@ -1455,28 +1578,42 @@ function saveCar(){
     };
 
 
-    /* =================================================
-    EDIT
-    ================================================= */
+    /* EDIT */
 
     if(editIndex !== -1){
 
         const duplicate =
-        cars.some(function(item,index){
+        cars.some(function(
+            item,
+            index
+        ){
 
-            if(index === editIndex){
+            if(
+                index === editIndex
+            ){
 
                 return false;
 
             }
 
+
             return (
 
-                normalize(item.brand) === normalize(brand) &&
+                normalize(item.brand)
+                ===
+                normalize(brand)
 
-                normalize(item.model) === normalize(model) &&
+                &&
 
-                Number(item.year) === yearNumber
+                normalize(item.model)
+                ===
+                normalize(model)
+
+                &&
+
+                Number(item.year)
+                ===
+                yearNumber
 
             );
 
@@ -1497,14 +1634,13 @@ function saveCar(){
         cars[editIndex] =
         carData;
 
+
         editIndex = -1;
 
     }
 
 
-    /* =================================================
-    ADD
-    ================================================= */
+    /* ADD */
 
     else{
 
@@ -1525,7 +1661,9 @@ function saveCar(){
         }
 
 
-        cars.push(carData);
+        cars.push(
+            carData
+        );
 
     }
 
@@ -1574,19 +1712,25 @@ function displayCars(){
 
         return (
 
-            String(item.brand || "")
+            String(
+                item.brand || ""
+            )
             .toLowerCase()
             .includes(search)
 
             ||
 
-            String(item.model || "")
+            String(
+                item.model || ""
+            )
             .toLowerCase()
             .includes(search)
 
             ||
 
-            String(item.year || "")
+            String(
+                item.year || ""
+            )
             .includes(search)
 
         );
@@ -1594,7 +1738,9 @@ function displayCars(){
     });
 
 
-    if(filtered.length === 0){
+    if(
+        filtered.length === 0
+    ){
 
         table.innerHTML = `
 
@@ -1616,14 +1762,17 @@ function displayCars(){
     }
 
 
-    filtered.forEach(function(item){
+    filtered.forEach(
+        function(item){
 
         const realIndex =
         cars.indexOf(item);
 
 
         const row =
-        document.createElement("tr");
+        document.createElement(
+            "tr"
+        );
 
 
         row.innerHTML = `
@@ -1671,7 +1820,9 @@ function displayCars(){
         `;
 
 
-        table.appendChild(row);
+        table.appendChild(
+            row
+        );
 
     });
 
@@ -1718,8 +1869,11 @@ function editCar(index){
 
 
     window.scrollTo({
+
         top:0,
+
         behavior:"smooth"
+
     });
 
 }
@@ -1809,7 +1963,7 @@ function clearForm(){
 
 
 /* =====================================================
-UPDATE STATISTICS
+UPDATE STATS
 ===================================================== */
 
 function updateStats(){
@@ -1831,15 +1985,28 @@ function updateStats(){
     cars.forEach(function(item){
 
         brands.add(
-            normalize(item.brand)
+            normalize(
+                item.brand
+            )
         );
 
 
         models.add(
-            normalize(item.brand)
+
+            normalize(
+                item.brand
+            )
+
             +
-            "||" +
-            normalize(item.model)
+
+            "||"
+
+            +
+
+            normalize(
+                item.model
+            )
+
         );
 
     });
@@ -1865,17 +2032,34 @@ ESCAPE HTML
 
 function escapeHTML(value){
 
-    return String(value || "")
+    return String(
+        value || ""
+    )
 
-    .replace(/&/g,"&amp;")
+    .replace(
+        /&/g,
+        "&amp;"
+    )
 
-    .replace(/</g,"&lt;")
+    .replace(
+        /</g,
+        "&lt;"
+    )
 
-    .replace(/>/g,"&gt;")
+    .replace(
+        />/g,
+        "&gt;"
+    )
 
-    .replace(/"/g,"&quot;")
+    .replace(
+        /"/g,
+        "&quot;"
+    )
 
-    .replace(/'/g,"&#039;");
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
@@ -1890,7 +2074,7 @@ updateStats();
 
 
 /* =====================================================
-AUTO LOAD DEFAULT DATABASE ON FIRST USE
+FIRST TIME DATABASE LOAD
 ===================================================== */
 
 if(
