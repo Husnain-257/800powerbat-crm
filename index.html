@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>800PowerBat CRM</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+    color:#17202a;
+}
+
+header{
+    background:#101820;
+    color:#fff;
+    padding:20px;
+    text-align:center;
+}
+
+header h1{
+    margin:0;
+    color:#f5b400;
+}
+
+.container{
+    padding:20px;
+    max-width:1000px;
+    margin:auto;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+}
+
+.card{
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.card h3{
+    margin-top:0;
+}
+
+.number{
+    font-size:28px;
+    font-weight:bold;
+    color:#f5b400;
+}
+
+.buttons{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+    margin-top:25px;
+}
+
+button{
+    border:0;
+    padding:16px;
+    border-radius:10px;
+    background:#101820;
+    color:#fff;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#f5b400;
+    color:#101820;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>800PowerBat</h1>
+    <p>CRM & Invoice Management</p>
+</header>
+
+<div class="container">
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Customers</h3>
+            <div class="number">0</div>
+        </div>
+
+        <div class="card">
+            <h3>Total Invoices</h3>
+            <div class="number">0</div>
+        </div>
+
+        <div class="card">
+            <h3>Paid</h3>
+            <div class="number">AED 0</div>
+        </div>
+
+        <div class="card">
+            <h3>Pending</h3>
+            <div class="number">AED 0</div>
+        </div>
+
+    </div>
+
+    <div class="buttons">
+
+        <button onclick="location.href='customers.html'">
+            👤 Customers
+        </button>
+
+        <button onclick="location.href='invoice.html'">
+            🧾 Create Invoice
+        </button>
+
+        <button onclick="location.href='invoices.html'">
+            📋 Previous Invoices
+        </button>
+
+        <button onclick="location.href='batteries.html'">
+            🔋 Battery Stock
+        </button>
+
+    </div>
+
+</div>
+
+</body>
+</html>
