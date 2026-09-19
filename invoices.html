@@ -161,9 +161,7 @@ button{
 </style>
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -173,9 +171,7 @@ button{
 
 </header>
 
-
 <div class="container">
-
 
     <input
         type="text"
@@ -185,9 +181,7 @@ button{
         oninput="showInvoices()"
     >
 
-
     <div id="invoiceList"></div>
-
 
     <button
         class="back"
@@ -196,9 +190,7 @@ button{
         ← Back to Dashboard
     </button>
 
-
 </div>
-
 
 <script>
 
@@ -214,14 +206,17 @@ const userRole =
 
 
 /*
-   IMPORTANT:
-   Do not redirect immediately while the page
-   is loading. Check login first.
+   Only redirect when we are completely
+   sure that the user is not logged in.
 */
 
-if(isLoggedIn !== "true"){
+if(
+    isLoggedIn === null ||
+    isLoggedIn === "" ||
+    isLoggedIn === "false"
+){
 
-    window.location.replace("login.html");
+    window.location.replace("./login.html");
 
 }
 
@@ -310,10 +305,8 @@ function showInvoices(){
     let invoices =
         getInvoices();
 
-
     const searchInput =
         document.getElementById("search");
-
 
     const search =
         searchInput
@@ -321,7 +314,6 @@ function showInvoices(){
             .toLowerCase()
             .trim()
         : "";
-
 
     /*
        ADMIN:
@@ -463,10 +455,6 @@ function showInvoices(){
                 card.className =
                     "card";
 
-
-                /*
-                   Create invoice details safely
-                */
 
                 const invoiceNumber =
                     invoice.number || "—";
@@ -652,7 +640,7 @@ function deleteInvoiceByNumber(number){
 function goDashboard(){
 
     window.location.href =
-        "index.html";
+        "./index.html";
 
 }
 
@@ -664,7 +652,6 @@ function goDashboard(){
 showInvoices();
 
 </script>
-
 
 </body>
 </html>
