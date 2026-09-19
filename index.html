@@ -42,8 +42,32 @@ header{
 }
 
 .header-right{
+    display:flex;
+    align-items:center;
+    gap:15px;
     font-size:13px;
     color:#cbd5e1;
+}
+
+.technician-name{
+    color:#f5b400;
+    font-weight:700;
+}
+
+.logout-btn{
+    border:1px solid #f5b400;
+    background:transparent;
+    color:#f5b400;
+    padding:7px 12px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.logout-btn:hover{
+    background:#f5b400;
+    color:#101820;
 }
 
 /* MAIN */
@@ -69,6 +93,18 @@ header{
 .welcome p{
     margin:0;
     color:#667085;
+}
+
+.logged-user{
+    margin-top:10px;
+    display:inline-block;
+    background:#fff8df;
+    color:#8a6500;
+    border:1px solid #f5d36a;
+    padding:7px 12px;
+    border-radius:7px;
+    font-size:13px;
+    font-weight:bold;
 }
 
 /* DASHBOARD CARDS */
@@ -238,7 +274,17 @@ footer{
     }
 
     .header-right{
+        gap:8px;
+        font-size:11px;
+    }
+
+    .header-right span:not(.technician-name){
         display:none;
+    }
+
+    .logout-btn{
+        padding:6px 9px;
+        font-size:11px;
     }
 
     .container{
@@ -292,7 +338,22 @@ footer{
     </div>
 
     <div class="header-right">
-        CRM &nbsp;•&nbsp; Battery Management
+
+        <span>
+            CRM &nbsp;•&nbsp; Battery Management
+        </span>
+
+        <span class="technician-name" id="headerTechnician">
+            Technician: -
+        </span>
+
+        <button
+            class="logout-btn"
+            onclick="logout()"
+        >
+            LOGOUT
+        </button>
+
     </div>
 
 </header>
@@ -313,6 +374,10 @@ footer{
             Manage customers, invoices, payments and battery stock
             from one place.
         </p>
+
+        <div class="logged-user" id="welcomeTechnician">
+            Logged in as: -
+        </div>
 
     </div>
 
@@ -537,14 +602,78 @@ footer{
 
 <script>
 
-/*
-    Dashboard counters
+/* =========================================
+   LOGIN PROTECTION
+   ========================================= */
 
-    These are connected to localStorage so
-    they can later be connected with your
-    Customers and Invoice pages.
-*/
+const isLoggedIn =
+    localStorage.getItem("800PowerBatLoggedIn");
 
+if(isLoggedIn !== "true"){
+
+    window.location.href = "login.html";
+
+}
+
+
+/* =========================================
+   GET LOGGED-IN TECHNICIAN
+   ========================================= */
+
+const technicianName =
+    localStorage.getItem(
+        "800PowerBatTechnicianName"
+    ) || "Unknown Technician";
+
+
+const technicianUsername =
+    localStorage.getItem(
+        "800PowerBatUsername"
+    ) || "";
+
+
+/* =========================================
+   SHOW TECHNICIAN NAME
+   ========================================= */
+
+document.getElementById(
+    "headerTechnician"
+).innerText =
+    "Technician: " + technicianName;
+
+
+document.getElementById(
+    "welcomeTechnician"
+).innerText =
+    "Logged in as: " + technicianName;
+
+
+/* =========================================
+   LOGOUT
+   ========================================= */
+
+function logout(){
+
+    localStorage.removeItem(
+        "800PowerBatLoggedIn"
+    );
+
+    localStorage.removeItem(
+        "800PowerBatUsername"
+    );
+
+    localStorage.removeItem(
+        "800PowerBatTechnicianName"
+    );
+
+    window.location.href = "login.html";
+
+}
+
+
+/* =========================================
+   DASHBOARD COUNTERS
+   ========================================= */
 
 function updateDashboard(){
 
@@ -554,11 +683,14 @@ function updateDashboard(){
 
     let customers =
         JSON.parse(
-            localStorage.getItem("800PowerBatCustomers")
+            localStorage.getItem(
+                "800PowerBatCustomers"
+            )
         ) || [];
 
-    document.getElementById("totalCustomers")
-        .innerText = customers.length;
+    document.getElementById(
+        "totalCustomers"
+    ).innerText = customers.length;
 
 
     /*
@@ -567,12 +699,15 @@ function updateDashboard(){
 
     let invoices =
         JSON.parse(
-            localStorage.getItem("800PowerBatInvoices")
+            localStorage.getItem(
+                "800PowerBatInvoices"
+            )
         ) || [];
 
 
-    document.getElementById("totalInvoices")
-        .innerText = invoices.length;
+    document.getElementById(
+        "totalInvoices"
+    ).innerText = invoices.length;
 
 
     /*
@@ -615,19 +750,23 @@ function updateDashboard(){
     });
 
 
-    document.getElementById("totalPaid")
-        .innerText =
+    document.getElementById(
+        "totalPaid"
+    ).innerText =
         "AED " + paid.toFixed(2);
 
 
-    document.getElementById("totalPending")
-        .innerText =
+    document.getElementById(
+        "totalPending"
+    ).innerText =
         "AED " + pending.toFixed(2);
 
 }
 
 
-/* Load dashboard */
+/* =========================================
+   LOAD DASHBOARD
+   ========================================= */
 
 updateDashboard();
 
