@@ -14,7 +14,7 @@
 body{
     margin:0;
     font-family:Arial,Helvetica,sans-serif;
-    background:#0d1117;
+    background:#000000;
     color:#e6edf3;
 }
 
@@ -22,9 +22,9 @@ body{
     width:210mm;
     min-height:297mm;
     margin:20px auto;
-    background:#121721;
+    background:#0a0a0a;
     padding:11mm;
-    box-shadow:0 4px 25px rgba(0,0,0,.6);
+    box-shadow:0 4px 25px rgba(0,0,0,.8);
     border-radius:6px;
 }
 
@@ -83,8 +83,8 @@ body{
 
 .form-section{
     margin-top:13px;
-    background:#181e2a;
-    border:1px solid #2d3748;
+    background:#121212;
+    border:1px solid #222222;
     padding:11px;
     border-radius:7px;
 }
@@ -121,11 +121,11 @@ body{
 .field select{
     width:100%;
     height:37px;
-    border:1px solid #2d3748;
+    border:1px solid #222222;
     border-radius:5px;
     padding:0 9px;
     font-size:13px;
-    background:#0d1117;
+    background:#000000;
     color:#ffffff;
     outline:none;
 }
@@ -141,7 +141,7 @@ body{
 
 .car-note{
     margin-top:8px;
-    background:#262010;
+    background:#1a1500;
     border-left:4px solid #f5b400;
     padding:8px;
     font-size:11px;
@@ -155,8 +155,8 @@ body{
 
 .battery-info{
     margin-top:9px;
-    background:#0d1117;
-    border:1px solid #2d3748;
+    background:#000000;
+    border:1px solid #222222;
     border-radius:6px;
     padding:9px;
 }
@@ -168,7 +168,7 @@ body{
 }
 
 .info-box{
-    background:#181e2a;
+    background:#121212;
     border-radius:5px;
     padding:7px;
 }
@@ -222,17 +222,18 @@ button{
 
 .btn-generate{
     background:#f5b400;
-    color:#0d1117;
+    color:#000000;
 }
 
 .btn-print{
-    background:#2b6cb0;
+    background:#333333;
     color:#ffffff;
 }
 
 .btn-back{
-    background:#4a5568;
+    background:#1a1a1a;
     color:#ffffff;
+    border:1px solid #333333;
 }
 
 /* =========================
@@ -242,16 +243,20 @@ button{
 .invoice-preview{
     display:none;
     margin-top:16px;
-    background:#121721;
-    padding:15px;
+    background:#000000;
     border-radius:6px;
     color:#ffffff;
+    min-height:270mm;
+    display:none;
+    flex-direction:column;
+    justify-content:space-between;
+    overflow:hidden;
 }
 
-/* TOP HEADER (DARK AREA) */
+/* TOP HEADER (DARK BLACK AREA) */
 .preview-header-area{
-    background:#121721;
-    padding:8px 8px 4px 8px;
+    background:#000000;
+    padding:12px 12px 6px 12px;
 }
 
 .preview-header{
@@ -331,7 +336,7 @@ button{
 .header-yellow-line{
     height:3px;
     background:#f5b400;
-    margin:8px 0 0 0;
+    margin:10px 0 0 0;
 }
 
 /* =========================
@@ -341,7 +346,10 @@ button{
 .middle-white-section{
     background:#ffffff;
     color:#000000;
-    padding:12px;
+    padding:14px;
+    flex:1;
+    display:flex;
+    flex-direction:column;
 }
 
 .bill-section{
@@ -387,7 +395,7 @@ button{
 .invoice-table th{
     background:#f5b400;
     color:#000000;
-    padding:6px 8px;
+    padding:7px 8px;
     font-size:10px;
     font-weight:900;
     text-transform:uppercase;
@@ -472,10 +480,10 @@ button{
 }
 
 .terms-box{
-    margin-top:10px;
+    margin-top:auto;
     background:#f8fafc;
     border:1px solid #cbd5e1;
-    padding:8px 10px;
+    padding:9px 11px;
     border-radius:4px;
     font-size:8.5px;
     line-height:1.35;
@@ -506,58 +514,60 @@ button{
 }
 
 /* =========================
-   FOOTER AREA
+   FOOTER AREA (FIXED AT BOTTOM)
 ========================= */
 
 .footer-area{
-    margin-top:0;
-    background:#121721;
-    padding:10px 12px;
+    margin-top:auto;
+    background:#000000;
+    padding:14px 12px;
     text-align:center;
+    border-top:2px solid #f5b400;
 }
 
 .thank-you-title{
-    font-size:11.5px;
-    font-weight:800;
+    font-size:12px;
+    font-weight:900;
     color:#ffffff;
+    letter-spacing:0.3px;
 }
 
 .thank-you-sub{
     font-size:8.5px;
-    color:#64748b;
-    margin-top:2px;
+    color:#94a3b8;
+    margin-top:3px;
 }
 
 .service-icons-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:8px;
-    margin-top:10px;
-    padding-top:8px;
-    border-top:1px solid #1e293b;
+    margin-top:12px;
+    padding-top:10px;
+    border-top:1px solid #1a1a1a;
 }
 
 .icon-box-item{
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:3px;
+    gap:4px;
 }
 
 .icon-circle{
-    width:22px;
-    height:22px;
+    width:24px;
+    height:24px;
     border:1.5px solid #f5b400;
     border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
     color:#f5b400;
-    font-size:9.5px;
+    font-size:10px;
 }
 
 .icon-text-label{
-    font-size:7.5px;
+    font-size:8px;
     color:#94a3b8;
     text-transform:uppercase;
     font-weight:800;
@@ -565,9 +575,9 @@ button{
 }
 
 .powering-tagline-box{
-    margin-top:10px;
+    margin-top:12px;
     padding-top:8px;
-    border-top:1px solid #f5b400;
+    border-top:1px solid #222222;
     text-align:left;
 }
 
@@ -575,7 +585,7 @@ button{
     font-family:'Georgia', serif;
     font-style:italic;
     color:#f5b400;
-    font-size:11.5px;
+    font-size:12px;
 }
 
 .tagline-subtext{
@@ -593,7 +603,7 @@ button{
 
 .history{
     margin-top:20px;
-    border-top:1px solid #2d3748;
+    border-top:1px solid #222222;
     padding-top:15px;
 }
 
@@ -604,12 +614,12 @@ button{
 }
 
 .history-item{
-    border:1px solid #2d3748;
+    border:1px solid #222222;
     border-radius:6px;
     padding:8px;
     margin-bottom:6px;
     font-size:11px;
-    background:#181e2a;
+    background:#121212;
     color:#cbd5e1;
 }
 
@@ -621,12 +631,12 @@ button{
 }
 
 /* =========================
-   MOBILE & PRINT (SINGLE PAGE PDF FIX)
+   MOBILE & PRINT (EXACT SINGLE PAGE PDF)
 ========================= */
 
 @media(max-width:700px){
-    body{ background:#0d1117; }
-    .page{ width:100%; padding:15px; }
+    body{ background:#000000; }
+    .page{ width:100%; padding:12px; }
     .grid{ grid-template-columns:1fr; }
     .battery-info-grid{ grid-template-columns:repeat(2,1fr); }
     .bill-section{ grid-template-columns:1fr; }
@@ -643,28 +653,33 @@ button{
         margin:0 !important;
         padding:0 !important;
         overflow:hidden;
-        background:#121721 !important;
+        background:#000000 !important;
         color:#ffffff !important;
         -webkit-print-color-adjust:exact !important;
         print-color-adjust:exact !important;
     }
     .page{
-        width:100% !important;
-        height:100% !important;
-        min-height:0 !important;
+        width:210mm !important;
+        height:297mm !important;
+        min-height:297mm !important;
+        max-height:297mm !important;
         margin:0 !important;
         padding:0 !important;
         box-shadow:none !important;
-        background:#121721 !important;
+        background:#000000 !important;
     }
     .topbar, .form-section, .buttons, .history{
         display:none !important;
     }
     .invoice-preview{
-        display:block !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:space-between !important;
+        height:297mm !important;
+        min-height:297mm !important;
         margin:0 !important;
         padding:0 !important;
-        background:#121721 !important;
+        background:#000000 !important;
         page-break-after:avoid !important;
         page-break-inside:avoid !important;
     }
@@ -827,7 +842,7 @@ button{
     <!-- INVOICE PREVIEW -->
     <div class="invoice-preview" id="invoicePreview">
 
-        <!-- HEADER AREA (DARK) -->
+        <!-- HEADER AREA (DARK BLACK) -->
         <div class="preview-header-area">
             <div class="preview-header">
                 <div>
@@ -947,7 +962,7 @@ button{
             </div>
         </div>
 
-        <!-- FOOTER AREA (DARK) -->
+        <!-- FOOTER AREA (FIXED AT BOTTOM) -->
         <div class="footer-area">
             <div class="thank-you-title">Thank you for choosing 800PowerBat.</div>
             <div class="thank-you-sub">24/7 Mobile Car Battery Replacement | Jump Start | Battery Diagnostics</div>
@@ -1319,7 +1334,7 @@ function generateInvoice(){
     document.getElementById("outPayment").textContent = paymentMethod;
     document.getElementById("companyTRNOutput").textContent = companyTRN || "—";
 
-    document.getElementById("invoicePreview").style.display = "block";
+    document.getElementById("invoicePreview").style.display = "flex";
     invoiceGenerated = true;
 
     renderHistory();
