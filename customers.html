@@ -96,20 +96,54 @@ button:hover{
 <h2>Add Customer</h2>
 
 <label>Customer Name</label>
-<input type="text" id="name" placeholder="Enter customer name">
+<input
+    type="text"
+    id="name"
+    placeholder="Enter customer name"
+>
 
 <label>Phone Number</label>
-<input type="tel" id="phone" placeholder="+971">
+<input
+    type="tel"
+    id="phone"
+    placeholder="+971"
+>
+
+<label>Customer Email</label>
+<input
+    type="email"
+    id="email"
+    placeholder="customer@email.com"
+>
+
+<label>Customer Address</label>
+<input
+    type="text"
+    id="address"
+    placeholder="Enter customer address"
+>
 
 <label>Car Brand</label>
-<input type="text" id="car" placeholder="Toyota, BMW, Mercedes...">
+<input
+    type="text"
+    id="car"
+    placeholder="Toyota, BMW, Mercedes..."
+>
 
 <label>Car Model</label>
-<input type="text" id="model" placeholder="Enter car model">
+<input
+    type="text"
+    id="model"
+    placeholder="Enter car model"
+>
 
 <label>Battery Brand</label>
 <select id="battery">
-<option value="">Select Battery Brand</option>
+
+<option value="">
+    Select Battery Brand
+</option>
+
 <option>Fiamm</option>
 <option>Energizer</option>
 <option>Bosch</option>
@@ -120,11 +154,16 @@ button:hover{
 <option>Exide</option>
 <option>Kays</option>
 <option>Bekon</option>
+
 </select>
 
-<button onclick="saveCustomer()">Save Customer</button>
+<button onclick="saveCustomer()">
+    Save Customer
+</button>
 
-<a class="back" href="index.html">← Back to Dashboard</a>
+<a class="back" href="index.html">
+    ← Back to Dashboard
+</a>
 
 </div>
 
@@ -137,14 +176,24 @@ button:hover{
 ================================ */
 
 const isLoggedIn =
-    localStorage.getItem("800PowerBatLoggedIn");
+    localStorage.getItem(
+        "800PowerBatLoggedIn"
+    );
 
 const userRole =
-    localStorage.getItem("800PowerBatUserRole");
+    localStorage.getItem(
+        "800PowerBatUserRole"
+    );
+
 
 if(isLoggedIn !== "true"){
-    window.location.replace("login.html");
+
+    window.location.replace(
+        "login.html"
+    );
+
 }
+
 
 /*
    Customers page is available to:
@@ -152,7 +201,10 @@ if(isLoggedIn !== "true"){
    TECHNICIAN
 */
 
-if(userRole !== "admin" && userRole !== "technician"){
+if(
+    userRole !== "admin" &&
+    userRole !== "technician"
+){
 
     document.body.innerHTML = `
         <div style="
@@ -164,6 +216,7 @@ if(userRole !== "admin" && userRole !== "technician"){
             background:#101820;
             font-family:Arial,Helvetica,sans-serif;
         ">
+
             <div style="
                 width:100%;
                 max-width:420px;
@@ -173,7 +226,11 @@ if(userRole !== "admin" && userRole !== "technician"){
                 text-align:center;
                 box-shadow:0 15px 40px rgba(0,0,0,.35);
             ">
-                <div style="font-size:50px;margin-bottom:15px;">
+
+                <div style="
+                    font-size:50px;
+                    margin-bottom:15px;
+                ">
                     🔒
                 </div>
 
@@ -208,11 +265,14 @@ if(userRole !== "admin" && userRole !== "technician"){
                 >
                     ← Back to Dashboard
                 </button>
+
             </div>
         </div>
     `;
 
-    throw new Error("Unauthorized Customers access.");
+    throw new Error(
+        "Unauthorized Customers access."
+    );
 }
 
 
@@ -222,47 +282,187 @@ if(userRole !== "admin" && userRole !== "technician"){
 
 function saveCustomer(){
 
-let name=document.getElementById("name").value;
-let phone=document.getElementById("phone").value;
-let car=document.getElementById("car").value;
-let model=document.getElementById("model").value;
-let battery=document.getElementById("battery").value;
+    const name =
+        document.getElementById(
+            "name"
+        ).value.trim();
 
-if(name==="" || phone===""){
-    alert("Please enter customer name and phone number.");
-    return;
-}
 
-let customers=
-    JSON.parse(localStorage.getItem("customers")) || [];
+    const phone =
+        document.getElementById(
+            "phone"
+        ).value.trim();
 
-customers.push({
-    name:name,
-    phone:phone,
-    car:car,
-    model:model,
-    battery:battery,
-    date:new Date().toLocaleString(),
 
-    /* Technician/Admin who added customer */
-    addedBy:
-        localStorage.getItem("800PowerBatTechnicianName") ||
-        localStorage.getItem("800PowerBatUsername") ||
-        "Unknown"
-});
+    const email =
+        document.getElementById(
+            "email"
+        ).value.trim();
 
-localStorage.setItem(
-    "customers",
-    JSON.stringify(customers)
-);
 
-alert("Customer saved successfully!");
+    const address =
+        document.getElementById(
+            "address"
+        ).value.trim();
 
-document.getElementById("name").value="";
-document.getElementById("phone").value="";
-document.getElementById("car").value="";
-document.getElementById("model").value="";
-document.getElementById("battery").value="";
+
+    const car =
+        document.getElementById(
+            "car"
+        ).value.trim();
+
+
+    const model =
+        document.getElementById(
+            "model"
+        ).value.trim();
+
+
+    const battery =
+        document.getElementById(
+            "battery"
+        ).value;
+
+
+    /* ================================
+       REQUIRED FIELDS
+    ================================= */
+
+    if(
+        name === "" ||
+        phone === ""
+    ){
+
+        alert(
+            "Please enter customer name and phone number."
+        );
+
+        return;
+    }
+
+
+    /* ================================
+       GET EXISTING CUSTOMERS
+    ================================= */
+
+    let customers =
+        JSON.parse(
+            localStorage.getItem(
+                "customers"
+            )
+        ) || [];
+
+
+    if(!Array.isArray(customers)){
+
+        customers = [];
+
+    }
+
+
+    /* ================================
+       CREATE CUSTOMER
+    ================================= */
+
+    const customer = {
+
+        id:
+            "CUS-" +
+            Date.now(),
+
+        name:name,
+
+        phone:phone,
+
+        email:email,
+
+        address:address,
+
+        car:car,
+
+        model:model,
+
+        battery:battery,
+
+        date:
+            new Date().toLocaleString(),
+
+        createdAt:
+            new Date().toISOString(),
+
+        addedBy:
+            localStorage.getItem(
+                "800PowerBatTechnicianName"
+            ) ||
+            localStorage.getItem(
+                "800PowerBatUsername"
+            ) ||
+            "Unknown"
+
+    };
+
+
+    /* ================================
+       SAVE
+    ================================= */
+
+    customers.push(customer);
+
+
+    localStorage.setItem(
+        "customers",
+        JSON.stringify(
+            customers
+        )
+    );
+
+
+    /* ================================
+       SUCCESS
+    ================================= */
+
+    alert(
+        "Customer saved successfully!"
+    );
+
+
+    /* ================================
+       CLEAR FORM
+    ================================= */
+
+    document.getElementById(
+        "name"
+    ).value = "";
+
+
+    document.getElementById(
+        "phone"
+    ).value = "";
+
+
+    document.getElementById(
+        "email"
+    ).value = "";
+
+
+    document.getElementById(
+        "address"
+    ).value = "";
+
+
+    document.getElementById(
+        "car"
+    ).value = "";
+
+
+    document.getElementById(
+        "model"
+    ).value = "";
+
+
+    document.getElementById(
+        "battery"
+    ).value = "";
 
 }
 
