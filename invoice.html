@@ -708,8 +708,6 @@ Customer Details
 
 <div class="grid">
 
-<!-- NEW: SAVED CUSTOMER SELECTOR -->
-
 <div class="field full">
 
 <label>Select Saved Customer</label>
@@ -1836,10 +1834,6 @@ function loadSavedCustomer(){
     customer.address || "";
 
 
-    /*
-       Car brand from saved customer
-    */
-
     const carBrand =
     document.getElementById(
         "carBrand"
@@ -1877,11 +1871,6 @@ function loadSavedCustomer(){
 
         }
 
-        /*
-           If the saved brand is not in
-           the dropdown, use Other.
-        */
-
         if(!matched){
 
             for(
@@ -1912,21 +1901,11 @@ function loadSavedCustomer(){
     }
 
 
-    /*
-       Saved car model
-    */
-
     document.getElementById(
         "carModel"
     ).value =
     customer.model || "";
 
-
-    /*
-       Saved battery brand
-       If it exists in the stock system,
-       select it automatically.
-    */
 
     const savedBattery =
     String(
@@ -1972,13 +1951,6 @@ function loadSavedCustomer(){
         }
 
     }
-
-
-    /*
-       Customer TRN is not stored in
-       customer management, so leave it
-       available for manual entry.
-    */
 
 }
 
@@ -3033,6 +3005,712 @@ function generateInvoice(){
 
     renderHistory();
 
+
+}
+
+
+/* =========================
+   LOAD SELECTED PREVIOUS INVOICE
+   ========================= */
+
+function loadSelectedInvoice(){
+
+    const saved =
+    localStorage.getItem(
+        "selectedInvoice"
+    );
+
+    if(!saved){
+        return false;
+    }
+
+    try{
+
+        const invoice =
+        JSON.parse(saved);
+
+        if(
+            !invoice ||
+            typeof invoice !== "object"
+        ){
+
+            return false;
+
+        }
+
+
+        /* =========================
+           CUSTOMER DETAILS
+        ========================= */
+
+        document.getElementById(
+            "customerName"
+        ).value =
+        invoice.customer || "";
+
+        document.getElementById(
+            "customerPhone"
+        ).value =
+        invoice.phone || "";
+
+        document.getElementById(
+            "customerEmail"
+        ).value =
+        invoice.email || "";
+
+        document.getElementById(
+            "customerAddress"
+        ).value =
+        invoice.address || "";
+
+        document.getElementById(
+            "customerTRN"
+        ).value =
+        invoice.customerTRN || "";
+
+
+        document.getElementById(
+            "companyTRN"
+        ).value =
+        invoice.companyTRN || "";
+
+
+        /* =========================
+           VEHICLE
+        ========================= */
+
+        const carBrand =
+        document.getElementById(
+            "carBrand"
+        );
+
+        const savedCarBrand =
+        invoice.carBrand || "";
+
+        let brandMatched=false;
+
+        if(savedCarBrand){
+
+            for(
+                let i=0;
+                i<carBrand.options.length;
+                i++
+            ){
+
+                if(
+                    normalizeText(
+                        carBrand.options[i].value
+                    ) ===
+                    normalizeText(
+                        savedCarBrand
+                    )
+                ){
+
+                    carBrand.selectedIndex=i;
+                    brandMatched=true;
+                    break;
+
+                }
+
+            }
+
+        }
+
+        if(!brandMatched){
+
+            carBrand.value =
+            savedCarBrand || "";
+
+        }
+
+
+        document.getElementById(
+            "carModel"
+        ).value =
+        invoice.carModel || "";
+
+
+        const modelYear =
+        document.getElementById(
+            "modelYear"
+        );
+
+        if(invoice.modelYear){
+
+            modelYear.value =
+            String(invoice.modelYear);
+
+        }
+
+
+        /* =========================
+           INVOICE TYPE
+        ========================= */
+
+        const invoiceType =
+        invoice.invoiceType ||
+        "battery";
+
+        document.getElementById(
+            "invoiceType"
+        ).value =
+        invoiceType;
+
+
+        document.getElementById(
+            "serviceDetails"
+        ).value =
+        invoice.serviceDetails || "";
+
+
+        changeInvoiceType();
+
+
+        /* =========================
+           PAYMENT
+        ========================= */
+
+        const paymentMethod =
+        document.getElementById(
+            "paymentMethod"
+        );
+
+        if(invoice.paymentMethod){
+
+            paymentMethod.value =
+            invoice.paymentMethod;
+
+        }else if(invoice.payment){
+
+            paymentMethod.value =
+            invoice.payment;
+
+        }
+
+
+        /* =========================
+           VAT
+        ========================= */
+
+        const vat =
+        Number(invoice.vat || 0);
+
+        document.getElementById(
+            "applyVAT"
+        ).checked =
+        vat > 0;
+
+
+        /* =========================
+           BATTERY DETAILS
+        ========================= */
+
+        if(invoiceType === "battery"){
+
+            const batteryBrand =
+            document.getElementById(
+                "batteryBrand"
+            );
+
+            const savedBatteryBrand =
+            invoice.batteryBrand || "";
+
+            let batteryBrandMatched=false;
+
+
+            if(savedBatteryBrand){
+
+                for(
+                    let i=0;
+                    i<batteryBrand.options.length;
+                    i++
+                ){
+
+                    if(
+                        normalizeText(
+                            batteryBrand.options[i].value
+                        ) ===
+                        normalizeText(
+                            savedBatteryBrand
+                        )
+                    ){
+
+                        batteryBrand.selectedIndex=i;
+
+                        batteryBrandMatched=true;
+
+                        break;
+
+                    }
+
+                }
+
+            }
+
+
+            if(batteryBrandMatched){
+
+                loadBatteryModels();
+
+            }
+
+
+            const batteryModel =
+            document.getElementById(
+                "batteryModel"
+            );
+
+            const savedBatteryModel =
+            invoice.batteryModel || "";
+
+            let batteryModelMatched=false;
+
+
+            if(savedBatteryModel){
+
+                for(
+                    let i=0;
+                    i<batteryModel.options.length;
+                    i++
+                ){
+
+                    if(
+                        normalizeText(
+                            batteryModel.options[i].value
+                        ) ===
+                        normalizeText(
+                            savedBatteryModel
+                        )
+                    ){
+
+                        batteryModel.selectedIndex=i;
+
+                        batteryModelMatched=true;
+
+                        break;
+
+                    }
+
+                }
+
+            }
+
+
+            if(batteryModelMatched){
+
+                loadBatteryInfo();
+
+            }
+
+
+            document.getElementById(
+                "sellingPrice"
+            ).value =
+            invoice.subtotal != null
+            ? invoice.subtotal
+            : "";
+
+
+            let warrantyNumber =
+            String(
+                invoice.warranty || ""
+            )
+            .replace(
+                " Months",
+                ""
+            )
+            .trim();
+
+
+            document.getElementById(
+                "warrantyPeriod"
+            ).value =
+            warrantyNumber || "";
+
+
+            /*
+               Restore saved battery information
+               even if the battery is no longer
+               available in current stock.
+            */
+
+            document.getElementById(
+                "batterySizeInfo"
+            ).textContent =
+            invoice.batterySize || "—";
+
+
+            document.getElementById(
+                "batteryWarrantyInfo"
+            ).textContent =
+            invoice.warranty || "—";
+
+
+            document.getElementById(
+                "termsBox"
+            ).style.display =
+            "block";
+
+
+            document.getElementById(
+                "warrantyPeriodText"
+            ).textContent =
+            invoice.warranty || "—";
+
+        }
+
+
+        /* =========================
+           INVOICE HEADER
+        ========================= */
+
+        document.getElementById(
+            "invoiceNumberTop"
+        ).textContent =
+        "Invoice # " +
+        (invoice.number || "—");
+
+
+        document.getElementById(
+            "invoiceDateTop"
+        ).textContent =
+        "Date: " +
+        (invoice.date || "—");
+
+
+        document.getElementById(
+            "previewInvoiceNumber"
+        ).textContent =
+        invoice.number || "—";
+
+
+        document.getElementById(
+            "previewInvoiceDate"
+        ).textContent =
+        invoice.date || "—";
+
+
+        /* =========================
+           CUSTOMER PREVIEW
+        ========================= */
+
+        document.getElementById(
+            "outCustomer"
+        ).textContent =
+        invoice.customer || "—";
+
+
+        document.getElementById(
+            "outPhone"
+        ).textContent =
+        invoice.phone || "—";
+
+
+        document.getElementById(
+            "outEmail"
+        ).textContent =
+        invoice.email || "";
+
+
+        document.getElementById(
+            "outAddress"
+        ).textContent =
+        invoice.address || "";
+
+
+        document.getElementById(
+            "customerTRNOutput"
+        ).textContent =
+        invoice.customerTRN
+        ? "TRN: " + invoice.customerTRN
+        : "";
+
+
+        /* =========================
+           VEHICLE PREVIEW
+        ========================= */
+
+        document.getElementById(
+            "outCar"
+        ).textContent =
+        (
+            invoice.carBrand || ""
+        ) +
+        " " +
+        (
+            invoice.carModel || ""
+        ) +
+        " " +
+        (
+            invoice.modelYear || ""
+        );
+
+
+        /* =========================
+           TECHNICIAN
+        ========================= */
+
+        document.getElementById(
+            "outTechnician"
+        ).textContent =
+        invoice.technician ||
+        invoice.technicianName ||
+        invoice.createdBy ||
+        "Unknown Technician";
+
+
+        /* =========================
+           DESCRIPTION
+        ========================= */
+
+        const title =
+        document.getElementById(
+            "outDescriptionTitle"
+        );
+
+        const brand =
+        document.getElementById(
+            "outDescriptionBrand"
+        );
+
+        const model =
+        document.getElementById(
+            "outDescriptionModel"
+        );
+
+        const size =
+        document.getElementById(
+            "outDescriptionSize"
+        );
+
+        const warranty =
+        document.getElementById(
+            "outDescriptionWarranty"
+        );
+
+
+        if(invoiceType === "battery"){
+
+            title.textContent =
+            "BATTERY";
+
+
+            brand.textContent =
+            "Brand: " +
+            (
+                invoice.batteryBrand ||
+                "—"
+            );
+
+
+            model.textContent =
+            "Model: " +
+            (
+                invoice.batteryModel ||
+                "—"
+            );
+
+
+            size.textContent =
+            "Size: " +
+            (
+                invoice.batterySize ||
+                "—"
+            );
+
+
+            warranty.textContent =
+            "Warranty: " +
+            (
+                invoice.warranty ||
+                "—"
+            );
+
+
+            warranty.style.display =
+            "block";
+
+
+            document.getElementById(
+                "termsBox"
+            ).style.display =
+            "block";
+
+
+            document.getElementById(
+                "warrantyPeriodText"
+            ).textContent =
+            invoice.warranty || "—";
+
+
+        }else{
+
+            let serviceTitle =
+            "SERVICE";
+
+
+            if(invoiceType === "service"){
+
+                serviceTitle =
+                "SERVICE CHARGES";
+
+            }
+
+            if(invoiceType === "inspection"){
+
+                serviceTitle =
+                "INSPECTION";
+
+            }
+
+            if(invoiceType === "jumpstart"){
+
+                serviceTitle =
+                "JUMP START";
+
+            }
+
+
+            title.textContent =
+            serviceTitle;
+
+
+            brand.textContent =
+            invoice.serviceDetails ||
+            "Professional " +
+            serviceTitle.toLowerCase() +
+            " service";
+
+
+            model.textContent="";
+            size.textContent="";
+            warranty.textContent="";
+
+
+            warranty.style.display =
+            "none";
+
+
+            document.getElementById(
+                "termsBox"
+            ).style.display =
+            "none";
+
+        }
+
+
+        /* =========================
+           AMOUNTS
+        ========================= */
+
+        const subtotal =
+        Number(
+            invoice.subtotal ||
+            invoice.amount ||
+            0
+        );
+
+
+        const total =
+        Number(
+            invoice.total != null
+            ? invoice.total
+            : subtotal + vat
+        );
+
+
+        document.getElementById(
+            "outAmount"
+        ).textContent =
+        subtotal.toFixed(2);
+
+
+        document.getElementById(
+            "outSubtotal"
+        ).textContent =
+        formatMoney(subtotal);
+
+
+        document.getElementById(
+            "outDiscount"
+        ).textContent =
+        "AED 0.00";
+
+
+        document.getElementById(
+            "outTaxable"
+        ).textContent =
+        formatMoney(subtotal);
+
+
+        document.getElementById(
+            "outVAT"
+        ).textContent =
+        formatMoney(vat);
+
+
+        document.getElementById(
+            "outTotal"
+        ).textContent =
+        formatMoney(total);
+
+
+        /* =========================
+           PAYMENT + COMPANY TRN
+        ========================= */
+
+        document.getElementById(
+            "outPayment"
+        ).textContent =
+        invoice.paymentMethod ||
+        invoice.payment ||
+        "—";
+
+
+        document.getElementById(
+            "companyTRNOutput"
+        ).textContent =
+        invoice.companyTRN || "—";
+
+
+        /* =========================
+           SHOW EXISTING INVOICE DESIGN
+        ========================= */
+
+        document.getElementById(
+            "invoicePreview"
+        ).style.display =
+        "flex";
+
+
+        invoiceGenerated=true;
+
+
+        /*
+           Remove temporary selected invoice
+           so refreshing this page does not
+           create/open the same invoice again.
+        */
+
+        localStorage.removeItem(
+            "selectedInvoice"
+        );
+
+
+        return true;
+
+
+    }catch(error){
+
+        console.error(
+            "Selected invoice loading error:",
+            error
+        );
+
+        return false;
+
+    }
+
 }
 
 
@@ -3169,6 +3847,15 @@ function(){
     document.getElementById(
         "servicePrice"
     ).style.display="none";
+
+    /*
+       NEW:
+       If Previous Invoices page sends
+       a saved invoice, open that exact
+       invoice inside the existing design.
+    */
+
+    loadSelectedInvoice();
 
 }
 );
