@@ -917,4 +917,154 @@ function editBattery(index){
 
 
     document.getElementById(
-        "save
+        "saveButton"
+    ).innerText = "✓ Update Battery";
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+/* DELETE */
+
+function deleteBattery(index){
+
+    const item =
+        batteries[index];
+
+
+    const confirmDelete =
+        confirm(
+            "Delete " +
+            item.brand +
+            " " +
+            item.model +
+            " from stock?"
+        );
+
+
+    if(!confirmDelete) return;
+
+
+    batteries.splice(index,1);
+
+    saveData();
+
+    displayBatteries();
+
+}
+
+
+/* CLEAR FORM */
+
+function clearForm(){
+
+    document.getElementById("brand").value = "";
+
+    document.getElementById("model").value = "";
+
+    document.getElementById("batteryType").value = "";
+
+    document.getElementById("ah").value = "";
+
+    document.getElementById("size").value = "";
+
+    document.getElementById("warranty").value = "";
+
+    document.getElementById("purchasePrice").value = "";
+
+    document.getElementById("quantity").value = "";
+
+    document.getElementById("minimumStock").value = "";
+
+    document.getElementById("status").value =
+        "In Stock";
+
+}
+
+
+/* DASHBOARD */
+
+function updateDashboard(){
+
+    document.getElementById(
+        "totalModels"
+    ).innerText = batteries.length;
+
+
+    const total =
+        batteries.reduce(
+
+            (sum,item) =>
+
+                sum + Number(item.quantity || 0),
+
+            0
+
+        );
+
+
+    document.getElementById(
+        "totalQuantity"
+    ).innerText = total;
+
+
+    const low =
+        batteries.filter(item => {
+
+            const qty =
+                Number(item.quantity || 0);
+
+            const min =
+                Number(item.minimumStock || 0);
+
+
+            return (
+                qty === 0 ||
+                qty <= min
+            );
+
+        }).length;
+
+
+    document.getElementById(
+        "lowStock"
+    ).innerText = low;
+
+}
+
+
+/* SECURITY */
+
+function escapeHTML(text){
+
+    return String(text)
+
+        .replace(/&/g,"&amp;")
+
+        .replace(/</g,"&lt;")
+
+        .replace(/>/g,"&gt;")
+
+        .replace(/"/g,"&quot;")
+
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* LOAD */
+
+displayBatteries();
+
+</script>
+
+</body>
+</html>
