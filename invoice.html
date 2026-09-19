@@ -1,4 +1,4 @@
-<!-- Is code mein sirf invoice saving/history system add kiya gaya hai.
+<!-- Is code mein sirf customer connection add kiya gaya hai.
      Existing invoice design aur existing functionality same rakhi gayi hai. -->
 
 <!DOCTYPE html>
@@ -708,29 +708,69 @@ Customer Details
 
 <div class="grid">
 
+<!-- NEW: SAVED CUSTOMER SELECTOR -->
+
+<div class="field full">
+
+<label>Select Saved Customer</label>
+
+<select
+id="savedCustomer"
+onchange="loadSavedCustomer()"
+>
+
+<option value="">
+Select Customer — or enter details manually
+</option>
+
+</select>
+
+</div>
+
+
 <div class="field">
 <label>Customer Name</label>
-<input type="text" id="customerName" placeholder="Ali">
+<input
+type="text"
+id="customerName"
+placeholder="Ali"
+>
 </div>
 
 <div class="field">
 <label>Customer Phone</label>
-<input type="text" id="customerPhone" placeholder="+971524040699">
+<input
+type="text"
+id="customerPhone"
+placeholder="+971524040699"
+>
 </div>
 
 <div class="field">
 <label>Customer Email</label>
-<input type="email" id="customerEmail" placeholder="Email address">
+<input
+type="email"
+id="customerEmail"
+placeholder="Email address"
+>
 </div>
 
 <div class="field">
 <label>Customer TRN</label>
-<input type="text" id="customerTRN" placeholder="Optional">
+<input
+type="text"
+id="customerTRN"
+placeholder="Optional"
+>
 </div>
 
 <div class="field full">
 <label>Customer Address</label>
-<input type="text" id="customerAddress" placeholder="Customer address">
+<input
+type="text"
+id="customerAddress"
+placeholder="Customer address"
+>
 </div>
 
 </div>
@@ -841,7 +881,7 @@ for(let year=2026;year>=1975;year--){
 
 <div class="car-note">
 
-Car Brand and Model can now be entered manually.
+Saved customer vehicle details can be loaded automatically.
 
 <strong>800PowerBat Vehicle Details</strong>.
 
@@ -1647,6 +1687,303 @@ function getTechnicianName(){
 
 
 /* =========================
+   CUSTOMER DATABASE
+========================= */
+
+function getCustomers(){
+
+    try{
+
+        const saved =
+        localStorage.getItem(
+            "customers"
+        );
+
+        if(!saved){
+            return [];
+        }
+
+        const customers =
+        JSON.parse(saved);
+
+        return Array.isArray(customers)
+        ? customers
+        : [];
+
+    }catch(error){
+
+        console.error(
+            "Customer loading error:",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+/* =========================
+   LOAD SAVED CUSTOMERS
+========================= */
+
+function loadSavedCustomers(){
+
+    const select =
+    document.getElementById(
+        "savedCustomer"
+    );
+
+    if(!select){
+        return;
+    }
+
+    const customers =
+    getCustomers();
+
+    select.innerHTML =
+    '<option value="">Select Customer — or enter details manually</option>';
+
+    customers.forEach(function(customer,index){
+
+        const option =
+        document.createElement(
+            "option"
+        );
+
+        option.value = index;
+
+        option.textContent =
+        (
+            customer.name ||
+            "Unknown Customer"
+        ) +
+        " — " +
+        (
+            customer.phone ||
+            "No Phone"
+        ) +
+        (
+            customer.car
+            ? " — " + customer.car
+            : ""
+        );
+
+        select.appendChild(
+            option
+        );
+
+    });
+
+}
+
+
+/* =========================
+   LOAD SELECTED CUSTOMER
+========================= */
+
+function loadSavedCustomer(){
+
+    const select =
+    document.getElementById(
+        "savedCustomer"
+    );
+
+    const selectedIndex =
+    select.value;
+
+    if(
+        selectedIndex === ""
+    ){
+        return;
+    }
+
+    const customers =
+    getCustomers();
+
+    const customer =
+    customers[
+        Number(selectedIndex)
+    ];
+
+    if(!customer){
+        return;
+    }
+
+
+    document.getElementById(
+        "customerName"
+    ).value =
+    customer.name || "";
+
+
+    document.getElementById(
+        "customerPhone"
+    ).value =
+    customer.phone || "";
+
+
+    document.getElementById(
+        "customerEmail"
+    ).value =
+    customer.email || "";
+
+
+    document.getElementById(
+        "customerAddress"
+    ).value =
+    customer.address || "";
+
+
+    /*
+       Car brand from saved customer
+    */
+
+    const carBrand =
+    document.getElementById(
+        "carBrand"
+    );
+
+    const savedCar =
+    String(
+        customer.car || ""
+    ).trim();
+
+    if(savedCar){
+
+        let matched=false;
+
+        for(
+            let i=0;
+            i<carBrand.options.length;
+            i++
+        ){
+
+            if(
+                normalizeText(
+                    carBrand.options[i].value
+                ) ===
+                normalizeText(
+                    savedCar
+                )
+            ){
+
+                carBrand.selectedIndex=i;
+                matched=true;
+                break;
+
+            }
+
+        }
+
+        /*
+           If the saved brand is not in
+           the dropdown, use Other.
+        */
+
+        if(!matched){
+
+            for(
+                let i=0;
+                i<carBrand.options.length;
+                i++
+            ){
+
+                if(
+                    normalizeText(
+                        carBrand.options[i].value
+                    ) === "other"
+                ){
+
+                    carBrand.selectedIndex=i;
+                    break;
+
+                }
+
+            }
+
+        }
+
+    }else{
+
+        carBrand.value="";
+
+    }
+
+
+    /*
+       Saved car model
+    */
+
+    document.getElementById(
+        "carModel"
+    ).value =
+    customer.model || "";
+
+
+    /*
+       Saved battery brand
+       If it exists in the stock system,
+       select it automatically.
+    */
+
+    const savedBattery =
+    String(
+        customer.battery || ""
+    ).trim();
+
+    if(savedBattery){
+
+        const batteryBrand =
+        document.getElementById(
+            "batteryBrand"
+        );
+
+        let batteryMatched=false;
+
+        for(
+            let i=0;
+            i<batteryBrand.options.length;
+            i++
+        ){
+
+            if(
+                normalizeText(
+                    batteryBrand.options[i].value
+                ) ===
+                normalizeText(
+                    savedBattery
+                )
+            ){
+
+                batteryBrand.selectedIndex=i;
+                batteryMatched=true;
+                break;
+
+            }
+
+        }
+
+        if(batteryMatched){
+
+            loadBatteryModels();
+
+        }
+
+    }
+
+
+    /*
+       Customer TRN is not stored in
+       customer management, so leave it
+       available for manual entry.
+    */
+
+}
+
+
+/* =========================
    HELPERS
 ========================= */
 
@@ -1658,12 +1995,14 @@ function normalizeText(value){
 
 }
 
+
 function formatMoney(value){
 
     return "AED " +
     Number(value || 0).toFixed(2);
 
 }
+
 
 function generateInvoiceNumber(){
 
@@ -1695,7 +2034,9 @@ function saveInvoiceToHistory(invoiceData){
             invoices=[];
         }
 
-        invoices.unshift(invoiceData);
+        invoices.unshift(
+            invoiceData
+        );
 
         localStorage.setItem(
             INVOICE_STORAGE_KEY,
@@ -1730,16 +2071,24 @@ function changeInvoiceType(){
     ).value;
 
     const batterySection =
-    document.getElementById("batterySection");
+    document.getElementById(
+        "batterySection"
+    );
 
     const servicePrice =
-    document.getElementById("servicePrice");
+    document.getElementById(
+        "servicePrice"
+    );
 
     const details =
-    document.getElementById("serviceDetails");
+    document.getElementById(
+        "serviceDetails"
+    );
 
     const terms =
-    document.getElementById("termsBox");
+    document.getElementById(
+        "termsBox"
+    );
 
     if(type === "battery"){
 
@@ -1873,7 +2222,9 @@ function updateBatteryStatus(item){
 function loadBatteryBrands(){
 
     const brandSelect =
-    document.getElementById("batteryBrand");
+    document.getElementById(
+        "batteryBrand"
+    );
 
     const stock =
     readBatteryStock();
@@ -1914,12 +2265,16 @@ function loadBatteryBrands(){
     .forEach(function(brand){
 
         const option =
-        document.createElement("option");
+        document.createElement(
+            "option"
+        );
 
         option.value=brand;
         option.textContent=brand;
 
-        brandSelect.appendChild(option);
+        brandSelect.appendChild(
+            option
+        );
 
     });
 
@@ -1929,11 +2284,14 @@ function loadBatteryBrands(){
 function loadBatteryModels(){
 
     const brand =
-    document.getElementById("batteryBrand")
-    .value;
+    document.getElementById(
+        "batteryBrand"
+    ).value;
 
     const modelSelect =
-    document.getElementById("batteryModel");
+    document.getElementById(
+        "batteryModel"
+    );
 
     modelSelect.innerHTML =
     '<option value="">Select Battery Model</option>';
@@ -1986,13 +2344,17 @@ function loadBatteryModels(){
         (Number(item.quantity) || 0) +
         " in stock";
 
-        if(Number(item.quantity) <= 0){
+        if(
+            Number(item.quantity) <= 0
+        ){
 
             option.disabled=true;
 
         }
 
-        modelSelect.appendChild(option);
+        modelSelect.appendChild(
+            option
+        );
 
     });
 
@@ -2002,12 +2364,14 @@ function loadBatteryModels(){
 function findBattery(){
 
     const brand =
-    document.getElementById("batteryBrand")
-    .value;
+    document.getElementById(
+        "batteryBrand"
+    ).value;
 
     const model =
-    document.getElementById("batteryModel")
-    .value;
+    document.getElementById(
+        "batteryModel"
+    ).value;
 
     const stock =
     readBatteryStock();
@@ -2195,7 +2559,8 @@ function generateInvoice(){
     const customerName =
     document.getElementById(
         "customerName"
-    ).value.trim() || "Ali";
+    ).value.trim() ||
+    "Ali";
 
     const customerPhone =
     document.getElementById(
@@ -2227,23 +2592,27 @@ function generateInvoice(){
     const carBrand =
     document.getElementById(
         "carBrand"
-    ).value || "TOYOTA";
+    ).value ||
+    "TOYOTA";
 
     const carModel =
     document.getElementById(
         "carModel"
-    ).value.trim() || "RAV4";
+    ).value.trim() ||
+    "RAV4";
 
     const modelYear =
     document.getElementById(
         "modelYear"
-    ).value || "2017";
+    ).value ||
+    "2017";
 
 
     const paymentMethod =
     document.getElementById(
         "paymentMethod"
-    ).value || "Card";
+    ).value ||
+    "Card";
 
 
     const applyVAT =
@@ -2397,12 +2766,14 @@ function generateInvoice(){
         batteryBrandValue =
         document.getElementById(
             "batteryBrand"
-        ).value || "Energizer";
+        ).value ||
+        "Energizer";
 
         batteryModelValue =
         document.getElementById(
             "batteryModel"
-        ).value || "55d23L";
+        ).value ||
+        "55d23L";
 
         const battery =
         findBattery();
@@ -2577,7 +2948,6 @@ function generateInvoice(){
 
     /* =========================
        SAVE COMPLETE INVOICE
-       FOR INVOICE HISTORY
     ========================= */
 
     const invoiceRecord = {
@@ -2748,7 +3118,9 @@ function renderHistory(){
 
             " | " +
 
-            formatMoney(invoice.total || 0) +
+            formatMoney(
+                invoice.total || 0
+            ) +
 
             "</div>"
 
@@ -2787,6 +3159,8 @@ document.addEventListener(
 function(){
 
     loadBatteryBrands();
+
+    loadSavedCustomers();
 
     renderHistory();
 
