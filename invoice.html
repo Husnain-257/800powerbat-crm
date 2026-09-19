@@ -7,7 +7,9 @@
 <title>800PowerBat Invoice</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
@@ -16,7 +18,9 @@ body{
     color:#071426;
 }
 
-/* ================= FORM ================= */
+/* =========================================================
+   FORM
+========================================================= */
 
 .form-area{
     max-width:1000px;
@@ -56,7 +60,8 @@ label{
     margin-bottom:7px;
 }
 
-input,select{
+input,
+select{
     padding:12px;
     border:1px solid #d4d9df;
     border-radius:7px;
@@ -65,7 +70,8 @@ input,select{
     background:#fff;
 }
 
-input:focus,select:focus{
+input:focus,
+select:focus{
     border-color:#f5b400;
 }
 
@@ -107,7 +113,8 @@ input:focus,select:focus{
     gap:10px;
 }
 
-button,.btn{
+button,
+.btn{
     border:0;
     padding:13px 20px;
     border-radius:7px;
@@ -132,7 +139,9 @@ button,.btn{
     color:#071426;
 }
 
-/* ================= STOCK STATUS ================= */
+/* =========================================================
+   STOCK MESSAGE
+========================================================= */
 
 .stock-message{
     display:none;
@@ -161,34 +170,40 @@ button,.btn{
     border-left:4px solid #d93025;
 }
 
-/* ================= INVOICE ================= */
+/* =========================================================
+   PREMIUM DARK A4 INVOICE
+========================================================= */
 
 .invoice-wrapper{
     display:none;
     width:210mm;
+    height:297mm;
     min-height:297mm;
     margin:30px auto;
-    background:#fff;
-    box-shadow:0 10px 40px rgba(0,0,0,.15);
+    background:#0b1220;
+    color:#fff;
+    box-shadow:0 15px 50px rgba(0,0,0,.30);
     position:relative;
     overflow:hidden;
+
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
 }
 
-.invoice-wrapper:before{
-    content:"";
-    display:block;
-    height:10px;
-    background:#071426;
-}
-
-/* HEADER */
+/* =========================================================
+   BLACK LETTERHEAD
+========================================================= */
 
 .invoice-header{
-    padding:24px 42px 17px;
+    height:103px;
+    background:#05080d;
+    color:#fff;
+    padding:16px 38px 13px;
     display:flex;
     justify-content:space-between;
     align-items:flex-start;
     gap:20px;
+    border-bottom:1px solid #202b3a;
 }
 
 .brand-area{
@@ -199,57 +214,57 @@ button,.btn{
 .logo-row{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:11px;
 }
 
 .battery-logo{
-    width:72px;
-    height:48px;
+    width:59px;
+    height:39px;
     background:#f5b400;
-    border:4px solid #071426;
-    border-radius:7px;
+    border:3px solid #05080d;
+    border-radius:6px;
     position:relative;
-    box-shadow:0 4px 10px rgba(0,0,0,.12);
+    box-shadow:0 0 0 1px #f5b400;
 }
 
 .battery-logo:before{
     content:"";
     position:absolute;
-    width:18px;
-    height:6px;
-    background:#071426;
-    top:-10px;
-    left:11px;
-    border-radius:3px;
-    box-shadow:32px 0 #071426;
+    width:14px;
+    height:5px;
+    background:#f5b400;
+    top:-8px;
+    left:9px;
+    border-radius:2px;
+    box-shadow:25px 0 #f5b400;
 }
 
 .battery-yellow{
     position:absolute;
-    inset:5px;
-    border:3px solid #071426;
+    inset:4px;
+    border:2px solid #071426;
     border-radius:3px;
 }
 
 .battery-bolt{
     position:absolute;
     color:#071426;
-    font-size:31px;
+    font-size:26px;
     font-weight:900;
-    left:23px;
-    top:5px;
+    left:19px;
+    top:4px;
     line-height:1;
 }
 
 .brand-name{
-    font-size:39px;
+    font-size:32px;
     font-weight:900;
-    letter-spacing:-2px;
+    letter-spacing:-1.7px;
     line-height:1;
 }
 
 .brand-name .eight{
-    color:#071426;
+    color:#fff;
 }
 
 .brand-name .power{
@@ -257,132 +272,151 @@ button,.btn{
 }
 
 .brand-sub{
-    margin-top:6px;
-    margin-left:84px;
-    font-size:11px;
+    margin-top:4px;
+    margin-left:70px;
+    font-size:8px;
     font-weight:bold;
-    letter-spacing:2px;
-    color:#071426;
+    letter-spacing:1.7px;
+    color:#d9e0e9;
 }
 
 .brand-sub:before,
 .brand-sub:after{
     content:"";
     display:inline-block;
-    width:25px;
+    width:18px;
     height:2px;
     background:#f5b400;
     vertical-align:middle;
-    margin:0 5px;
+    margin:0 4px;
 }
 
 .company-info{
-    margin-top:15px;
-    font-size:12px;
-    line-height:1.7;
+    margin-top:7px;
+    display:flex;
+    gap:15px;
+    font-size:8px;
+    line-height:1.3;
+    color:#c6ced9;
 }
 
 .info-item{
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:4px;
 }
 
 .info-icon{
-    width:21px;
-    height:21px;
-    border:2px solid #071426;
+    width:15px;
+    height:15px;
+    border:1px solid #f5b400;
+    color:#f5b400;
     border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:7px;
+    font-size:5px;
     font-weight:bold;
 }
 
-/* TOP RIGHT */
+/* =========================================================
+   TOP RIGHT / TAX INVOICE
+========================================================= */
 
 .invoice-right{
     text-align:right;
-    min-width:240px;
+    min-width:215px;
 }
 
 .invoice-right h1{
     display:inline-block;
     background:#071426;
-    color:#fff;
-    padding:9px 17px;
-    margin:0 0 12px;
-    font-size:27px;
-    letter-spacing:1px;
+    color:#f5b400;
+    border:1px solid #f5b400;
+    padding:7px 13px;
+    margin:0 0 7px;
+    font-size:20px;
+    letter-spacing:1.5px;
     border-radius:3px;
 }
 
 .invoice-meta{
-    font-size:12px;
-    line-height:1.8;
+    font-size:9px;
+    line-height:1.55;
+    color:#aeb8c6;
 }
 
 .invoice-meta strong{
-    margin-left:7px;
+    margin-left:5px;
+    color:#fff;
 }
 
-/* YELLOW LINE */
+/* =========================================================
+   YELLOW LINE
+========================================================= */
 
 .yellow-line{
     height:3px;
     background:#f5b400;
-    margin:0 42px;
+    margin:0;
 }
 
-/* BILL */
+/* =========================================================
+   BILL SECTION
+========================================================= */
 
 .bill-section{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:35px;
-    padding:18px 42px 15px;
+    gap:25px;
+    padding:12px 38px 10px;
 }
 
 .bill-title{
-    color:#68717c;
+    color:#f5b400;
     font-weight:800;
-    font-size:11px;
-    margin-bottom:5px;
-    letter-spacing:.8px;
+    font-size:8px;
+    margin-bottom:4px;
+    letter-spacing:1.2px;
 }
 
 .bill-name{
-    font-size:17px;
+    font-size:14px;
     font-weight:800;
-    color:#071b45;
+    color:#fff;
 }
 
 .bill-text{
-    font-size:12px;
-    margin-top:4px;
+    font-size:9px;
+    margin-top:3px;
+    color:#aeb8c6;
 }
 
-/* TABLE */
+/* =========================================================
+   TABLE
+========================================================= */
 
 .table-area{
-    padding:0 42px;
+    padding:0 38px;
 }
 
 .invoice-table{
     width:100%;
     border-collapse:collapse;
+    border:1px solid #253247;
 }
 
 .invoice-table thead{
-    background:#071426;
-    color:#fff;
+    background:#f5b400;
+    color:#071426;
 }
 
 .invoice-table th{
-    padding:10px 13px;
+    padding:7px 10px;
     text-align:left;
-    font-size:12px;
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:.5px;
 }
 
 .invoice-table th:nth-child(2),
@@ -398,157 +432,198 @@ button,.btn{
 }
 
 .invoice-table td{
-    padding:12px 13px;
-    border-bottom:1px solid #d7dce2;
-    font-size:12px;
+    padding:8px 10px;
+    border-bottom:1px solid #253247;
+    background:#101a2a;
+    color:#fff;
+    font-size:9px;
+}
+
+.invoice-table tr:last-child td{
+    border-bottom:0;
 }
 
 .item-brand{
-    font-size:14px;
+    font-size:11px;
     font-weight:bold;
-    color:#071b45;
+    color:#f5b400;
 }
 
 .item-model{
-    margin-top:3px;
-    font-size:12px;
+    margin-top:2px;
+    font-size:9px;
+    color:#fff;
 }
 
 .item-warranty{
-    margin-top:4px;
-    font-size:10px;
+    margin-top:3px;
+    font-size:7px;
     font-weight:bold;
-    color:#596575;
+    color:#8f9bad;
 }
 
 .item-warranty span{
-    color:#071426;
+    color:#f5b400;
 }
 
-/* TOTAL */
+/* =========================================================
+   TOTALS
+========================================================= */
 
 .bottom-section{
     display:flex;
     justify-content:flex-end;
-    padding:16px 42px;
+    padding:9px 38px;
 }
 
 .totals{
-    width:310px;
+    width:260px;
+    background:#101a2a;
+    border:1px solid #253247;
+    border-radius:4px;
+    padding:8px 12px;
 }
 
 .total-row{
     display:flex;
     justify-content:space-between;
-    padding:5px 0;
-    font-size:12px;
+    padding:3px 0;
+    font-size:9px;
+    color:#aeb8c6;
+}
+
+.total-row strong{
+    color:#fff;
 }
 
 .total-line{
-    height:2px;
-    background:#071426;
-    margin:4px 0 7px;
+    height:1px;
+    background:#f5b400;
+    margin:4px 0 5px;
 }
 
 .total-main{
     display:flex;
     justify-content:space-between;
-    font-size:20px;
+    font-size:15px;
     font-weight:900;
-    padding:3px 0;
+    padding:2px 0;
+    color:#fff;
+}
+
+.total-main span:last-child{
+    color:#f5b400;
 }
 
 .payment-row{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    font-size:12px;
-    margin-top:8px;
+    font-size:9px;
+    margin-top:6px;
+    color:#aeb8c6;
 }
 
 .payment-method{
-    margin-top:5px;
+    margin-top:4px;
     display:flex;
     justify-content:space-between;
-    font-size:11px;
-    color:#536170;
+    font-size:8px;
+    color:#8f9bad;
+}
+
+.payment-method strong{
+    color:#fff;
 }
 
 .paid{
-    background:#a9f3b4;
-    color:#08752b;
-    padding:4px 11px;
+    background:#9ef0aa;
+    color:#075d22;
+    padding:3px 8px;
     border-radius:20px;
-    font-size:11px;
+    font-size:8px;
     font-weight:bold;
 }
 
 .pending{
-    background:#ffe1a3;
-    color:#8a5b00;
-    padding:4px 11px;
+    background:#ffd982;
+    color:#684700;
+    padding:3px 8px;
     border-radius:20px;
-    font-size:11px;
+    font-size:8px;
     font-weight:bold;
 }
 
-/* WARRANTY */
+/* =========================================================
+   WARRANTY
+========================================================= */
 
 .warranty{
-    margin:0 42px 15px;
-    padding:12px 15px;
-    border:1px solid #d7dce2;
-    border-left:4px solid #f5b400;
-    border-radius:5px;
+    margin:0 38px 8px;
+    padding:8px 11px;
+    background:#101a2a;
+    border:1px solid #253247;
+    border-left:3px solid #f5b400;
+    border-radius:4px;
 }
 
 .warranty-title{
-    font-size:13px;
+    font-size:9px;
     font-weight:bold;
-    color:#071426;
-    margin-bottom:5px;
+    color:#fff;
+    margin-bottom:3px;
 }
 
 .warranty-text{
-    color:#586575;
-    font-size:9.5px;
-    line-height:1.45;
+    color:#98a5b6;
+    font-size:6.8px;
+    line-height:1.35;
 }
 
-/* THANK YOU */
+.warranty-text strong{
+    color:#dce3eb;
+}
+
+/* =========================================================
+   THANK YOU
+========================================================= */
 
 .thank-you{
-    border-top:1px solid #d7dce2;
-    margin:0 42px;
+    border-top:1px solid #253247;
+    margin:0 38px;
     text-align:center;
-    padding:13px 10px 18px;
+    padding:7px 10px 9px;
 }
 
 .thank-you h2{
-    margin:0 0 5px;
-    font-size:15px;
+    margin:0 0 3px;
+    font-size:11px;
+    color:#fff;
 }
 
 .thank-you p{
-    margin:3px 0;
-    color:#4c5a6b;
-    font-size:10px;
+    margin:2px 0;
+    color:#8491a3;
+    font-size:7px;
 }
 
-/* FOOTER */
+/* =========================================================
+   FOOTER
+========================================================= */
 
 .invoice-footer{
     position:absolute;
     bottom:0;
     left:0;
     width:100%;
-    height:92px;
-    background:#071426;
+    height:67px;
+    background:#05080d;
     color:#fff;
     display:flex;
     align-items:center;
-    padding:15px 42px;
+    padding:10px 38px;
     overflow:hidden;
+    border-top:1px solid #202b3a;
 }
 
 .invoice-footer:before{
@@ -557,7 +632,7 @@ button,.btn{
     top:0;
     left:0;
     width:72%;
-    height:4px;
+    height:3px;
     background:#f5b400;
 }
 
@@ -567,45 +642,46 @@ button,.btn{
     bottom:0;
     left:0;
     width:100%;
-    height:5px;
+    height:3px;
     background:#f5b400;
 }
 
 .services{
     display:flex;
-    gap:20px;
+    gap:15px;
     align-items:center;
     width:58%;
 }
 
 .service{
     text-align:center;
-    width:72px;
+    width:60px;
 }
 
 .service-icon{
-    width:32px;
-    height:32px;
-    border:2px solid #f5b400;
+    width:25px;
+    height:25px;
+    border:1px solid #f5b400;
     border-radius:50%;
     margin:auto;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:14px;
+    font-size:11px;
 }
 
 .service span{
     display:block;
-    margin-top:4px;
-    font-size:8px;
+    margin-top:2px;
+    font-size:6px;
     font-weight:bold;
-    line-height:1.15;
+    line-height:1.1;
+    color:#d4dbe5;
 }
 
 .slogan{
-    border-left:2px solid #f5b400;
-    padding-left:20px;
+    border-left:1px solid #f5b400;
+    padding-left:15px;
     margin-left:auto;
     width:38%;
 }
@@ -613,26 +689,35 @@ button,.btn{
 .slogan-script{
     color:#f5b400;
     font-family:cursive;
-    font-size:18px;
-    margin-bottom:6px;
+    font-size:14px;
+    margin-bottom:3px;
 }
 
 .slogan-small{
-    font-size:8px;
-    letter-spacing:2px;
+    font-size:6px;
+    letter-spacing:1.6px;
     font-weight:bold;
+    color:#c2cad5;
 }
 
-/* PRINT */
+/* =========================================================
+   PRINT
+========================================================= */
 
 @media print{
 
-    html,body{
+    html,
+    body{
         width:210mm;
         height:297mm;
         margin:0;
         padding:0;
-        background:#fff;
+        background:#0b1220 !important;
+    }
+
+    body{
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
     }
 
     .no-print{
@@ -647,6 +732,9 @@ button,.btn{
         margin:0;
         box-shadow:none;
         overflow:hidden;
+        background:#0b1220 !important;
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
     }
 
     @page{
@@ -655,7 +743,9 @@ button,.btn{
     }
 }
 
-/* MOBILE */
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media(max-width:750px){
 
@@ -665,17 +755,24 @@ button,.btn{
 
     .invoice-wrapper{
         width:100%;
-        min-height:auto;
+        height:auto;
+        min-height:850px;
         margin:20px auto;
     }
 
     .invoice-header{
-        padding:20px;
+        height:auto;
+        padding:18px 20px;
         flex-direction:column;
     }
 
     .brand-name{
-        font-size:31px;
+        font-size:30px;
+    }
+
+    .company-info{
+        flex-direction:column;
+        gap:5px;
     }
 
     .invoice-right{
@@ -684,15 +781,11 @@ button,.btn{
     }
 
     .invoice-right h1{
-        font-size:24px;
-    }
-
-    .yellow-line{
-        margin:0 20px;
+        font-size:20px;
     }
 
     .bill-section{
-        padding:15px 20px;
+        padding:12px 20px;
         gap:15px;
     }
 
@@ -702,11 +795,11 @@ button,.btn{
     }
 
     .invoice-table{
-        min-width:520px;
+        min-width:500px;
     }
 
     .bottom-section{
-        padding:15px 20px;
+        padding:10px 20px;
     }
 
     .totals{
@@ -714,19 +807,18 @@ button,.btn{
     }
 
     .warranty{
-        margin:0 20px 15px;
+        margin:0 20px 10px;
     }
 
     .thank-you{
         margin:0 20px;
-        padding-bottom:110px;
     }
 
     .invoice-footer{
         position:relative;
         height:auto;
-        min-height:150px;
-        padding:20px;
+        min-height:125px;
+        padding:18px 20px;
         flex-direction:column;
         align-items:flex-start;
     }
@@ -734,13 +826,13 @@ button,.btn{
     .services{
         width:100%;
         justify-content:space-between;
-        gap:5px;
+        gap:4px;
     }
 
     .slogan{
         width:100%;
-        margin:15px 0 0;
-        padding-left:15px;
+        margin:12px 0 0;
+        padding-left:12px;
     }
 }
 </style>
@@ -748,7 +840,9 @@ button,.btn{
 
 <body>
 
-<!-- ================= FORM ================= -->
+<!-- =======================================================
+     FORM
+======================================================= -->
 
 <div class="form-area no-print">
 
@@ -884,7 +978,7 @@ enter the official Company TRN and enable 5% VAT.
 
 <div class="buttons">
 
-<button class="generate" id="generateButton" onclick="generateInvoice()">
+<button class="generate" onclick="generateInvoice()">
 Generate Invoice
 </button>
 
@@ -908,9 +1002,13 @@ Dashboard
 </div>
 
 
-<!-- ================= INVOICE ================= -->
+<!-- =======================================================
+     INVOICE
+======================================================= -->
 
 <div id="invoicePreview" class="invoice-wrapper">
+
+<!-- BLACK LETTERHEAD -->
 
 <div class="invoice-header">
 
@@ -951,12 +1049,17 @@ MOBILE CAR BATTERY SERVICE
 </div>
 
 </div>
+
 </div>
 
 
+<!-- TAX INVOICE TOP RIGHT -->
+
 <div class="invoice-right">
 
-<h1 id="invoiceHeading">INVOICE</h1>
+<h1 id="invoiceHeading">
+INVOICE
+</h1>
 
 <div class="invoice-meta">
 
@@ -982,13 +1085,17 @@ Date:
 <div class="yellow-line"></div>
 
 
-<!-- BILL TO -->
+<!-- =======================================================
+     BILL TO / VEHICLE
+======================================================= -->
 
 <div class="bill-section">
 
 <div>
 
-<div class="bill-title">BILL TO</div>
+<div class="bill-title">
+BILL TO
+</div>
 
 <div class="bill-name" id="outCustomer">
 Customer
@@ -1005,23 +1112,23 @@ Customer
 
 <div>
 
-<div class="bill-title">VEHICLE</div>
+<div class="bill-title">
+VEHICLE
+</div>
 
 <div class="bill-name" id="outCar">
 Vehicle
 </div>
 
-<div class="bill-text">
-Battery:
-<span id="outBattery">—</span>
-</div>
-
 </div>
 
 </div>
 
 
-<!-- TABLE -->
+<!-- =======================================================
+     DESCRIPTION TABLE
+     BATTERY BRAND + MODEL ONLY APPEAR HERE
+======================================================= -->
 
 <div class="table-area">
 
@@ -1051,7 +1158,9 @@ Battery
 
 <div class="item-warranty">
 Warranty:
-<span id="outItemWarranty">12 Months</span>
+<span id="outItemWarranty">
+12 Months
+</span>
 </div>
 
 </td>
@@ -1059,19 +1168,27 @@ Warranty:
 <td>1</td>
 
 <td>
-<span id="outBatteryPrice">0.00</span>
+<span id="outBatteryPrice">
+0.00
+</span>
 </td>
 
 </tr>
 
 <tr>
 
-<td>Installation / Service</td>
-
-<td>1</td>
+<td>
+Installation / Service
+</td>
 
 <td>
-<span id="outService">0.00</span>
+1
+</td>
+
+<td>
+<span id="outService">
+0.00
+</span>
 </td>
 
 </tr>
@@ -1083,7 +1200,9 @@ Warranty:
 </div>
 
 
-<!-- TOTALS -->
+<!-- =======================================================
+     TOTALS
+======================================================= -->
 
 <div class="bottom-section">
 
@@ -1147,10 +1266,13 @@ Cash
 </div>
 
 </div>
+
 </div>
 
 
-<!-- WARRANTY -->
+<!-- =======================================================
+     WARRANTY
+======================================================= -->
 
 <div class="warranty">
 
@@ -1192,7 +1314,9 @@ Warranty claims require presentation of this original invoice.
 </div>
 
 
-<!-- THANK YOU -->
+<!-- =======================================================
+     THANK YOU
+======================================================= -->
 
 <div class="thank-you">
 
@@ -1211,7 +1335,9 @@ Dubai, UAE | +971 52 404 0699
 </div>
 
 
-<!-- FOOTER -->
+<!-- =======================================================
+     FOOTER
+======================================================= -->
 
 <div class="invoice-footer">
 
@@ -1261,8 +1387,6 @@ FAST | RELIABLE | PROFESSIONAL
 
 /* =========================================================
    800PowerBat STOCK INTEGRATION
-   STOCK STORAGE KEY:
-   800PowerBatStock
 ========================================================= */
 
 let invoiceGenerated = false;
@@ -1343,8 +1467,6 @@ function deductBatteryFromStock(brand,model){
     });
 
 
-    /* BATTERY NOT FOUND */
-
     if(index === -1){
 
         return {
@@ -1359,8 +1481,6 @@ function deductBatteryFromStock(brand,model){
     Number(stock[index].quantity) || 0;
 
 
-    /* NO STOCK */
-
     if(currentQuantity <= 0){
 
         return {
@@ -1371,18 +1491,11 @@ function deductBatteryFromStock(brand,model){
     }
 
 
-    /* DEDUCT ONE */
-
     const newQuantity =
     currentQuantity - 1;
 
 
     if(newQuantity <= 0){
-
-        /*
-         * Quantity reached zero.
-         * Remove battery completely from stock.
-         */
 
         stock.splice(index,1);
 
@@ -1400,25 +1513,14 @@ function deductBatteryFromStock(brand,model){
     }
 
 
-    /* UPDATE QUANTITY */
-
     stock[index].quantity =
     newQuantity;
 
 
-    /* AUTOMATIC STATUS */
-
-    if(newQuantity <= 2){
-
-        stock[index].status =
-        "Low Stock";
-
-    }else{
-
-        stock[index].status =
-        "In Stock";
-
-    }
+    stock[index].status =
+    newQuantity <= 2
+    ? "Low Stock"
+    : "In Stock";
 
 
     localStorage.setItem(
@@ -1441,11 +1543,6 @@ function deductBatteryFromStock(brand,model){
 ========================================================= */
 
 function generateInvoice(){
-
-    /*
-     * Prevent accidental second click on the same invoice.
-     * If user wants another invoice, they must confirm.
-     */
 
     if(invoiceGenerated){
 
@@ -1517,9 +1614,7 @@ function generateInvoice(){
     document.getElementById("vatEnabled").checked;
 
 
-    /* =====================================================
-       BASIC BATTERY VALIDATION
-    ===================================================== */
+    /* VALIDATION */
 
     if(!batteryBrand){
 
@@ -1543,9 +1638,7 @@ function generateInvoice(){
     }
 
 
-    /* =====================================================
-       CALCULATION
-    ===================================================== */
+    /* CALCULATION */
 
     const subtotal =
     batteryPrice + service;
@@ -1565,9 +1658,7 @@ function generateInvoice(){
     taxable + vat;
 
 
-    /* =====================================================
-       INVOICE NUMBER
-    ===================================================== */
+    /* INVOICE NUMBER */
 
     const invoiceNumber =
     "800-" +
@@ -1577,9 +1668,7 @@ function generateInvoice(){
     );
 
 
-    /* =====================================================
-       DATE
-    ===================================================== */
+    /* DATE */
 
     const today =
     new Date();
@@ -1588,9 +1677,7 @@ function generateInvoice(){
     today.toLocaleDateString("en-GB");
 
 
-    /* =====================================================
-       STOCK DEDUCTION
-    ===================================================== */
+    /* STOCK */
 
     const stockResult =
     deductBatteryFromStock(
@@ -1598,10 +1685,6 @@ function generateInvoice(){
         batteryModel
     );
 
-
-    /*
-     * Show result to user.
-     */
 
     if(stockResult.success){
 
@@ -1655,9 +1738,7 @@ function generateInvoice(){
     }
 
 
-    /* =====================================================
-       OUTPUT
-    ===================================================== */
+    /* OUTPUT */
 
     document.getElementById("invoiceNo").innerText =
     invoiceNumber;
@@ -1675,14 +1756,19 @@ function generateInvoice(){
     (carBrand + " " + carModel).trim()
     || "Vehicle";
 
-    document.getElementById("outBattery").innerText =
-    batteryModel || "—";
+
+    /*
+     * IMPORTANT:
+     * Battery brand/model are displayed ONLY
+     * inside the Description section.
+     */
 
     document.getElementById("outBatteryBrand").innerText =
     batteryBrand || "Battery";
 
     document.getElementById("outBatteryModel").innerText =
     batteryModel || "—";
+
 
     document.getElementById("outBatteryPrice").innerText =
     batteryPrice.toFixed(2);
@@ -1709,9 +1795,7 @@ function generateInvoice(){
     paymentMethod;
 
 
-    /* =====================================================
-       PAYMENT
-    ===================================================== */
+    /* PAYMENT */
 
     const paymentElement =
     document.getElementById("outPayment");
@@ -1725,9 +1809,7 @@ function generateInvoice(){
     : "pending";
 
 
-    /* =====================================================
-       CUSTOMER TRN
-    ===================================================== */
+    /* CUSTOMER TRN */
 
     const customerTRNOutput =
     document.getElementById("customerTRNOutput");
@@ -1750,9 +1832,7 @@ function generateInvoice(){
     }
 
 
-    /* =====================================================
-       VAT
-    ===================================================== */
+    /* VAT */
 
     const vatRow =
     document.getElementById("vatRow");
@@ -1808,17 +1888,13 @@ function generateInvoice(){
     }
 
 
-    /* =====================================================
-       SHOW INVOICE
-    ===================================================== */
+    /* SHOW INVOICE */
 
     document.getElementById("invoicePreview").style.display =
     "block";
 
 
-    /* =====================================================
-       SAVE INVOICE HISTORY
-    ===================================================== */
+    /* SAVE HISTORY */
 
     let invoices =
     JSON.parse(
@@ -1872,8 +1948,6 @@ function generateInvoice(){
 
         paymentMethod:paymentMethod,
 
-        /* STOCK INFORMATION */
-
         stockDeducted:
         stockResult.success,
 
@@ -1899,19 +1973,11 @@ function generateInvoice(){
     );
 
 
-    /*
-     * Mark current invoice as generated.
-     * Clicking Generate again will ask before
-     * creating another invoice and deducting another battery.
-     */
-
     invoiceGenerated =
     true;
 
 
-    /* =====================================================
-       SCROLL
-    ===================================================== */
+    /* SCROLL */
 
     document.getElementById("invoicePreview")
     .scrollIntoView({
