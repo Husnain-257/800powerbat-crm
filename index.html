@@ -555,6 +555,7 @@ footer{
         <!-- BATTERY STOCK -->
 
         <button
+            id="batteryStockButton"
             class="action stock"
             onclick="location.href='battery-stock.html'"
         >
@@ -609,6 +610,10 @@ footer{
 const isLoggedIn =
     localStorage.getItem("800PowerBatLoggedIn");
 
+const userRole =
+    localStorage.getItem("800PowerBatUserRole");
+
+
 if(isLoggedIn !== "true"){
 
     window.location.href = "login.html";
@@ -617,13 +622,37 @@ if(isLoggedIn !== "true"){
 
 
 /* =========================================
-   GET LOGGED-IN TECHNICIAN
+   ROLE PROTECTION
+   ========================================= */
+
+/*
+    Only Admin can manage Battery Stock.
+    Technician will not see the Battery Stock
+    button.
+*/
+
+if(userRole !== "admin"){
+
+    const batteryStockButton =
+        document.getElementById("batteryStockButton");
+
+    if(batteryStockButton){
+
+        batteryStockButton.style.display = "none";
+
+    }
+
+}
+
+
+/* =========================================
+   GET LOGGED-IN USER
    ========================================= */
 
 const technicianName =
     localStorage.getItem(
         "800PowerBatTechnicianName"
-    ) || "Unknown Technician";
+    ) || "Unknown User";
 
 
 const technicianUsername =
@@ -633,7 +662,7 @@ const technicianUsername =
 
 
 /* =========================================
-   SHOW TECHNICIAN NAME
+   SHOW USER NAME
    ========================================= */
 
 document.getElementById(
@@ -664,6 +693,10 @@ function logout(){
 
     localStorage.removeItem(
         "800PowerBatTechnicianName"
+    );
+
+    localStorage.removeItem(
+        "800PowerBatUserRole"
     );
 
     window.location.href = "login.html";
