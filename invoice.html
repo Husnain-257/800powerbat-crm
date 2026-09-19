@@ -4,43 +4,94 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>800PowerBat Invoice</title>
+<title>800PowerBat - Invoice</title>
 
 <style>
-*{box-sizing:border-box;}
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
-    background:#e9edf2;
     font-family:Arial,Helvetica,sans-serif;
-    color:#071426;
+    background:#eef1f4;
+    color:#17202a;
 }
 
-.form-area{
-    max-width:1000px;
-    margin:25px auto;
-    padding:20px;
-}
-
-.form-card{
+.page{
+    width:210mm;
+    min-height:297mm;
+    margin:20px auto;
     background:#fff;
-    padding:25px;
-    border-radius:14px;
-    box-shadow:0 8px 30px rgba(0,0,0,.10);
+    padding:12mm;
+    box-shadow:0 4px 20px rgba(0,0,0,.12);
 }
 
-.form-card h2{
-    margin:0 0 20px;
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    border-bottom:3px solid #f5b400;
+    padding-bottom:10px;
 }
 
-.form-card h2 span{
-    color:#f5b400;
+.company{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.company h1{
+    margin:0;
+    font-size:28px;
+    color:#101820;
+    font-weight:900;
+}
+
+.company p{
+    margin:0;
+    font-size:13px;
+    color:#555;
+}
+
+.invoice-title{
+    text-align:right;
+}
+
+.invoice-title h2{
+    margin:0;
+    font-size:30px;
+    color:#101820;
+    font-weight:900;
+}
+
+.invoice-title p{
+    margin:4px 0 0;
+    font-size:12px;
+    color:#555;
+}
+
+.form-section{
+    margin-top:16px;
+    background:#f8f9fa;
+    border:1px solid #ddd;
+    padding:12px;
+    border-radius:8px;
+}
+
+.section-title{
+    font-size:15px;
+    font-weight:800;
+    color:#101820;
+    border-left:5px solid #f5b400;
+    padding-left:8px;
+    margin-bottom:12px;
 }
 
 .grid{
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
 }
 
 .field{
@@ -48,815 +99,399 @@ body{
     flex-direction:column;
 }
 
-label{
+.field label{
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:5px;
+    color:#303840;
+}
+
+.field input,
+.field select{
+    width:100%;
+    height:38px;
+    border:1px solid #cfd4d9;
+    border-radius:5px;
+    padding:0 9px;
     font-size:13px;
-    font-weight:bold;
-    margin-bottom:7px;
-}
-
-input,
-select{
-    padding:12px;
-    border:1px solid #d4d9df;
-    border-radius:7px;
-    font-size:14px;
-    outline:none;
     background:#fff;
+    outline:none;
 }
 
-input:focus,
-select:focus{
+.field input:focus,
+.field select:focus{
     border-color:#f5b400;
 }
 
-/* CAR SELECT INFO */
-
-.car-note{
-    grid-column:1 / -1;
-    background:#f7f8fa;
-    border-left:5px solid #f5b400;
-    padding:10px 14px;
-    border-radius:7px;
-    font-size:12px;
-    color:#68717c;
+.full{
+    grid-column:1/-1;
 }
 
-/* BATTERY INFO */
+.car-note{
+    margin-top:9px;
+    background:#fff8df;
+    border-left:4px solid #f5b400;
+    padding:8px;
+    font-size:11px;
+    line-height:1.5;
+}
 
 .battery-info{
-    grid-column:1 / -1;
+    margin-top:10px;
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:6px;
+    padding:10px;
+}
+
+.battery-info-grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:10px;
-    padding:15px;
-    background:#f7f8fa;
-    border-left:5px solid #f5b400;
-    border-radius:8px;
+    gap:8px;
 }
 
 .info-box{
-    background:#fff;
-    border:1px solid #e1e5ea;
-    border-radius:7px;
-    padding:10px;
+    background:#f5f6f7;
+    border-radius:5px;
+    padding:7px;
 }
 
 .info-box small{
     display:block;
-    color:#68717c;
-    font-size:11px;
-    margin-bottom:4px;
+    color:#777;
+    font-size:10px;
+    margin-bottom:3px;
 }
 
 .info-box strong{
-    font-size:14px;
-}
-
-.sale-note{
-    grid-column:1 / -1;
-    background:#fff8dc;
-    border-left:4px solid #f5b400;
-    padding:10px 12px;
     font-size:12px;
-    color:#665000;
-    border-radius:5px;
+    color:#101820;
 }
 
-.vat-box{
-    margin-top:20px;
-    padding:18px;
-    background:#f7f8fa;
-    border-left:5px solid #f5b400;
-    border-radius:8px;
-}
-
-.vat-box h3{
-    margin:0 0 12px;
-    font-size:16px;
-}
-
-.vat-note{
-    margin-top:8px;
-    font-size:11px;
-    color:#68717c;
-    line-height:1.5;
-}
-
-.check-row{
+.vat-row{
+    margin-top:10px;
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:7px;
+    font-size:12px;
+    font-weight:700;
 }
 
-.check-row input{
-    width:18px;
-    height:18px;
+.vat-row input{
+    width:16px;
+    height:16px;
 }
 
 .buttons{
-    margin-top:20px;
     display:flex;
-    flex-wrap:wrap;
-    gap:10px;
+    gap:8px;
+    margin-top:14px;
 }
 
-button,
-.btn{
+button{
     border:0;
-    padding:13px 20px;
-    border-radius:7px;
-    font-weight:bold;
-    cursor:pointer;
-    text-decoration:none;
-    display:inline-block;
-}
-
-.generate{
-    background:#f5b400;
-    color:#071426;
-}
-
-.print{
-    background:#071426;
-    color:#fff;
-}
-
-.history{
-    background:#e8ebef;
-    color:#071426;
-}
-
-/* STOCK MESSAGE */
-
-.stock-message{
-    display:none;
-    margin-top:15px;
-    padding:12px 15px;
-    border-radius:7px;
+    border-radius:6px;
+    padding:11px 18px;
     font-size:13px;
-    font-weight:bold;
+    font-weight:800;
+    cursor:pointer;
 }
 
-.stock-success{
-    background:#dff7e5;
-    color:#176b2c;
-    border-left:4px solid #20a044;
+.btn-generate{
+    background:#101820;
+    color:#fff;
 }
 
-.stock-warning{
-    background:#fff1cc;
-    color:#805d00;
-    border-left:4px solid #f5b400;
+.btn-print{
+    background:#f5b400;
+    color:#101820;
 }
 
-.stock-error{
-    background:#ffe0e0;
-    color:#9b1c1c;
-    border-left:4px solid #d93025;
+.btn-back{
+    background:#ddd;
+    color:#222;
 }
 
-/* A4 INVOICE */
-
-.invoice-wrapper{
+.invoice-preview{
     display:none;
-    width:210mm;
-    height:297mm;
-    margin:30px auto;
-    background:#0b1220;
-    color:#fff;
-    position:relative;
-    overflow:hidden;
-    box-shadow:0 15px 50px rgba(0,0,0,.30);
-    -webkit-print-color-adjust:exact;
-    print-color-adjust:exact;
+    margin-top:18px;
 }
 
-.invoice-header{
-    height:140px;
-    background:#05080d;
-    color:#fff;
-    padding:17px 38px 13px;
+.preview-header{
     display:flex;
     justify-content:space-between;
-    align-items:flex-start;
     gap:20px;
-    border-bottom:1px solid #202b3a;
+    border-bottom:2px solid #101820;
+    padding-bottom:10px;
 }
 
-.brand-area{
-    display:flex;
-    flex-direction:column;
-}
-
-.logo-row{
-    display:flex;
-    align-items:center;
-    gap:11px;
-}
-
-.battery-logo{
-    width:61px;
-    height:41px;
-    background:#f5b400;
-    border:3px solid #05080d;
-    border-radius:6px;
-    position:relative;
-    box-shadow:0 0 0 1px #f5b400;
-}
-
-.battery-logo:before{
-    content:"";
-    position:absolute;
-    width:14px;
-    height:5px;
-    background:#f5b400;
-    top:-8px;
-    left:9px;
-    border-radius:2px;
-    box-shadow:26px 0 #f5b400;
-}
-
-.battery-yellow{
-    position:absolute;
-    inset:4px;
-    border:2px solid #071426;
-    border-radius:3px;
-}
-
-.battery-bolt{
-    position:absolute;
-    color:#071426;
-    font-size:27px;
+.preview-company h2{
+    margin:0;
+    font-size:23px;
     font-weight:900;
-    left:20px;
-    top:4px;
-    line-height:1;
 }
 
-.brand-name{
-    font-size:34px;
-    font-weight:900;
-    letter-spacing:-1.8px;
-    line-height:1;
+.preview-company p{
+    margin:3px 0;
+    font-size:11px;
+    color:#555;
 }
 
-.brand-name .eight{
-    color:#fff;
-}
-
-.brand-name .power{
-    color:#f5b400;
-}
-
-.brand-sub{
-    margin-top:5px;
-    margin-left:73px;
-    font-size:9px;
-    font-weight:bold;
-    letter-spacing:1.8px;
-    color:#d9e0e9;
-}
-
-.brand-sub:before,
-.brand-sub:after{
-    content:"";
-    display:inline-block;
-    width:20px;
-    height:2px;
-    background:#f5b400;
-    vertical-align:middle;
-    margin:0 4px;
-}
-
-.company-info{
-    margin-top:12px;
-    display:flex;
-    gap:17px;
-    font-size:9px;
-    line-height:1.3;
-    color:#c6ced9;
-}
-
-.info-item{
-    display:flex;
-    align-items:center;
-    gap:5px;
-}
-
-.info-icon{
-    width:16px;
-    height:16px;
-    border:1px solid #f5b400;
-    color:#f5b400;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:5px;
-    font-weight:bold;
-}
-
-.invoice-right{
+.preview-invoice{
     text-align:right;
-    min-width:245px;
-    padding-top:1px;
 }
 
-.invoice-right h1{
-    display:inline-block;
-    background:#071426;
-    color:#f5b400;
-    border:2px solid #f5b400;
-    padding:6px 14px;
-    margin:0 0 6px;
-    font-size:20px;
-    letter-spacing:1.5px;
-    border-radius:3px;
+.preview-invoice h2{
+    margin:0;
+    font-size:25px;
 }
 
-.invoice-meta{
-    font-size:10px;
-    line-height:1.6;
-    color:#aeb8c6;
+.preview-invoice p{
+    margin:3px 0;
+    font-size:11px;
 }
-
-.invoice-meta strong{
-    margin-left:5px;
-    color:#fff;
-}
-
-.yellow-line{
-    height:3px;
-    background:#f5b400;
-}
-
-/* BILL */
 
 .bill-section{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:30px;
-    padding:15px 38px 13px;
+    gap:12px;
+    margin-top:15px;
 }
 
-.bill-title{
-    color:#f5b400;
+.bill-box{
+    border:1px solid #ddd;
+    padding:10px;
+    border-radius:6px;
+}
+
+.bill-heading{
+    font-size:11px;
+    color:#777;
     font-weight:800;
-    font-size:9px;
+    text-transform:uppercase;
     margin-bottom:5px;
-    letter-spacing:1.2px;
 }
 
 .bill-name{
-    font-size:16px;
-    font-weight:800;
-    color:#fff;
+    font-size:15px;
+    font-weight:900;
+    color:#101820;
 }
 
 .bill-text{
-    font-size:10px;
-    margin-top:4px;
-    color:#b3bdca;
-}
-
-/* TABLE */
-
-.table-area{
-    padding:0 38px;
+    font-size:11px;
+    color:#444;
+    margin-top:3px;
 }
 
 .invoice-table{
     width:100%;
     border-collapse:collapse;
-    border:1px solid #28364a;
-}
-
-.invoice-table thead{
-    background:#f5b400;
-    color:#071426;
+    margin-top:15px;
 }
 
 .invoice-table th{
-    padding:9px 12px;
+    background:#101820;
+    color:#fff;
+    padding:9px 7px;
+    font-size:11px;
     text-align:left;
-    font-size:10px;
-    font-weight:900;
-    letter-spacing:.5px;
-}
-
-.invoice-table th:nth-child(2),
-.invoice-table td:nth-child(2){
-    text-align:center;
-    width:12%;
-}
-
-.invoice-table th:last-child,
-.invoice-table td:last-child{
-    text-align:right;
-    width:22%;
 }
 
 .invoice-table td{
-    padding:11px 12px;
-    border-bottom:1px solid #28364a;
-    background:#101a2a;
-    color:#fff;
-    font-size:10px;
-}
-
-.invoice-table tr:last-child td{
-    border-bottom:0;
-}
-
-.item-brand{
-    font-size:13px;
-    font-weight:bold;
-    color:#f5b400;
-}
-
-.item-model{
-    margin-top:4px;
+    border:1px solid #ddd;
+    padding:9px 7px;
     font-size:11px;
-    color:#fff;
 }
 
-.item-details{
-    margin-top:5px;
-    font-size:9px;
-    color:#929eaf;
+.invoice-table td:last-child,
+.invoice-table th:last-child{
+    text-align:right;
 }
 
-.item-warranty{
-    margin-top:4px;
-    font-size:9px;
-    font-weight:bold;
-    color:#929eaf;
-}
-
-.item-warranty span{
-    color:#f5b400;
-}
-
-/* TOTALS */
-
-.bottom-section{
-    display:flex;
-    justify-content:flex-end;
-    padding:13px 38px;
-}
-
-.totals{
-    width:280px;
-    background:#101a2a;
-    border:1px solid #28364a;
-    border-radius:5px;
-    padding:10px 14px;
-}
-
-.total-row{
-    display:flex;
-    justify-content:space-between;
-    padding:4px 0;
-    font-size:10px;
-    color:#aeb8c6;
-}
-
-.total-row strong{
-    color:#fff;
-}
-
-.total-line{
-    height:1px;
-    background:#f5b400;
-    margin:5px 0 7px;
-}
-
-.total-main{
-    display:flex;
-    justify-content:space-between;
-    font-size:18px;
-    font-weight:900;
-    padding:3px 0;
-    color:#fff;
-}
-
-.total-main span:last-child{
-    color:#f5b400;
-}
-
-.payment-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    font-size:10px;
-    margin-top:8px;
-    color:#aeb8c6;
-}
-
-.payment-method{
-    margin-top:5px;
-    display:flex;
-    justify-content:space-between;
-    font-size:9px;
-    color:#8f9bad;
-}
-
-.payment-method strong{
-    color:#fff;
-}
-
-.paid{
-    background:#9ef0aa;
-    color:#075d22;
-    padding:4px 10px;
-    border-radius:20px;
-    font-size:9px;
-    font-weight:bold;
-}
-
-.pending{
-    background:#ffd982;
-    color:#684700;
-    padding:4px 10px;
-    border-radius:20px;
-    font-size:9px;
-    font-weight:bold;
-}
-
-/* WARRANTY */
-
-.warranty{
-    margin:0 38px 12px;
-    padding:12px 15px;
-    background:#101a2a;
-    border:1px solid #28364a;
-    border-left:4px solid #f5b400;
-    border-radius:5px;
-}
-
-.warranty-title{
-    font-size:12px;
-    font-weight:bold;
-    color:#fff;
-    margin-bottom:6px;
-}
-
-.warranty-text{
-    color:#aeb8c6;
-    font-size:9.5px;
-    line-height:1.48;
-}
-
-.warranty-text strong{
-    color:#e4e9ef;
-}
-
-/* THANK YOU */
-
-.thank-you{
-    border-top:1px solid #28364a;
-    margin:0 38px;
-    text-align:center;
-    padding:12px 10px 14px;
-}
-
-.thank-you h2{
-    margin:0 0 5px;
-    font-size:15px;
-    color:#fff;
-}
-
-.thank-you p{
-    margin:3px 0;
-    color:#909daf;
-    font-size:9px;
-}
-
-/* FOOTER */
-
-.invoice-footer{
-    position:absolute;
-    bottom:0;
-    left:0;
-    width:100%;
-    height:75px;
-    background:#05080d;
-    color:#fff;
-    display:flex;
-    align-items:center;
-    padding:11px 38px;
-    overflow:hidden;
-    border-top:1px solid #202b3a;
-}
-
-.invoice-footer:before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:0;
-    width:72%;
-    height:3px;
-    background:#f5b400;
-}
-
-.invoice-footer:after{
-    content:"";
-    position:absolute;
-    bottom:0;
-    left:0;
-    width:100%;
-    height:3px;
-    background:#f5b400;
-}
-
-.services{
-    display:flex;
-    gap:20px;
-    align-items:center;
-    width:58%;
-}
-
-.service{
-    text-align:center;
-    width:65px;
-}
-
-.service-icon{
-    width:29px;
-    height:29px;
-    border:1px solid #f5b400;
-    border-radius:50%;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:12px;
-}
-
-.service span{
-    display:block;
-    margin-top:3px;
-    font-size:7px;
-    font-weight:bold;
-    line-height:1.15;
-    color:#d4dbe5;
-}
-
-.slogan{
-    border-left:1px solid #f5b400;
-    padding-left:17px;
+.summary{
+    width:330px;
     margin-left:auto;
-    width:38%;
+    margin-top:12px;
 }
 
-.slogan-script{
-    color:#f5b400;
-    font-family:cursive;
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    padding:5px 0;
+    font-size:12px;
+}
+
+.summary-row.total{
+    border-top:2px solid #101820;
+    margin-top:4px;
+    padding-top:8px;
     font-size:16px;
-    margin-bottom:4px;
+    font-weight:900;
 }
 
-.slogan-small{
-    font-size:7px;
-    letter-spacing:1.8px;
-    font-weight:bold;
-    color:#c2cad5;
+.payment-box{
+    margin-top:14px;
+    border:1px solid #ddd;
+    padding:10px;
+    border-radius:6px;
 }
 
-/* PRINT */
+.payment-box h4{
+    margin:0 0 5px;
+    font-size:12px;
+}
 
-@media print{
+.payment-box p{
+    margin:3px 0;
+    font-size:11px;
+}
 
-    html,
+.warranty-box{
+    margin-top:10px;
+    background:#fff8df;
+    border-left:4px solid #f5b400;
+    padding:9px;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.footer{
+    margin-top:18px;
+    border-top:2px solid #101820;
+    padding-top:9px;
+    display:flex;
+    justify-content:space-between;
+    font-size:10px;
+    color:#555;
+}
+
+.history{
+    margin-top:20px;
+    border-top:1px solid #ddd;
+    padding-top:15px;
+}
+
+.history h3{
+    margin:0 0 8px;
+    font-size:15px;
+}
+
+.history-item{
+    border:1px solid #ddd;
+    border-radius:6px;
+    padding:8px;
+    margin-bottom:6px;
+    font-size:11px;
+    background:#fafafa;
+}
+
+.stock-warning{
+    margin-top:8px;
+    font-size:11px;
+    color:#c0392b;
+    font-weight:700;
+}
+
+@media(max-width:700px){
+
     body{
-        width:210mm;
-        height:297mm;
+        background:#fff;
+    }
+
+    .page{
+        width:100%;
+        min-height:auto;
         margin:0;
-        padding:0;
-        background:#0b1220 !important;
+        padding:15px;
+        box-shadow:none;
     }
 
-    body{
-        -webkit-print-color-adjust:exact;
-        print-color-adjust:exact;
+    .topbar{
+        gap:10px;
     }
 
-    .no-print{
-        display:none!important;
+    .company h1{
+        font-size:22px;
     }
 
-    .invoice-wrapper{
-        display:block!important;
-        width:210mm;
-        height:297mm;
-        min-height:297mm;
-        margin:0!important;
-        box-shadow:none!important;
-        overflow:hidden!important;
-        background:#0b1220!important;
-        -webkit-print-color-adjust:exact;
-        print-color-adjust:exact;
+    .invoice-title h2{
+        font-size:23px;
     }
-
-    @page{
-        size:A4;
-        margin:0;
-    }
-}
-
-/* MOBILE */
-
-@media(max-width:750px){
 
     .grid{
         grid-template-columns:1fr;
     }
 
-    .battery-info{
-        grid-template-columns:1fr 1fr;
+    .full{
+        grid-column:auto;
     }
 
-    .invoice-wrapper{
-        width:100%;
-        height:auto;
-        min-height:900px;
-        margin:20px auto;
-    }
-
-    .invoice-header{
-        height:auto;
-        padding:18px 20px;
-        flex-direction:column;
-    }
-
-    .brand-name{
-        font-size:30px;
-    }
-
-    .company-info{
-        flex-direction:column;
-        gap:5px;
-    }
-
-    .invoice-right{
-        text-align:left;
-        min-width:0;
-        margin-top:15px;
-    }
-
-    .invoice-right h1{
-        font-size:21px;
+    .battery-info-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
     .bill-section{
-        padding:13px 20px;
-        gap:15px;
+        grid-template-columns:1fr;
     }
 
-    .table-area{
-        padding:0 20px;
-        overflow-x:auto;
+    .summary{
+        width:100%;
+    }
+
+    .buttons{
+        flex-wrap:wrap;
+    }
+
+    button{
+        flex:1;
     }
 
     .invoice-table{
-        min-width:500px;
+        min-width:650px;
     }
 
-    .bottom-section{
-        padding:11px 20px;
+    .invoice-preview{
+        overflow-x:auto;
+    }
+}
+
+@media print{
+
+    @page{
+        size:A4;
+        margin:8mm;
     }
 
-    .totals{
+    body{
+        background:#fff;
+    }
+
+    .page{
         width:100%;
+        min-height:auto;
+        margin:0;
+        padding:0;
+        box-shadow:none;
     }
 
-    .warranty{
-        margin:0 20px 12px;
+    .form-section,
+    .buttons,
+    .history{
+        display:none !important;
     }
 
-    .thank-you{
-        margin:0 20px;
+    .invoice-preview{
+        display:block !important;
+        margin-top:0;
     }
 
-    .invoice-footer{
-        position:relative;
-        height:auto;
-        min-height:140px;
-        padding:18px 20px;
-        flex-direction:column;
-        align-items:flex-start;
+    .invoice-table{
+        min-width:0;
     }
 
-    .services{
-        width:100%;
-        justify-content:space-between;
-        gap:4px;
-    }
-
-    .slogan{
-        width:100%;
-        margin:13px 0 0;
-        padding-left:13px;
+    .topbar{
+        display:none;
     }
 }
 </style>
@@ -864,981 +499,543 @@ button,
 
 <body>
 
-<!-- =======================================================
-FORM
-======================================================= -->
+<div class="page">
 
-<div class="form-area no-print">
+    <div class="topbar">
 
-<div class="form-card">
+        <div class="company">
+            <h1>800PowerBat</h1>
+            <p>Professional Car Battery Services</p>
+            <p>Dubai, UAE</p>
+            <p>+971 52 404 0699</p>
+        </div>
 
-<h2>Create <span>800PowerBat</span> Invoice</h2>
+        <div class="invoice-title">
+            <h2>TAX INVOICE</h2>
+            <p id="invoiceNumberTop">Invoice # —</p>
+            <p id="invoiceDateTop">Date: —</p>
+        </div>
 
-<div class="grid">
+    </div>
 
-<div class="field">
-<label>Customer Name</label>
-<input id="customer" placeholder="Customer name">
-</div>
 
-<div class="field">
-<label>Customer Phone</label>
-<input id="phone" placeholder="+971...">
-</div>
+    <!-- CUSTOMER -->
 
-<div class="field">
-<label>Customer TRN (Optional)</label>
-<input id="customerTRN" placeholder="Customer TRN if provided">
-</div>
+    <div class="form-section">
 
-<!-- CAR BRAND -->
+        <div class="section-title">Customer Details</div>
 
-<div class="field">
-<label>Car Brand</label>
+        <div class="grid">
 
-<select id="carBrand" onchange="loadCarModels()">
-<option value="">Select Car Brand</option>
-</select>
+            <div class="field">
+                <label>Customer Name</label>
+                <input type="text" id="customerName" placeholder="Customer name">
+            </div>
 
-</div>
+            <div class="field">
+                <label>Customer Phone</label>
+                <input type="text" id="customerPhone" placeholder="Phone number">
+            </div>
 
-<!-- CAR MODEL -->
+            <div class="field">
+                <label>Customer Email</label>
+                <input type="email" id="customerEmail" placeholder="Email address">
+            </div>
 
-<div class="field">
-<label>Car Model</label>
+            <div class="field">
+                <label>Customer TRN</label>
+                <input type="text" id="customerTRN" placeholder="Optional">
+            </div>
 
-<select id="carModel" onchange="loadCarYears()">
-<option value="">Select Car Model</option>
-</select>
+            <div class="field full">
+                <label>Customer Address</label>
+                <input type="text" id="customerAddress" placeholder="Customer address">
+            </div>
 
-</div>
+        </div>
 
-<!-- MODEL YEAR -->
+    </div>
 
-<div class="field">
-<label>Model Year</label>
 
-<select id="modelYear">
-<option value="">Select Model Year</option>
-</select>
+    <!-- VEHICLE -->
 
-</div>
+    <div class="form-section">
 
-<div class="car-note">
-Car Brand and Model are loaded from your <strong>800PowerBat Car Database</strong>.
-Model Year is available from <strong>1975 to 2026</strong>.
-</div>
+        <div class="section-title">Vehicle Details</div>
 
-<!-- BATTERY BRAND -->
+        <div class="grid">
 
-<div class="field">
-<label>Battery Brand</label>
+            <div class="field">
+                <label>Car Brand</label>
+                <select id="carBrand" onchange="loadCarModels()">
+                    <option value="">Select Car Brand</option>
+                </select>
+            </div>
 
-<select id="batteryBrand" onchange="loadBatteryModels()">
-<option value="">Select Battery Brand</option>
-</select>
+            <div class="field">
+                <label>Car Model</label>
+                <select id="carModel" onchange="loadCarYears()">
+                    <option value="">Select Car Model</option>
+                </select>
+            </div>
 
-</div>
+            <div class="field">
+                <label>Model Year</label>
+                <select id="modelYear">
+                    <option value="">Select Model Year</option>
+                </select>
+            </div>
 
-<!-- BATTERY MODEL -->
+        </div>
 
-<div class="field">
-<label>Battery Model</label>
+        <div class="car-note">
+            Car Brand and Model are loaded automatically from your
+            <strong>800PowerBat Worldwide Car Database</strong>.
+            Model Year is available from <strong>1975 to 2026</strong>.
+        </div>
 
-<select id="batteryModel" onchange="loadBatteryDetails()">
-<option value="">Select Battery Model</option>
-</select>
+    </div>
 
-</div>
 
-<!-- BATTERY INFO -->
+    <!-- BATTERY -->
 
-<div class="battery-info">
+    <div class="form-section">
 
-<div class="info-box">
-<small>Battery Type</small>
-<strong id="selectedType">—</strong>
-</div>
+        <div class="section-title">Battery Details</div>
 
-<div class="info-box">
-<small>Ah</small>
-<strong id="selectedAh">—</strong>
-</div>
+        <div class="grid">
 
-<div class="info-box">
-<small>Size</small>
-<strong id="selectedSize">—</strong>
-</div>
-
-<div class="info-box">
-<small>Stock Available</small>
-<strong id="selectedStock">—</strong>
-</div>
+            <div class="field">
+                <label>Battery Brand</label>
+                <select id="batteryBrand" onchange="loadBatteryModels()">
+                    <option value="">Select Battery Brand</option>
+                </select>
+            </div>
 
-<div class="info-box">
-<small>Purchase Price</small>
-<strong id="selectedPurchase">—</strong>
-</div>
+            <div class="field">
+                <label>Battery Model</label>
+                <select id="batteryModel" onchange="loadBatteryInfo()">
+                    <option value="">Select Battery Model</option>
+                </select>
+            </div>
 
-<div class="info-box">
-<small>Warranty</small>
-<strong id="selectedWarranty">—</strong>
-</div>
+            <div class="field">
+                <label>Selling Price (AED)</label>
+                <input type="number" id="sellingPrice" min="0" step="0.01" placeholder="Enter selling price">
+            </div>
 
-<div class="sale-note">
-<strong>Sale Price:</strong>
-Enter your own customer selling price below.
-The selling price is NOT saved in Battery Stock.
-</div>
+        </div>
 
-</div>
 
-<div class="field">
-<label>Battery Sale Price (AED)</label>
+        <div class="battery-info">
 
-<input
-id="batteryPrice"
-type="number"
-value="0"
-min="0"
-step="0.01"
-placeholder="Enter your selling price"
->
+            <div class="battery-info-grid">
 
-</div>
+                <div class="info-box">
+                    <small>Battery Type</small>
+                    <strong id="batteryTypeInfo">—</strong>
+                </div>
 
-<div class="field">
-<label>Installation / Service (AED)</label>
+                <div class="info-box">
+                    <small>Ah</small>
+                    <strong id="batteryAhInfo">—</strong>
+                </div>
 
-<input
-id="servicePrice"
-type="number"
-value="0"
-min="0"
-step="0.01"
->
+                <div class="info-box">
+                    <small>Size</small>
+                    <strong id="batterySizeInfo">—</strong>
+                </div>
 
-</div>
+                <div class="info-box">
+                    <small>Warranty</small>
+                    <strong id="batteryWarrantyInfo">—</strong>
+                </div>
 
-<div class="field">
-<label>Discount (AED)</label>
+            </div>
 
-<input
-id="discount"
-type="number"
-value="0"
-min="0"
-step="0.01"
->
+            <div class="stock-warning" id="stockWarning"></div>
 
-</div>
+        </div>
 
-<div class="field">
-<label>Warranty</label>
 
-<select id="warranty">
-<option>3 Months</option>
-<option>6 Months</option>
-<option selected>12 Months</option>
-<option>18 Months</option>
-<option>24 Months</option>
-<option>No Warranty</option>
-</select>
+        <div class="vat-row">
+            <input type="checkbox" id="applyVAT">
+            <label for="applyVAT">Apply 5% VAT</label>
+        </div>
 
-</div>
+    </div>
 
-<div class="field">
-<label>Payment Status</label>
 
-<select id="payment">
-<option>PAID</option>
-<option>PENDING</option>
-</select>
+    <!-- PAYMENT -->
 
-</div>
+    <div class="form-section">
 
-<div class="field">
-<label>Payment Method</label>
+        <div class="section-title">Payment Details</div>
 
-<select id="paymentMethod">
-<option>Cash</option>
-<option>Card</option>
-<option>Payment Link</option>
-</select>
+        <div class="grid">
 
-</div>
+            <div class="field">
+                <label>Payment Method</label>
+                <select id="paymentMethod">
+                    <option value="">Select Payment Method</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Card">Card</option>
+                    <option value="Payment Link">Payment Link</option>
+                </select>
+            </div>
 
-</div>
+            <div class="field">
+                <label>Company TRN</label>
+                <input type="text" id="companyTRN" placeholder="Optional">
+            </div>
 
-<!-- VAT -->
+        </div>
 
-<div class="vat-box">
+    </div>
 
-<h3>VAT Settings</h3>
 
-<div class="grid">
+    <!-- BUTTONS -->
 
-<div class="field">
+    <div class="buttons">
 
-<label>Company TRN</label>
+        <button class="btn-generate" onclick="generateInvoice()">
+            Generate Invoice
+        </button>
 
-<input
-id="companyTRN"
-placeholder="Leave blank if not VAT registered"
->
+        <button class="btn-print" onclick="printInvoice()">
+            Print Invoice
+        </button>
 
-</div>
+        <button class="btn-back" onclick="goBack()">
+            Back
+        </button>
 
-<div class="field">
+    </div>
 
-<label>VAT</label>
 
-<div class="check-row">
+    <!-- INVOICE PREVIEW -->
 
-<input
-type="checkbox"
-id="vatEnabled"
->
+    <div class="invoice-preview" id="invoicePreview">
 
-<span>
-Apply 5% VAT
-</span>
+        <div class="preview-header">
 
-</div>
+            <div class="preview-company">
+                <h2>800PowerBat</h2>
+                <p>Professional Car Battery Services</p>
+                <p>Dubai, UAE</p>
+                <p>+971 52 404 0699</p>
+            </div>
 
-</div>
+            <div class="preview-invoice">
+                <h2>TAX INVOICE</h2>
+                <p id="previewInvoiceNumber">Invoice # —</p>
+                <p id="previewInvoiceDate">Date: —</p>
+            </div>
 
-</div>
+        </div>
 
-<div class="vat-note">
 
-VAT is OFF by default. Customer TRN is optional.
-If 800PowerBat becomes VAT registered in the future,
-enter the official Company TRN and enable 5% VAT.
+        <div class="bill-section">
 
-</div>
+            <div class="bill-box">
 
-</div>
+                <div class="bill-heading">Bill To</div>
 
-<!-- BUTTONS -->
+                <div class="bill-name" id="outCustomer">
+                    Customer
+                </div>
 
-<div class="buttons">
+                <div class="bill-text" id="outPhone">
+                    —
+                </div>
 
-<button
-class="generate"
-onclick="generateInvoice()"
->
-Generate Invoice
-</button>
+                <div class="bill-text" id="outEmail">
+                    —
+                </div>
 
-<button
-class="print"
-onclick="printInvoice()"
->
-Print / Save PDF
-</button>
+                <div class="bill-text" id="outAddress">
+                    —
+                </div>
 
-<a
-class="btn history"
-href="invoices.html"
->
-Invoice History
-</a>
+                <div class="bill-text" id="customerTRNOutput">
+                    TRN: —
+                </div>
 
-<a
-class="btn history"
-href="index.html"
->
-Dashboard
-</a>
+            </div>
 
-</div>
 
-<div
-id="stockMessage"
-class="stock-message"
->
-</div>
+            <div class="bill-box">
 
-</div>
-</div>
+                <div class="bill-heading">Vehicle</div>
 
-<!-- =======================================================
-INVOICE
-======================================================= -->
+                <div class="bill-name" id="outCar">
+                    Vehicle
+                </div>
 
-<div
-id="invoicePreview"
-class="invoice-wrapper"
->
+                <div class="bill-text" id="outCarYear">
+                    —
+                </div>
 
-<div class="invoice-header">
+            </div>
 
-<div class="brand-area">
+        </div>
 
-<div class="logo-row">
 
-<div class="battery-logo">
+        <table class="invoice-table">
 
-<div class="battery-yellow"></div>
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Battery Details</th>
+                    <th>Warranty</th>
+                    <th>Qty</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
 
-<div class="battery-bolt">
-ϟ
-</div>
+            <tbody>
 
-</div>
+                <tr>
 
-<div class="brand-name">
+                    <td>
+                        <strong id="outBatteryBrand">
+                            Battery
+                        </strong>
+                    </td>
 
-<span class="eight">
-800
-</span>
+                    <td id="outBatteryDetails">
+                        —
+                    </td>
 
-<span class="power">
-PowerBat
-</span>
+                    <td id="outWarranty">
+                        —
+                    </td>
 
-</div>
+                    <td>
+                        1
+                    </td>
 
-</div>
+                    <td id="outAmount">
+                        AED 0.00
+                    </td>
 
-<div class="brand-sub">
-MOBILE CAR BATTERY SERVICE
-</div>
+                </tr>
 
-<div class="company-info">
+            </tbody>
 
-<div class="info-item">
+        </table>
 
-<div class="info-icon">
-24/7
-</div>
 
-<span>
-24/7 Mobile Car Battery Service
-</span>
+        <div class="summary">
 
-</div>
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <strong id="outSubtotal">AED 0.00</strong>
+            </div>
 
-<div class="info-item">
+            <div class="summary-row">
+                <span>VAT 5%</span>
+                <strong id="outVAT">AED 0.00</strong>
+            </div>
 
-<div class="info-icon">
-●
-</div>
+            <div class="summary-row total">
+                <span>Total</span>
+                <strong id="outTotal">AED 0.00</strong>
+            </div>
 
-<span>
-Dubai, UAE
-</span>
+        </div>
 
-</div>
 
-<div class="info-item">
+        <div class="payment-box">
 
-<div class="info-icon">
-☎
-</div>
+            <h4>Payment Information</h4>
 
-<span>
-+971 52 404 0699
-</span>
+            <p>
+                Payment Method:
+                <strong id="outPayment">—</strong>
+            </p>
 
-</div>
+            <p>
+                Company TRN:
+                <strong id="companyTRNOutput">—</strong>
+            </p>
 
-</div>
+        </div>
 
-</div>
 
-<div class="invoice-right">
+        <div class="warranty-box">
 
-<h1 id="invoiceHeading">
-INVOICE
-</h1>
+            <strong>Warranty Details:</strong>
 
-<div class="invoice-meta">
+            <span id="warrantyText">
+                Warranty applies according to the selected battery brand and model.
+                Warranty is subject to manufacturer terms and conditions.
+            </span>
 
-Invoice No:
-<strong id="invoiceNo">
-—
-</strong>
+        </div>
 
-<br>
 
-Date:
-<strong id="invoiceDate">
-—
-</strong>
+        <div class="footer">
 
-<br>
+            <div>
+                Thank you for choosing 800PowerBat.
+            </div>
 
-<span id="companyTRNOutput"></span>
+            <div>
+                24/7 Professional Car Battery Service
+            </div>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
-</div>
 
-<div class="yellow-line"></div>
+    <!-- HISTORY -->
 
-<!-- BILL -->
+    <div class="history">
 
-<div class="bill-section">
+        <h3>Recent Invoice History</h3>
 
-<div>
+        <div id="historyList">
+            No invoice history yet.
+        </div>
 
-<div class="bill-title">
-BILL TO
-</div>
-
-<div
-class="bill-name"
-id="outCustomer"
->
-Customer
-</div>
-
-<div
-class="bill-text"
-id="outPhone"
->
-—
-</div>
-
-<div
-class="bill-text"
-id="customerTRNOutput"
-style="display:none;"
->
-</div>
-
-</div>
-
-<div>
-
-<div class="bill-title">
-VEHICLE
-</div>
-
-<div
-class="bill-name"
-id="outCar"
->
-Vehicle
-</div>
-
-<div
-class="bill-text"
-id="outCarYear"
->
-—
-</div>
-
-</div>
-
-</div>
-
-<!-- TABLE -->
-
-<div class="table-area">
-
-<table class="invoice-table">
-
-<thead>
-
-<tr>
-
-<th>
-Description
-</th>
-
-<th>
-Qty
-</th>
-
-<th>
-Amount (AED)
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-
-<td>
-
-<div
-class="item-brand"
-id="outBatteryBrand"
->
-Battery
-</div>
-
-<div
-class="item-model"
-id="outBatteryModel"
->
-—
-</div>
-
-<div
-class="item-details"
-id="outBatteryDetails"
->
-—
-</div>
-
-<div class="item-warranty">
-
-Warranty:
-
-<span
-id="outItemWarranty"
->
-12 Months
-</span>
-
-</div>
-
-</td>
-
-<td>
-1
-</td>
-
-<td>
-
-<span id="outBatteryPrice">
-0.00
-</span>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-Installation / Service
-</td>
-
-<td>
-1
-</td>
-
-<td>
-
-<span id="outService">
-0.00
-</span>
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-<!-- TOTALS -->
-
-<div class="bottom-section">
-
-<div class="totals">
-
-<div class="total-row">
-
-<span>
-Subtotal
-</span>
-
-<strong>
-AED
-<span id="outSubtotal">
-0.00
-</span>
-</strong>
-
-</div>
-
-<div class="total-row">
-
-<span>
-Discount
-</span>
-
-<strong>
-AED
-<span id="outDiscount">
-0.00
-</span>
-</strong>
-
-</div>
-
-<div
-class="total-row"
-id="taxableRow"
-style="display:none;"
->
-
-<span>
-Taxable Amount
-</span>
-
-<strong>
-AED
-<span id="outTaxable">
-0.00
-</span>
-</strong>
-
-</div>
-
-<div
-class="total-row"
-id="vatRow"
-style="display:none;"
->
-
-<span>
-VAT 5%
-</span>
-
-<strong>
-AED
-<span id="outVAT">
-0.00
-</span>
-</strong>
-
-</div>
-
-<div class="total-line"></div>
-
-<div class="total-main">
-
-<span>
-TOTAL
-</span>
-
-<span>
-AED
-<span id="outTotal">
-0.00
-</span>
-</span>
-
-</div>
-
-<div class="payment-row">
-
-<span>
-Payment
-</span>
-
-<span
-id="outPayment"
-class="paid"
->
-PAID
-</span>
-
-</div>
-
-<div class="payment-method">
-
-<span>
-Payment Method
-</span>
-
-<strong id="outPaymentMethod">
-Cash
-</strong>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- WARRANTY -->
-
-<div class="warranty">
-
-<div class="warranty-title">
-Warranty & Terms
-</div>
-
-<div class="warranty-text">
-
-Warranty Period:
-<strong id="outWarranty">
-12 Months
-</strong>
-
-<br>
-
-Battery warranty is valid only for the stated warranty period.
-
-<br>
-
-<strong>
-Warranty Claim Policy:
-</strong>
-
-During the warranty period, the battery is eligible for
-<strong>
-replacement only once
-</strong>
-under a valid warranty claim.
-After one warranty replacement, no further replacement claim
-will be provided under the original warranty.
-
-<br>
-
-Warranty covers manufacturing defects under normal usage.
-Warranty does not cover physical damage, incorrect installation,
-deep discharge, misuse, neglect, accident, water damage,
-or electrical faults/problems in the vehicle.
-
-<br>
-
-Please retain this invoice as proof of purchase and warranty.
-Warranty claims require presentation of this original invoice.
-
-</div>
-
-</div>
-
-<!-- THANK YOU -->
-
-<div class="thank-you">
-
-<h2>
-Thank you for choosing 800PowerBat.
-</h2>
-
-<p>
-24/7 Mobile Car Battery Replacement • Jump Start • Battery Diagnosis
-</p>
-
-<p>
-Dubai, UAE | +971 52 404 0699
-</p>
-
-</div>
-
-<!-- FOOTER -->
-
-<div class="invoice-footer">
-
-<div class="services">
-
-<div class="service">
-
-<div class="service-icon">
-🔋
-</div>
-
-<span>
-Battery<br>
-Replacement
-</span>
-
-</div>
-
-<div class="service">
-
-<div class="service-icon">
-⚡
-</div>
-
-<span>
-Jump<br>
-Start
-</span>
-
-</div>
-
-<div class="service">
-
-<div class="service-icon">
-⚙
-</div>
-
-<span>
-Battery<br>
-Diagnosis
-</span>
-
-</div>
-
-<div class="service">
-
-<div class="service-icon">
-🚐
-</div>
-
-<span>
-Roadside<br>
-Assistance
-</span>
-
-</div>
-
-</div>
-
-<div class="slogan">
-
-<div class="slogan-script">
-Powering Your Journey
-</div>
-
-<div class="slogan-small">
-FAST | RELIABLE | PROFESSIONAL
-</div>
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
 
 <script>
 
-/* =========================================================
-CAR DATABASE
-========================================================= */
-
+const CAR_CATALOG_KEY = "800PowerBatCarCatalog";
 const CAR_STORAGE_KEY = "800PowerBatCars";
+const BATTERY_STORAGE_KEY = "800PowerBatStock";
+const INVOICE_STORAGE_KEY = "invoices";
 
-let cars = [];
+let invoiceGenerated = false;
 
-function readCarDatabase(){
+
+/* =========================
+   CAR DATABASE
+========================= */
+
+function readCarCatalog(){
 
     try{
 
-        const saved =
-        localStorage.getItem(CAR_STORAGE_KEY);
+        const saved = localStorage.getItem(CAR_CATALOG_KEY);
 
         if(!saved){
-            return [];
+            return {};
         }
 
-        const data =
-        JSON.parse(saved);
+        const data = JSON.parse(saved);
 
-        if(!Array.isArray(data)){
-            return [];
+        if(
+            !data ||
+            typeof data !== "object" ||
+            Array.isArray(data)
+        ){
+            return {};
         }
 
         return data;
 
     }catch(error){
 
-        console.error(
-            "Car database error:",
-            error
-        );
-
-        return [];
+        return {};
 
     }
 
 }
 
 
-/* =========================================================
-NORMALIZE CAR RECORD
-SUPPORTS OLD + NEW DATABASE FORMAT
-========================================================= */
+function normalizeText(value){
 
-function normalizeCarRecord(item){
-
-    if(!item){
-        return null;
-    }
-
-    const brand =
-    String(
-        item.brand ??
-        item.carBrand ??
-        item.make ??
-        ""
-    ).trim();
-
-    const model =
-    String(
-        item.model ??
-        item.carModel ??
-        item.name ??
-        ""
-    ).trim();
-
-    const yearValue =
-    item.year ??
-    item.modelYear ??
-    item.yearModel ??
-    "";
-
-    const year =
-    Number(yearValue);
-
-    if(!brand || !model){
-        return null;
-    }
-
-    return {
-        brand:brand,
-        model:model,
-        year:
-        year >= 1975 && year <= 2026
-        ? year
-        : null
-    };
+    return String(value || "")
+        .trim()
+        .toLowerCase();
 
 }
 
 
-/* =========================================================
-REFRESH CAR DATABASE
-========================================================= */
+function normalizeCatalog(){
 
-function refreshCars(){
+    const raw = readCarCatalog();
 
-    const raw =
-    readCarDatabase();
+    const catalog = {};
 
-    cars =
-    raw
-    .map(normalizeCarRecord)
-    .filter(function(item){
-        return item !== null;
+    Object.keys(raw).forEach(function(brand){
+
+        const brandName = String(brand || "").trim();
+
+        if(!brandName){
+            return;
+        }
+
+        let models = raw[brand];
+
+        if(!Array.isArray(models)){
+            return;
+        }
+
+        const uniqueModels = [];
+
+        models.forEach(function(model){
+
+            const modelName = String(model || "").trim();
+
+            if(!modelName){
+                return;
+            }
+
+            const exists = uniqueModels.some(function(existing){
+
+                return normalizeText(existing) === normalizeText(modelName);
+
+            });
+
+            if(!exists){
+
+                uniqueModels.push(modelName);
+
+            }
+
+        });
+
+        if(uniqueModels.length){
+
+            uniqueModels.sort(function(a,b){
+
+                return a.localeCompare(b);
+
+            });
+
+            catalog[brandName] = uniqueModels;
+
+        }
+
     });
 
+    return catalog;
+
 }
 
 
-/* =========================================================
-DEFAULT CAR DATA
-ONLY USED IF CAR DATABASE IS EMPTY
-========================================================= */
+/* Backup catalog for older installations */
 
 const fallbackCars = [
 
+    ["Acura","ILX"],
+    ["Acura","Integra"],
     ["Acura","MDX"],
     ["Acura","RDX"],
-
+    ["Acura","TLX"],
+    ["Alfa Romeo","Giulia"],
+    ["Alfa Romeo","Stelvio"],
     ["Aston Martin","DB11"],
     ["Aston Martin","DB12"],
-    ["Aston Martin","Vantage"],
-
+    ["Aston Martin","DBX"],
     ["Audi","A3"],
     ["Audi","A4"],
     ["Audi","A5"],
@@ -1849,17 +1046,10 @@ const fallbackCars = [
     ["Audi","Q5"],
     ["Audi","Q7"],
     ["Audi","Q8"],
-
-    ["BAIC","BJ40"],
-    ["BAIC","X25"],
-    ["BAIC","X35"],
-    ["BAIC","X55"],
-    ["BAIC","X7"],
-
+    ["Audi","e-tron"],
     ["Bentley","Bentayga"],
     ["Bentley","Continental GT"],
     ["Bentley","Flying Spur"],
-
     ["BMW","1 Series"],
     ["BMW","2 Series"],
     ["BMW","3 Series"],
@@ -1869,501 +1059,310 @@ const fallbackCars = [
     ["BMW","7 Series"],
     ["BMW","8 Series"],
     ["BMW","X1"],
+    ["BMW","X2"],
     ["BMW","X3"],
+    ["BMW","X4"],
     ["BMW","X5"],
     ["BMW","X6"],
     ["BMW","X7"],
-    ["BMW","M3"],
-    ["BMW","M4"],
-    ["BMW","M5"],
-
     ["BYD","Atto 3"],
     ["BYD","Dolphin"],
     ["BYD","Han"],
     ["BYD","Seal"],
-    ["BYD","Song Plus"],
-
     ["Cadillac","CT4"],
     ["Cadillac","CT5"],
     ["Cadillac","Escalade"],
-    ["Cadillac","XT4"],
-    ["Cadillac","XT5"],
-    ["Cadillac","XT6"],
-
-    ["Changan","Alsvin"],
-    ["Changan","CS35"],
-    ["Changan","CS55"],
-    ["Changan","CS75"],
-    ["Changan","UNI-K"],
-    ["Changan","UNI-T"],
-
-    ["Chery","Arrizo 5"],
-    ["Chery","Tiggo 4"],
-    ["Chery","Tiggo 7"],
-    ["Chery","Tiggo 8"],
-
     ["Chevrolet","Camaro"],
     ["Chevrolet","Captiva"],
+    ["Chevrolet","Corvette"],
     ["Chevrolet","Cruze"],
+    ["Chevrolet","Equinox"],
     ["Chevrolet","Malibu"],
     ["Chevrolet","Silverado"],
     ["Chevrolet","Tahoe"],
-    ["Chevrolet","Traverse"],
-
+    ["Chery","Tiggo 4"],
+    ["Chery","Tiggo 7"],
+    ["Chery","Tiggo 8"],
+    ["Chery","Arrizo 5"],
+    ["Chery","Arrizo 8"],
+    ["Chrysler","300"],
+    ["Chrysler","Pacifica"],
     ["Citroen","C3"],
     ["Citroen","C4"],
-    ["Citroen","C5"],
-
+    ["Citroen","C5 Aircross"],
     ["Dodge","Challenger"],
     ["Dodge","Charger"],
     ["Dodge","Durango"],
-    ["Dodge","Ram"],
-
     ["Ferrari","488"],
     ["Ferrari","F8"],
-    ["Ferrari","812"],
     ["Ferrari","Roma"],
-    ["Ferrari","Portofino"],
-
+    ["Ferrari","296 GTB"],
     ["Fiat","500"],
     ["Fiat","Panda"],
-    ["Fiat","Tipo"],
-
     ["Ford","EcoSport"],
     ["Ford","Edge"],
+    ["Ford","Escape"],
     ["Ford","Explorer"],
     ["Ford","F-150"],
     ["Ford","Mustang"],
     ["Ford","Ranger"],
     ["Ford","Territory"],
-
-    ["GAC","GS3"],
-    ["GAC","GS4"],
-    ["GAC","GS5"],
-    ["GAC","GS8"],
-
-    ["Geely","Coolray"],
-    ["Geely","Emgrand"],
-    ["Geely","Monjaro"],
-    ["Geely","Okavango"],
-
+    ["Ford","Transit"],
     ["Genesis","G70"],
     ["Genesis","G80"],
     ["Genesis","G90"],
     ["Genesis","GV70"],
     ["Genesis","GV80"],
-
     ["GMC","Acadia"],
     ["GMC","Sierra"],
     ["GMC","Terrain"],
     ["GMC","Yukon"],
-
+    ["Geely","Coolray"],
+    ["Geely","Emgrand"],
+    ["Geely","Monjaro"],
     ["Haval","H6"],
     ["Haval","H9"],
     ["Haval","Jolion"],
-    ["Haval","Dargo"],
-
     ["Honda","Accord"],
     ["Honda","Civic"],
     ["Honda","CR-V"],
     ["Honda","HR-V"],
     ["Honda","Pilot"],
-    ["Honda","City"],
-    ["Honda","Jazz"],
-
     ["Hyundai","Accent"],
     ["Hyundai","Elantra"],
     ["Hyundai","Kona"],
     ["Hyundai","Santa Fe"],
     ["Hyundai","Sonata"],
     ["Hyundai","Tucson"],
-    ["Hyundai","Palisade"],
-    ["Hyundai","Creta"],
-
-    ["Infiniti","Q30"],
     ["Infiniti","Q50"],
-    ["Infiniti","Q60"],
     ["Infiniti","QX50"],
-    ["Infiniti","QX55"],
     ["Infiniti","QX60"],
     ["Infiniti","QX80"],
-
     ["Isuzu","D-Max"],
     ["Isuzu","MU-X"],
-
-    ["Jaguar","E-Pace"],
     ["Jaguar","F-Pace"],
     ["Jaguar","F-Type"],
     ["Jaguar","XE"],
     ["Jaguar","XF"],
-
     ["Jeep","Cherokee"],
     ["Jeep","Compass"],
     ["Jeep","Grand Cherokee"],
-    ["Jeep","Renegade"],
     ["Jeep","Wrangler"],
-
     ["Kia","Carnival"],
     ["Kia","Cerato"],
     ["Kia","K5"],
     ["Kia","Sportage"],
     ["Kia","Sorento"],
-    ["Kia","Seltos"],
     ["Kia","Telluride"],
-    ["Kia","Picanto"],
-
-    ["Lamborghini","Aventador"],
-    ["Lamborghini","Huracan"],
-    ["Lamborghini","Urus"],
-    ["Lamborghini","Revuelto"],
-
     ["Land Rover","Defender"],
     ["Land Rover","Discovery"],
     ["Land Rover","Discovery Sport"],
     ["Land Rover","Range Rover"],
     ["Land Rover","Range Rover Sport"],
-    ["Land Rover","Range Rover Velar"],
-    ["Land Rover","Range Rover Evoque"],
-
     ["Lexus","ES"],
     ["Lexus","IS"],
     ["Lexus","LS"],
+    ["Lexus","LX"],
     ["Lexus","NX"],
     ["Lexus","RX"],
-    ["Lexus","GX"],
-    ["Lexus","LX"],
-    ["Lexus","UX"],
-
     ["Lincoln","Aviator"],
-    ["Lincoln","Corsair"],
-    ["Lincoln","Nautilus"],
     ["Lincoln","Navigator"],
-
-    ["Lotus","Emira"],
-    ["Lotus","Evora"],
-    ["Lotus","Exige"],
-
     ["Maserati","Ghibli"],
     ["Maserati","Grecale"],
     ["Maserati","Levante"],
-    ["Maserati","Quattroporte"],
-    ["Maserati","MC20"],
-
+    ["Mazda","CX-5"],
+    ["Mazda","CX-9"],
+    ["Mazda","Mazda 3"],
+    ["Mazda","Mazda 6"],
     ["McLaren","570S"],
     ["McLaren","720S"],
-    ["McLaren","750S"],
     ["McLaren","Artura"],
-
     ["Mercedes-Benz","A-Class"],
-    ["Mercedes-Benz","B-Class"],
     ["Mercedes-Benz","C-Class"],
     ["Mercedes-Benz","E-Class"],
     ["Mercedes-Benz","S-Class"],
-    ["Mercedes-Benz","CLA"],
-    ["Mercedes-Benz","CLS"],
     ["Mercedes-Benz","GLA"],
     ["Mercedes-Benz","GLB"],
     ["Mercedes-Benz","GLC"],
     ["Mercedes-Benz","GLE"],
     ["Mercedes-Benz","GLS"],
-    ["Mercedes-Benz","G-Class"],
-    ["Mercedes-Benz","V-Class"],
-
     ["MG","3"],
     ["MG","5"],
-    ["MG","6"],
-    ["MG","ZS"],
+    ["MG","GT"],
     ["MG","HS"],
     ["MG","RX5"],
-
-    ["MINI","Cooper"],
-    ["MINI","Countryman"],
-    ["MINI","Clubman"],
-
     ["Mitsubishi","ASX"],
     ["Mitsubishi","Eclipse Cross"],
     ["Mitsubishi","Lancer"],
-    ["Mitsubishi","Montero"],
     ["Mitsubishi","Outlander"],
     ["Mitsubishi","Pajero"],
-    ["Mitsubishi","Attrage"],
-
     ["Nissan","Altima"],
-    ["Nissan","Armada"],
     ["Nissan","Kicks"],
     ["Nissan","Maxima"],
     ["Nissan","Patrol"],
     ["Nissan","Pathfinder"],
-    ["Nissan","Qashqai"],
     ["Nissan","Sunny"],
-    ["Nissan","Tiida"],
-    ["Nissan","X-Trail"],
-
-    ["Porsche","718 Cayman"],
-    ["Porsche","718 Boxster"],
-    ["Porsche","911"],
+    ["Nissan","X-Terra"],
     ["Porsche","Cayenne"],
     ["Porsche","Macan"],
     ["Porsche","Panamera"],
+    ["Porsche","911"],
     ["Porsche","Taycan"],
-
-    ["Peugeot","208"],
-    ["Peugeot","3008"],
-    ["Peugeot","5008"],
-    ["Peugeot","508"],
-
-    ["Renault","Clio"],
+    ["Range Rover","Evoque"],
+    ["Range Rover","Sport"],
     ["Renault","Duster"],
     ["Renault","Koleos"],
     ["Renault","Megane"],
-    ["Renault","Symbol"],
-
     ["Rolls-Royce","Cullinan"],
-    ["Rolls-Royce","Dawn"],
     ["Rolls-Royce","Ghost"],
     ["Rolls-Royce","Phantom"],
-    ["Rolls-Royce","Wraith"],
-
-    ["Skoda","Fabia"],
     ["Skoda","Karoq"],
     ["Skoda","Kodiaq"],
     ["Skoda","Octavia"],
     ["Skoda","Superb"],
-
     ["Subaru","Forester"],
-    ["Subaru","Impreza"],
     ["Subaru","Outback"],
-    ["Subaru","WRX"],
-
-    ["Suzuki","Alto"],
-    ["Suzuki","Baleno"],
     ["Suzuki","Jimny"],
     ["Suzuki","Swift"],
     ["Suzuki","Vitara"],
-
     ["Tesla","Model 3"],
     ["Tesla","Model S"],
     ["Tesla","Model X"],
     ["Tesla","Model Y"],
-
-    ["Toyota","86"],
-    ["Toyota","Avalon"],
     ["Toyota","Camry"],
     ["Toyota","Corolla"],
-    ["Toyota","FJ Cruiser"],
     ["Toyota","Fortuner"],
-    ["Toyota","Hilux"],
     ["Toyota","Land Cruiser"],
-    ["Toyota","Land Cruiser Prado"],
-    ["Toyota","Prius"],
+    ["Toyota","Prado"],
     ["Toyota","RAV4"],
-    ["Toyota","Rush"],
-    ["Toyota","Sequoia"],
-    ["Toyota","Supra"],
     ["Toyota","Yaris"],
-    ["Toyota","Raize"],
-    ["Toyota","C-HR"],
-
     ["Volkswagen","Golf"],
-    ["Volkswagen","Jetta"],
     ["Volkswagen","Passat"],
     ["Volkswagen","Tiguan"],
     ["Volkswagen","Touareg"],
-    ["Volkswagen","Teramont"],
-
     ["Volvo","S60"],
     ["Volvo","S90"],
     ["Volvo","XC40"],
     ["Volvo","XC60"],
-    ["Volvo","XC90"]
-
+    ["Volvo","XC90"],
+    ["XPeng","G6"],
+    ["XPeng","G9"],
+    ["Zeekr","001"],
+    ["Zeekr","009"]
 ];
 
 
-/* =========================================================
-LOAD CAR BRANDS
-========================================================= */
+function fallbackCatalog(){
 
-function loadCarBrands(){
+    const catalog = {};
 
-    refreshCars();
+    fallbackCars.forEach(function(item){
 
-    const brandSelect =
-    document.getElementById("carBrand");
+        const brand = item[0];
+        const model = item[1];
 
-    brandSelect.innerHTML =
-    '<option value="">Select Car Brand</option>';
-
-    let sourceCars = cars;
-
-    /*
-       If Car Database is empty, use fallback brands/models.
-       This prevents the dropdown from being completely blank.
-    */
-
-    if(sourceCars.length === 0){
-
-        sourceCars =
-        fallbackCars.map(function(item){
-
-            return {
-                brand:item[0],
-                model:item[1],
-                year:null
-            };
-
-        });
-
-    }
-
-    const brands = [];
-
-    sourceCars.forEach(function(item){
-
-        const brand =
-        String(item.brand || "").trim();
+        if(!catalog[brand]){
+            catalog[brand] = [];
+        }
 
         if(
-            brand &&
-            !brands.some(function(existing){
-
-                return (
-                    existing.toLowerCase()
-                    ===
-                    brand.toLowerCase()
-                );
-
+            !catalog[brand].some(function(existing){
+                return normalizeText(existing) === normalizeText(model);
             })
         ){
 
-            brands.push(brand);
+            catalog[brand].push(model);
 
         }
 
     });
 
-    brands.sort(function(a,b){
-
-        return a.localeCompare(b);
-
-    });
-
-    brands.forEach(function(brand){
-
-        const option =
-        document.createElement("option");
-
-        option.value = brand;
-
-        option.textContent = brand;
-
-        brandSelect.appendChild(option);
-
-    });
+    return catalog;
 
 }
 
 
-/* =========================================================
-LOAD CAR MODELS
-========================================================= */
+function getCarCatalog(){
+
+    const catalog = normalizeCatalog();
+
+    if(Object.keys(catalog).length){
+
+        return catalog;
+
+    }
+
+    return fallbackCatalog();
+
+}
+
+
+function loadCarBrands(){
+
+    const brandSelect = document.getElementById("carBrand");
+
+    const currentBrand = brandSelect.value;
+
+    const catalog = getCarCatalog();
+
+    brandSelect.innerHTML =
+        '<option value="">Select Car Brand</option>';
+
+    Object.keys(catalog)
+        .sort(function(a,b){
+            return a.localeCompare(b);
+        })
+        .forEach(function(brand){
+
+            const option = document.createElement("option");
+
+            option.value = brand;
+            option.textContent = brand;
+
+            brandSelect.appendChild(option);
+
+        });
+
+    if(
+        currentBrand &&
+        catalog[currentBrand]
+    ){
+
+        brandSelect.value = currentBrand;
+
+    }
+
+}
+
 
 function loadCarModels(){
 
     const brand =
-    document.getElementById(
-        "carBrand"
-    ).value.trim();
+        document.getElementById("carBrand").value;
 
     const modelSelect =
-    document.getElementById(
-        "carModel"
-    );
-
-    const yearSelect =
-    document.getElementById(
-        "modelYear"
-    );
+        document.getElementById("carModel");
 
     modelSelect.innerHTML =
-    '<option value="">Select Car Model</option>';
+        '<option value="">Select Car Model</option>';
 
-    yearSelect.innerHTML =
-    '<option value="">Select Model Year</option>';
+    document.getElementById("modelYear").innerHTML =
+        '<option value="">Select Model Year</option>';
 
     if(!brand){
         return;
     }
 
-    refreshCars();
+    const catalog = getCarCatalog();
 
-    let sourceCars = cars;
-
-    if(sourceCars.length === 0){
-
-        sourceCars =
-        fallbackCars.map(function(item){
-
-            return {
-                brand:item[0],
-                model:item[1],
-                year:null
-            };
-
-        });
-
-    }
-
-    const models = [];
-
-    sourceCars.forEach(function(item){
-
-        if(
-            String(item.brand || "")
-            .trim()
-            .toLowerCase()
-            ===
-            brand.toLowerCase()
-        ){
-
-            const model =
-            String(item.model || "")
-            .trim();
-
-            if(
-                model &&
-                !models.some(function(existing){
-
-                    return (
-                        existing.toLowerCase()
-                        ===
-                        model.toLowerCase()
-                    );
-
-                })
-            ){
-
-                models.push(model);
-
-            }
-
-        }
-
-    });
-
-    models.sort(function(a,b){
-
-        return a.localeCompare(b);
-
-    });
+    const models = catalog[brand] || [];
 
     models.forEach(function(model){
 
         const option =
-        document.createElement("option");
+            document.createElement("option");
 
         option.value = model;
-
         option.textContent = model;
 
         modelSelect.appendChild(option);
@@ -2373,52 +1372,27 @@ function loadCarModels(){
 }
 
 
-/* =========================================================
-LOAD MODEL YEARS
-========================================================= */
-
 function loadCarYears(){
 
-    const brand =
-    document.getElementById(
-        "carBrand"
-    ).value.trim();
-
     const model =
-    document.getElementById(
-        "carModel"
-    ).value.trim();
+        document.getElementById("carModel").value;
 
     const yearSelect =
-    document.getElementById(
-        "modelYear"
-    );
+        document.getElementById("modelYear");
 
     yearSelect.innerHTML =
-    '<option value="">Select Model Year</option>';
+        '<option value="">Select Model Year</option>';
 
-    if(!brand || !model){
+    if(!model){
         return;
     }
 
-    /*
-       IMPORTANT FIX:
-       Years are always available from 1975 to 2026.
-       We no longer depend on every individual year
-       being stored inside the Car Database.
-    */
-
-    for(
-        let year = 2026;
-        year >= 1975;
-        year--
-    ){
+    for(let year = 2026; year >= 1975; year--){
 
         const option =
-        document.createElement("option");
+            document.createElement("option");
 
         option.value = year;
-
         option.textContent = year;
 
         yearSelect.appendChild(option);
@@ -2428,49 +1402,91 @@ function loadCarYears(){
 }
 
 
-/* =========================================================
-BATTERY STOCK DATABASE
-========================================================= */
+/* =========================
+   BATTERY STOCK
+========================= */
 
-let batteries =
-JSON.parse(
-    localStorage.getItem(
-        "800PowerBatStock"
-    )
-) || [];
+function readBatteryStock(){
+
+    try{
+
+        const saved =
+            localStorage.getItem(BATTERY_STORAGE_KEY);
+
+        if(!saved){
+            return [];
+        }
+
+        const data = JSON.parse(saved);
+
+        return Array.isArray(data) ? data : [];
+
+    }catch(error){
+
+        return [];
+
+    }
+
+}
 
 
-/* =========================================================
-LOAD BATTERY BRANDS
-========================================================= */
+function saveBatteryStock(stock){
+
+    localStorage.setItem(
+        BATTERY_STORAGE_KEY,
+        JSON.stringify(stock)
+    );
+
+}
+
+
+function updateBatteryStatus(item){
+
+    const quantity =
+        Number(item.quantity) || 0;
+
+    const minimum =
+        Number(item.minimumStock) || 0;
+
+    if(quantity <= 0){
+
+        item.quantity = 0;
+        item.status = "Out of Stock";
+
+    }
+    else if(quantity <= minimum){
+
+        item.status = "Low Stock";
+
+    }
+    else{
+
+        item.status = "In Stock";
+
+    }
+
+}
+
 
 function loadBatteryBrands(){
 
     const brandSelect =
-    document.getElementById(
-        "batteryBrand"
-    );
+        document.getElementById("batteryBrand");
 
-    brandSelect.innerHTML =
-    '<option value="">Select Battery Brand</option>';
+    const stock =
+        readBatteryStock();
 
     const brands = [];
 
-    batteries.forEach(function(item){
+    stock.forEach(function(item){
 
         const brand =
-        String(item.brand || "").trim();
+            String(item.brand || "").trim();
 
         if(
             brand &&
             !brands.some(function(existing){
-
-                return (
-                    existing.toLowerCase()
-                    ===
-                    brand.toLowerCase()
-                );
-
+                return normalizeText(existing) === normalizeText(brand);
             })
         ){
 
@@ -2480,94 +1496,74 @@ function loadBatteryBrands(){
 
     });
 
-    brands.sort(function(a,b){
+    brandSelect.innerHTML =
+        '<option value="">Select Battery Brand</option>';
 
-        return a.localeCompare(b);
+    brands
+        .sort(function(a,b){
+            return a.localeCompare(b);
+        })
+        .forEach(function(brand){
 
-    });
+            const option =
+                document.createElement("option");
 
-    brands.forEach(function(brand){
+            option.value = brand;
+            option.textContent = brand;
 
-        const option =
-        document.createElement("option");
+            brandSelect.appendChild(option);
 
-        option.value = brand;
-
-        option.textContent = brand;
-
-        brandSelect.appendChild(option);
-
-    });
+        });
 
 }
 
 
-/* =========================================================
-LOAD BATTERY MODELS
-========================================================= */
-
 function loadBatteryModels(){
 
-    const selectedBrand =
-    document.getElementById(
-        "batteryBrand"
-    ).value;
+    const brand =
+        document.getElementById("batteryBrand").value;
 
     const modelSelect =
-    document.getElementById(
-        "batteryModel"
-    );
+        document.getElementById("batteryModel");
 
     modelSelect.innerHTML =
-    '<option value="">Select Battery Model</option>';
+        '<option value="">Select Battery Model</option>';
 
-    resetBatteryDetails();
+    document.getElementById("batteryTypeInfo").textContent = "—";
+    document.getElementById("batteryAhInfo").textContent = "—";
+    document.getElementById("batterySizeInfo").textContent = "—";
+    document.getElementById("batteryWarrantyInfo").textContent = "—";
+    document.getElementById("stockWarning").textContent = "";
 
-    if(!selectedBrand){
+    if(!brand){
         return;
     }
 
-    const selectedBatteries =
-    batteries.filter(function(item){
+    const stock =
+        readBatteryStock();
 
-        return (
+    const filtered =
+        stock.filter(function(item){
 
-            String(item.brand || "")
-            .toLowerCase()
-            ===
-            selectedBrand.toLowerCase()
+            return normalizeText(item.brand) ===
+                   normalizeText(brand);
 
-        );
+        });
 
-    });
-
-    selectedBatteries.forEach(function(item){
+    filtered.forEach(function(item){
 
         const option =
-        document.createElement("option");
+            document.createElement("option");
 
-        option.value =
-        batteries.indexOf(item);
-
+        option.value = item.model || "";
         option.textContent =
-        item.model +
-
-        (
-
-            Number(item.quantity || 0) <= 0
-
-            ? " — OUT OF STOCK"
-
-            :
-
+            (item.model || "Unknown Model") +
             " — " +
-            item.quantity +
-            " available"
-
-        );
+            (Number(item.quantity) || 0) +
+            " in stock";
 
         if(
-            Number(item.quantity || 0) <= 0
+            Number(item.quantity) <= 0
         ){
 
             option.disabled = true;
@@ -2581,365 +1577,311 @@ function loadBatteryModels(){
 }
 
 
-/* =========================================================
-LOAD BATTERY DETAILS
-========================================================= */
+function findBattery(){
 
-function loadBatteryDetails(){
+    const brand =
+        document.getElementById("batteryBrand").value;
 
-    const selectedIndex =
-    document.getElementById(
-        "batteryModel"
-    ).value;
+    const model =
+        document.getElementById("batteryModel").value;
 
-    if(selectedIndex === ""){
+    const stock =
+        readBatteryStock();
 
-        resetBatteryDetails();
+    return stock.find(function(item){
 
-        return;
-
-    }
-
-    const item =
-    batteries[
-        Number(selectedIndex)
-    ];
-
-    if(!item){
-
-        resetBatteryDetails();
-
-        return;
-
-    }
-
-    document.getElementById(
-        "selectedType"
-    ).innerText =
-    item.batteryType || "—";
-
-    document.getElementById(
-        "selectedAh"
-    ).innerText =
-    item.ah || "—";
-
-    document.getElementById(
-        "selectedSize"
-    ).innerText =
-    item.size || "—";
-
-    document.getElementById(
-        "selectedStock"
-    ).innerText =
-    Number(item.quantity || 0);
-
-    document.getElementById(
-        "selectedPurchase"
-    ).innerText =
-    "AED " +
-    Number(
-        item.purchasePrice || 0
-    ).toFixed(2);
-
-    document.getElementById(
-        "selectedWarranty"
-    ).innerText =
-    item.warranty || "—";
-
-    if(item.warranty){
-
-        const warrantySelect =
-        document.getElementById(
-            "warranty"
-        );
-
-        let found = false;
-
-        for(
-            let i = 0;
-            i < warrantySelect.options.length;
-            i++
-        ){
-
-            if(
-                warrantySelect.options[i].value
-                ===
-                item.warranty
-            ){
-
-                warrantySelect.selectedIndex =
-                i;
-
-                found = true;
-
-                break;
-
-            }
-
-        }
-
-        if(!found){
-
-            const newOption =
-            document.createElement(
-                "option"
-            );
-
-            newOption.value =
-            item.warranty;
-
-            newOption.textContent =
-            item.warranty;
-
-            warrantySelect.appendChild(
-                newOption
-            );
-
-            warrantySelect.value =
-            item.warranty;
-
-        }
-
-    }
-
-}
-
-
-/* =========================================================
-RESET BATTERY DETAILS
-========================================================= */
-
-function resetBatteryDetails(){
-
-    document.getElementById(
-        "selectedType"
-    ).innerText = "—";
-
-    document.getElementById(
-        "selectedAh"
-    ).innerText = "—";
-
-    document.getElementById(
-        "selectedSize"
-    ).innerText = "—";
-
-    document.getElementById(
-        "selectedStock"
-    ).innerText = "—";
-
-    document.getElementById(
-        "selectedPurchase"
-    ).innerText = "—";
-
-    document.getElementById(
-        "selectedWarranty"
-    ).innerText = "—";
-
-}
-
-
-/* =========================================================
-NORMALIZE TEXT
-========================================================= */
-
-function normalizeText(value){
-
-    return String(value || "")
-    .trim()
-    .toLowerCase();
-
-}
-
-
-/* =========================================================
-STOCK DEDUCTION
-========================================================= */
-
-function deductBatteryFromStock(
-    brand,
-    model
-){
-
-    let stock =
-    JSON.parse(
-        localStorage.getItem(
-            "800PowerBatStock"
-        )
-    ) || [];
-
-    const wantedBrand =
-    normalizeText(brand);
-
-    const wantedModel =
-    normalizeText(model);
-
-    const index =
-    stock.findIndex(function(item){
-
-        return (
-
-            normalizeText(item.brand)
-            ===
-            wantedBrand
-
-            &&
-
-            normalizeText(item.model)
-            ===
-            wantedModel
-
-        );
+        return normalizeText(item.brand) === normalizeText(brand) &&
+               normalizeText(item.model) === normalizeText(model);
 
     });
 
-    if(index === -1){
+}
 
-        return {
-            success:false,
-            reason:"not_found"
-        };
+
+function loadBatteryInfo(){
+
+    const battery = findBattery();
+
+    const warning =
+        document.getElementById("stockWarning");
+
+    if(!battery){
+
+        document.getElementById("batteryTypeInfo").textContent = "—";
+        document.getElementById("batteryAhInfo").textContent = "—";
+        document.getElementById("batterySizeInfo").textContent = "—";
+        document.getElementById("batteryWarrantyInfo").textContent = "—";
+        warning.textContent = "";
+
+        return;
 
     }
 
-    const currentQuantity =
-    Number(stock[index].quantity) || 0;
+    document.getElementById("batteryTypeInfo").textContent =
+        battery.batteryType || "—";
 
-    if(currentQuantity <= 0){
+    document.getElementById("batteryAhInfo").textContent =
+        battery.ah || "—";
 
-        return {
-            success:false,
-            reason:"out_of_stock"
-        };
+    document.getElementById("batterySizeInfo").textContent =
+        battery.size || "—";
+
+    document.getElementById("batteryWarrantyInfo").textContent =
+        battery.warranty || "—";
+
+
+    const quantity =
+        Number(battery.quantity) || 0;
+
+    if(quantity <= 0){
+
+        warning.textContent =
+            "This battery is out of stock.";
 
     }
-
-    const newQuantity =
-    currentQuantity - 1;
-
-    stock[index].quantity =
-    newQuantity;
-
-    if(newQuantity === 0){
-
-        stock[index].status =
-        "Out of Stock";
-
-    }else if(
-        newQuantity <=
-        Number(
-            stock[index].minimumStock || 0
-        )
+    else if(
+        quantity <= Number(battery.minimumStock || 0)
     ){
 
-        stock[index].status =
-        "Low Stock";
+        warning.textContent =
+            "Low stock: only " + quantity + " unit(s) remaining.";
 
-    }else{
+    }
+    else{
 
-        stock[index].status =
-        "In Stock";
+        warning.textContent =
+            "Available stock: " + quantity + " unit(s).";
 
     }
 
-    localStorage.setItem(
-        "800PowerBatStock",
-        JSON.stringify(stock)
-    );
+}
 
-    return {
-        success:true,
-        remaining:newQuantity
-    };
+
+function deductBatteryFromStock(){
+
+    const brand =
+        document.getElementById("batteryBrand").value;
+
+    const model =
+        document.getElementById("batteryModel").value;
+
+    let stock =
+        readBatteryStock();
+
+    const index =
+        stock.findIndex(function(item){
+
+            return normalizeText(item.brand) === normalizeText(brand) &&
+                   normalizeText(item.model) === normalizeText(model);
+
+        });
+
+    if(index === -1){
+
+        alert("Battery not found in Battery Stock.");
+
+        return false;
+
+    }
+
+    const item = stock[index];
+
+    const quantity =
+        Number(item.quantity) || 0;
+
+    if(quantity <= 0){
+
+        alert("This battery is Out of Stock.");
+
+        return false;
+
+    }
+
+    item.quantity =
+        quantity - 1;
+
+    updateBatteryStatus(item);
+
+    stock[index] = item;
+
+    saveBatteryStock(stock);
+
+    return true;
 
 }
 
 
-/* =========================================================
-STOCK MESSAGE
-========================================================= */
+/* =========================
+   CAR COMPATIBILITY RECORD
+========================= */
 
-function showStockMessage(
-    message,
-    type
+function saveSelectedCarRecord(
+    brand,
+    model,
+    year
 ){
 
-    const box =
-    document.getElementById(
-        "stockMessage"
-    );
+    try{
 
-    box.innerText =
-    message;
+        let saved =
+            JSON.parse(
+                localStorage.getItem(CAR_STORAGE_KEY)
+            ) || [];
 
-    box.className =
-    "stock-message " +
+        if(!Array.isArray(saved)){
+            saved = [];
+        }
 
-    (
-        type === "success"
+        const exists =
+            saved.some(function(item){
 
-        ? "stock-success"
+                return normalizeText(item.brand) === normalizeText(brand) &&
+                       normalizeText(item.model) === normalizeText(model) &&
+                       Number(item.year) === Number(year);
 
-        :
+            });
 
-        type === "error"
+        if(!exists){
 
-        ? "stock-error"
+            saved.push({
 
-        :
+                brand: brand,
+                model: model,
+                year: Number(year)
 
-        "stock-warning"
+            });
 
-    );
+            localStorage.setItem(
+                CAR_STORAGE_KEY,
+                JSON.stringify(saved)
+            );
 
-    box.style.display =
-    "block";
+        }
+
+    }catch(error){
+
+        /* Ignore compatibility-save errors */
+
+    }
 
 }
 
 
-/* =========================================================
-GENERATE INVOICE
-========================================================= */
+/* =========================
+   HELPERS
+========================= */
 
-let invoiceGenerated = false;
+function escapeHTML(value){
+
+    return String(value == null ? "" : value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function formatMoney(value){
+
+    return "AED " +
+        Number(value || 0).toFixed(2);
+
+}
+
+
+function generateInvoiceNumber(){
+
+    const time =
+        Date.now().toString().slice(-8);
+
+    return "800PB-" + time;
+
+}
+
+
+/* =========================
+   GENERATE INVOICE
+========================= */
 
 function generateInvoice(){
 
-    const brandSelect =
-    document.getElementById(
-        "batteryBrand"
-    );
+    if(invoiceGenerated){
 
-    const modelSelect =
-    document.getElementById(
-        "batteryModel"
-    );
+        alert(
+            "This invoice has already been generated. " +
+            "Please refresh the page before creating a new invoice."
+        );
 
-    const selectedIndex =
-    modelSelect.value;
+        return;
 
-    /* CAR VALIDATION */
+    }
+
+
+    const customerName =
+        document.getElementById("customerName").value.trim();
+
+    const customerPhone =
+        document.getElementById("customerPhone").value.trim();
+
+    const customerEmail =
+        document.getElementById("customerEmail").value.trim();
+
+    const customerAddress =
+        document.getElementById("customerAddress").value.trim();
+
+    const customerTRN =
+        document.getElementById("customerTRN").value.trim();
+
+    const companyTRN =
+        document.getElementById("companyTRN").value.trim();
+
 
     const carBrand =
-    document.getElementById(
-        "carBrand"
-    ).value.trim();
+        document.getElementById("carBrand").value;
 
     const carModel =
-    document.getElementById(
-        "carModel"
-    ).value.trim();
+        document.getElementById("carModel").value;
 
     const modelYear =
-    document.getElementById(
-        "modelYear"
-    ).value.trim();
+        document.getElementById("modelYear").value;
+
+
+    const batteryBrand =
+        document.getElementById("batteryBrand").value;
+
+    const batteryModel =
+        document.getElementById("batteryModel").value;
+
+
+    const sellingPrice =
+        Number(
+            document.getElementById("sellingPrice").value
+        );
+
+
+    const paymentMethod =
+        document.getElementById("paymentMethod").value;
+
+
+    const applyVAT =
+        document.getElementById("applyVAT").checked;
+
+
+    /* VALIDATION */
+
+    if(!customerName){
+
+        alert("Please enter customer name.");
+
+        return;
+
+    }
 
     if(!carBrand){
 
-        alert(
-            "Please select a Car Brand."
-        );
+        alert("Please select car brand.");
 
         return;
 
@@ -2947,9 +1889,7 @@ function generateInvoice(){
 
     if(!carModel){
 
-        alert(
-            "Please select a Car Model."
-        );
+        alert("Please select car model.");
 
         return;
 
@@ -2957,687 +1897,489 @@ function generateInvoice(){
 
     if(!modelYear){
 
-        alert(
-            "Please select a Model Year."
-        );
+        alert("Please select model year.");
 
         return;
 
     }
 
-    /* BATTERY VALIDATION */
+    if(!batteryBrand){
 
-    if(!brandSelect.value){
-
-        alert(
-            "Please select a Battery Brand."
-        );
+        alert("Please select battery brand.");
 
         return;
 
     }
 
-    if(selectedIndex === ""){
+    if(!batteryModel){
 
-        alert(
-            "Please select a Battery Model."
-        );
+        alert("Please select battery model.");
 
         return;
 
     }
 
-    const stock =
-    JSON.parse(
-        localStorage.getItem(
-            "800PowerBatStock"
-        )
-    ) || [];
+    if(!sellingPrice || sellingPrice <= 0){
+
+        alert("Please enter selling price.");
+
+        return;
+
+    }
+
+    if(!paymentMethod){
+
+        alert("Please select payment method.");
+
+        return;
+
+    }
+
 
     const battery =
-    stock[
-        Number(selectedIndex)
-    ];
+        findBattery();
+
 
     if(!battery){
 
-        alert(
-            "Selected battery was not found in stock."
-        );
+        alert("Selected battery was not found in stock.");
 
         return;
 
     }
 
-    if(
-        Number(battery.quantity || 0)
-        <= 0
-    ){
 
-        alert(
-            "This battery is Out of Stock."
-        );
+    const quantity =
+        Number(battery.quantity) || 0;
+
+
+    if(quantity <= 0){
+
+        alert("Selected battery is Out of Stock.");
 
         return;
 
     }
 
-    const customer =
-    document.getElementById(
-        "customer"
-    ).value.trim();
-
-    const phone =
-    document.getElementById(
-        "phone"
-    ).value.trim();
-
-    const customerTRN =
-    document.getElementById(
-        "customerTRN"
-    ).value.trim();
-
-    const batteryBrand =
-    battery.brand;
-
-    const batteryModel =
-    battery.model;
-
-    const batteryPrice =
-    parseFloat(
-        document.getElementById(
-            "batteryPrice"
-        ).value
-    ) || 0;
-
-    const service =
-    parseFloat(
-        document.getElementById(
-            "servicePrice"
-        ).value
-    ) || 0;
-
-    const discount =
-    parseFloat(
-        document.getElementById(
-            "discount"
-        ).value
-    ) || 0;
-
-    const warranty =
-    document.getElementById(
-        "warranty"
-    ).value;
-
-    const payment =
-    document.getElementById(
-        "payment"
-    ).value;
-
-    const paymentMethod =
-    document.getElementById(
-        "paymentMethod"
-    ).value;
-
-    const companyTRN =
-    document.getElementById(
-        "companyTRN"
-    ).value.trim();
-
-    const vatEnabled =
-    document.getElementById(
-        "vatEnabled"
-    ).checked;
-
-    /* CALCULATION */
-
-    const subtotal =
-    batteryPrice + service;
-
-    const taxable =
-    Math.max(
-        0,
-        subtotal - discount
-    );
-
-    const vat =
-    vatEnabled
-    ? taxable * 0.05
-    : 0;
-
-    const total =
-    taxable + vat;
-
-    /* INVOICE NUMBER */
-
-    const invoiceNumber =
-    "800-" +
-    Math.floor(
-        100000 +
-        Math.random() * 900000
-    );
-
-    /* DATE */
-
-    const today =
-    new Date();
-
-    const date =
-    today.toLocaleDateString(
-        "en-GB"
-    );
 
     /* DEDUCT STOCK */
 
-    const stockResult =
-    deductBatteryFromStock(
-        batteryBrand,
-        batteryModel
-    );
+    const stockDeducted =
+        deductBatteryFromStock();
 
-    /*
-       IMPORTANT:
-       If stock deduction fails, do not create
-       an invoice record.
-    */
 
-    if(!stockResult.success){
+    if(!stockDeducted){
 
-        showStockMessage(
+        return;
 
-            "⚠ Stock could not be deducted. Please check Battery Stock.",
+    }
 
-            "error"
 
+    const subtotal =
+        sellingPrice;
+
+    const vat =
+        applyVAT ? subtotal * 0.05 : 0;
+
+    const total =
+        subtotal + vat;
+
+
+    const invoiceNumber =
+        generateInvoiceNumber();
+
+    const now =
+        new Date();
+
+    const invoiceDate =
+        now.toLocaleDateString("en-GB");
+
+
+    /* VEHICLE */
+
+    const vehicleName =
+        (
+            carBrand +
+            " " +
+            carModel
+        ).trim();
+
+
+    /* PREVIEW */
+
+    document.getElementById("invoiceNumberTop").textContent =
+        "Invoice # " + invoiceNumber;
+
+    document.getElementById("invoiceDateTop").textContent =
+        "Date: " + invoiceDate;
+
+
+    document.getElementById("previewInvoiceNumber").textContent =
+        "Invoice # " + invoiceNumber;
+
+    document.getElementById("previewInvoiceDate").textContent =
+        "Date: " + invoiceDate;
+
+
+    document.getElementById("outCustomer").textContent =
+        customerName;
+
+    document.getElementById("outPhone").textContent =
+        customerPhone || "—";
+
+    document.getElementById("outEmail").textContent =
+        customerEmail || "—";
+
+    document.getElementById("outAddress").textContent =
+        customerAddress || "—";
+
+    document.getElementById("customerTRNOutput").textContent =
+        "TRN: " + (customerTRN || "—");
+
+
+    document.getElementById("outCar").textContent =
+        vehicleName;
+
+    document.getElementById("outCarYear").textContent =
+        "Model Year: " + modelYear;
+
+
+    document.getElementById("outBatteryBrand").textContent =
+        batteryBrand + " " + batteryModel;
+
+
+    document.getElementById("outBatteryDetails").textContent =
+        "Type: " +
+        (battery.batteryType || "—") +
+        " | " +
+        "Ah: " +
+        (battery.ah || "—") +
+        " | " +
+        "Size: " +
+        (battery.size || "—");
+
+
+    document.getElementById("outWarranty").textContent =
+        battery.warranty || "—";
+
+
+    document.getElementById("outAmount").textContent =
+        formatMoney(sellingPrice);
+
+
+    document.getElementById("outSubtotal").textContent =
+        formatMoney(subtotal);
+
+    document.getElementById("outVAT").textContent =
+        formatMoney(vat);
+
+    document.getElementById("outTotal").textContent =
+        formatMoney(total);
+
+
+    document.getElementById("outPayment").textContent =
+        paymentMethod;
+
+
+    document.getElementById("companyTRNOutput").textContent =
+        companyTRN || "—";
+
+
+    document.getElementById("warrantyText").textContent =
+        (
+            battery.brand +
+            " " +
+            battery.model +
+            " warranty: " +
+            (battery.warranty || "As per manufacturer terms")
         );
 
+
+    document.getElementById("invoicePreview").style.display =
+        "block";
+
+
+    /* SAVE CAR FOR OLD DATABASE COMPATIBILITY */
+
+    saveSelectedCarRecord(
+        carBrand,
+        carModel,
+        modelYear
+    );
+
+
+    /* SAVE INVOICE HISTORY */
+
+    const invoiceData = {
+
+        invoiceNumber: invoiceNumber,
+
+        date: invoiceDate,
+
+        customerName: customerName,
+
+        customerPhone: customerPhone,
+
+        customerEmail: customerEmail,
+
+        customerAddress: customerAddress,
+
+        customerTRN: customerTRN,
+
+        companyTRN: companyTRN,
+
+        carBrand: carBrand,
+
+        carModel: carModel,
+
+        modelYear: Number(modelYear),
+
+        car:
+            (
+                carBrand +
+                " " +
+                carModel +
+                " " +
+                modelYear
+            ).trim(),
+
+        batteryBrand: batteryBrand,
+
+        batteryModel: batteryModel,
+
+        batteryType: battery.batteryType || "",
+
+        ah: battery.ah || "",
+
+        size: battery.size || "",
+
+        warranty: battery.warranty || "",
+
+        purchasePrice:
+            Number(battery.purchasePrice) || 0,
+
+        sellingPrice: sellingPrice,
+
+        subtotal: subtotal,
+
+        vat: vat,
+
+        total: total,
+
+        paymentMethod: paymentMethod
+
+    };
+
+
+    let history = [];
+
+    try{
+
+        history =
+            JSON.parse(
+                localStorage.getItem(INVOICE_STORAGE_KEY)
+            ) || [];
+
+        if(!Array.isArray(history)){
+            history = [];
+        }
+
+    }catch(error){
+
+        history = [];
+
+    }
+
+
+    history.unshift(invoiceData);
+
+
+    localStorage.setItem(
+        INVOICE_STORAGE_KEY,
+        JSON.stringify(history)
+    );
+
+
+    invoiceGenerated = true;
+
+
+    renderHistory();
+
+
+    alert(
+        "Invoice generated successfully.\n\n" +
+        "Stock has been reduced by 1 unit."
+    );
+
+}
+
+
+/* =========================
+   PRINT
+========================= */
+
+function printInvoice(){
+
+    if(!invoiceGenerated){
+
         alert(
-            "Invoice was not generated because the battery stock could not be deducted."
+            "Please click Generate Invoice first, " +
+            "then click Print Invoice."
         );
 
         return;
 
     }
 
-    showStockMessage(
+    window.print();
 
-        "✓ " +
-        batteryBrand +
-        " " +
-        batteryModel +
-        " sold. Remaining stock: " +
-        stockResult.remaining,
+}
 
-        "success"
 
-    );
+/* =========================
+   HISTORY
+========================= */
 
-    /* OUTPUT */
+function renderHistory(){
 
-    document.getElementById(
-        "invoiceNo"
-    ).innerText =
-    invoiceNumber;
+    const container =
+        document.getElementById("historyList");
 
-    document.getElementById(
-        "invoiceDate"
-    ).innerText =
-    date;
+    let history = [];
 
-    document.getElementById(
-        "outCustomer"
-    ).innerText =
-    customer || "Customer";
+    try{
 
-    document.getElementById(
-        "outPhone"
-    ).innerText =
-    phone || "—";
+        history =
+            JSON.parse(
+                localStorage.getItem(INVOICE_STORAGE_KEY)
+            ) || [];
 
-    document.getElementById(
-        "outCar"
-    ).innerText =
-    (
-        carBrand +
-        " " +
-        carModel
-    ).trim();
+        if(!Array.isArray(history)){
+            history = [];
+        }
 
-    document.getElementById(
-        "outCarYear"
-    ).innerText =
-    "Model Year: " +
-    modelYear;
+    }catch(error){
 
-    document.getElementById(
-        "outBatteryBrand"
-    ).innerText =
-    batteryBrand;
-
-    document.getElementById(
-        "outBatteryModel"
-    ).innerText =
-    batteryModel;
-
-    document.getElementById(
-        "outBatteryDetails"
-    ).innerText =
-
-    (
-        battery.batteryType
-        ? battery.batteryType
-        : ""
-    )
-
-    +
-
-    (
-        battery.ah
-        ? " • " + battery.ah
-        : ""
-    )
-
-    +
-
-    (
-        battery.size
-        ? " • " + battery.size
-        : ""
-    );
-
-    document.getElementById(
-        "outBatteryPrice"
-    ).innerText =
-    batteryPrice.toFixed(2);
-
-    document.getElementById(
-        "outService"
-    ).innerText =
-    service.toFixed(2);
-
-    document.getElementById(
-        "outSubtotal"
-    ).innerText =
-    subtotal.toFixed(2);
-
-    document.getElementById(
-        "outDiscount"
-    ).innerText =
-    discount.toFixed(2);
-
-    document.getElementById(
-        "outTotal"
-    ).innerText =
-    total.toFixed(2);
-
-    document.getElementById(
-        "outWarranty"
-    ).innerText =
-    warranty;
-
-    document.getElementById(
-        "outItemWarranty"
-    ).innerText =
-    warranty;
-
-    document.getElementById(
-        "outPaymentMethod"
-    ).innerText =
-    paymentMethod;
-
-    /* PAYMENT */
-
-    const paymentElement =
-    document.getElementById(
-        "outPayment"
-    );
-
-    paymentElement.innerText =
-    payment;
-
-    paymentElement.className =
-    payment === "PAID"
-    ? "paid"
-    : "pending";
-
-    /* CUSTOMER TRN */
-
-    const customerTRNOutput =
-    document.getElementById(
-        "customerTRNOutput"
-    );
-
-    if(customerTRN){
-
-        customerTRNOutput.innerHTML =
-        "Customer TRN: <strong>" +
-        escapeHTML(customerTRN) +
-        "</strong>";
-
-        customerTRNOutput.style.display =
-        "block";
-
-    }else{
-
-        customerTRNOutput.style.display =
-        "none";
+        history = [];
 
     }
 
-    /* VAT */
 
-    const vatRow =
-    document.getElementById(
-        "vatRow"
-    );
+    if(!history.length){
 
-    const taxableRow =
-    document.getElementById(
-        "taxableRow"
-    );
+        container.textContent =
+            "No invoice history yet.";
 
-    const invoiceHeading =
-    document.getElementById(
-        "invoiceHeading"
-    );
-
-    const companyTRNOutput =
-    document.getElementById(
-        "companyTRNOutput"
-    );
-
-    if(vatEnabled){
-
-        taxableRow.style.display =
-        "flex";
-
-        vatRow.style.display =
-        "flex";
-
-        document.getElementById(
-            "outTaxable"
-        ).innerText =
-        taxable.toFixed(2);
-
-        document.getElementById(
-            "outVAT"
-        ).innerText =
-        vat.toFixed(2);
-
-        invoiceHeading.innerText =
-        "TAX INVOICE";
-
-        companyTRNOutput.innerText =
-        companyTRN
-        ? "Company TRN: " + companyTRN
-        : "Company TRN: —";
-
-    }else{
-
-        taxableRow.style.display =
-        "none";
-
-        vatRow.style.display =
-        "none";
-
-        invoiceHeading.innerText =
-        "INVOICE";
-
-        companyTRNOutput.innerText =
-        companyTRN
-        ? "Company TRN: " + companyTRN
-        : "";
+        return;
 
     }
 
-    /* SHOW INVOICE */
 
-    document.getElementById(
-        "invoicePreview"
-    ).style.display =
-    "block";
+    container.innerHTML = "";
 
-    /* SAVE HISTORY */
 
-    let invoices =
-    JSON.parse(
-        localStorage.getItem(
-            "invoices"
-        )
-    ) || [];
+    history.slice(0,10).forEach(function(invoice){
 
-    invoices.push({
+        const div =
+            document.createElement("div");
 
-        number:invoiceNumber,
+        div.className =
+            "history-item";
 
-        date:date,
 
-        customer:customer,
+        div.innerHTML =
 
-        phone:phone,
+            "<strong>" +
+            escapeHTML(invoice.invoiceNumber || "Invoice") +
+            "</strong>" +
 
-        customerTRN:customerTRN,
+            " | " +
 
-        carBrand:carBrand,
+            escapeHTML(invoice.date || "") +
 
-        carModel:carModel,
+            "<br>" +
 
-        modelYear:Number(modelYear),
+            escapeHTML(invoice.customerName || "Customer") +
 
-        car:
-        (
-            carBrand +
-            " " +
-            carModel +
-            " " +
-            modelYear
-        ).trim(),
+            " — " +
 
-        batteryBrand:batteryBrand,
+            escapeHTML(
+                (
+                    invoice.carBrand || ""
+                ) +
+                " " +
+                (
+                    invoice.carModel || ""
+                ) +
+                " " +
+                (
+                    invoice.modelYear || ""
+                )
+            ) +
 
-        batteryModel:batteryModel,
+            "<br>" +
 
-        batteryType:
-        battery.batteryType || "",
+            escapeHTML(
+                (
+                    invoice.batteryBrand || ""
+                ) +
+                " " +
+                (
+                    invoice.batteryModel || ""
+                )
+            ) +
 
-        ah:
-        battery.ah || "",
+            " — " +
 
-        size:
-        battery.size || "",
+            escapeHTML(
+                formatMoney(invoice.total || 0)
+            );
 
-        purchasePrice:
-        Number(
-            battery.purchasePrice || 0
-        ),
+        container.appendChild(div);
 
-        batteryPrice:batteryPrice,
-
-        service:service,
-
-        discount:discount,
-
-        subtotal:subtotal,
-
-        taxable:taxable,
-
-        vatEnabled:vatEnabled,
-
-        vatRate:
-        vatEnabled ? 5 : 0,
-
-        vat:vat,
-
-        total:total,
-
-        companyTRN:companyTRN,
-
-        warranty:warranty,
-
-        payment:payment,
-
-        paymentMethod:paymentMethod,
-
-        stockDeducted:true,
-
-        stockRemaining:
-        stockResult.remaining
-
-    });
-
-    localStorage.setItem(
-        "invoices",
-        JSON.stringify(invoices)
-    );
-
-    invoiceGenerated =
-    true;
-
-    /* RELOAD BATTERY STOCK */
-
-    batteries =
-    JSON.parse(
-        localStorage.getItem(
-            "800PowerBatStock"
-        )
-    ) || [];
-
-    loadBatteryBrands();
-
-    document.getElementById(
-        "batteryBrand"
-    ).value =
-    batteryBrand;
-
-    loadBatteryModels();
-
-    const updatedIndex =
-    batteries.findIndex(function(item){
-
-        return (
-
-            normalizeText(item.brand)
-            ===
-            normalizeText(batteryBrand)
-
-            &&
-
-            normalizeText(item.model)
-            ===
-            normalizeText(batteryModel)
-
-        );
-
-    });
-
-    if(updatedIndex !== -1){
-
-        document.getElementById(
-            "batteryModel"
-        ).value =
-        updatedIndex;
-
-        loadBatteryDetails();
-
-    }
-
-    /* RELOAD CAR DATABASE */
-
-    loadCarBrands();
-
-    document.getElementById(
-        "carBrand"
-    ).value =
-    carBrand;
-
-    loadCarModels();
-
-    document.getElementById(
-        "carModel"
-    ).value =
-    carModel;
-
-    loadCarYears();
-
-    document.getElementById(
-        "modelYear"
-    ).value =
-    modelYear;
-
-    document.getElementById(
-        "invoicePreview"
-    ).scrollIntoView({
-        behavior:"smooth"
     });
 
 }
 
 
-/* =========================================================
-PRINT / SAVE PDF
-========================================================= */
+/* =========================
+   BACK
+========================= */
 
-function printInvoice(){
+function goBack(){
 
-    const preview =
-    document.getElementById(
-        "invoicePreview"
-    );
+    if(document.referrer){
 
-    if(
-        preview.style.display !== "block"
-    ){
-
-        generateInvoice();
-
-        setTimeout(function(){
-
-            if(
-                preview.style.display
-                === "block"
-            ){
-
-                window.print();
-
-            }
-
-        },500);
+        history.back();
 
     }else{
 
-        window.print();
+        window.location.href =
+            "index.html";
 
     }
 
 }
 
 
-/* =========================================================
-ESCAPE HTML
-========================================================= */
+/* =========================
+   START
+========================= */
 
-function escapeHTML(text){
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
 
-    return String(text)
+        loadCarBrands();
 
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+        loadBatteryBrands();
 
-}
+        renderHistory();
 
-
-/* =========================================================
-PAGE START
-========================================================= */
-
-loadCarBrands();
-
-loadBatteryBrands();
+    }
+);
 
 </script>
 
 </body>
-</html>
+    </html>
