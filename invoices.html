@@ -1,494 +1,670 @@
-<!DOCTYPE html>  <html lang="en">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Invoice History | 800PowerBat</title>  <style>  
-*{  
-    box-sizing:border-box;  
-}  
-  
-body{  
-    margin:0;  
-    font-family:Arial,sans-serif;  
-    background:#f4f6f8;  
-    color:#17202a;  
-}  
-  
-header{  
-    background:#101820;  
-    color:white;  
-    padding:20px;  
-    text-align:center;  
-}  
-  
-header h1{  
-    margin:0;  
-    color:#f5b400;  
-}  
-  
-.container{  
-    max-width:1000px;  
-    margin:auto;  
-    padding:20px;  
-}  
-  
-.search{  
-    width:100%;  
-    padding:15px;  
-    border:1px solid #ddd;  
-    border-radius:10px;  
-    margin-bottom:20px;  
-    font-size:16px;  
-}  
-  
-.card{  
-    background:white;  
-    padding:18px;  
-    border-radius:12px;  
-    margin-bottom:15px;  
-    box-shadow:0 3px 12px rgba(0,0,0,.07);  
-}  
-  
-.top{  
-    display:flex;  
-    justify-content:space-between;  
-    gap:10px;  
-}  
-  
-.invoice-number{  
-    font-weight:bold;  
-    color:#101820;  
-}  
-  
-.status{  
-    padding:6px 12px;  
-    border-radius:20px;  
-    font-size:13px;  
-    font-weight:bold;  
-}  
-  
-.paid{  
-    background:#e7f7ed;  
-    color:#168044;  
-}  
-  
-.pending{  
-    background:#fff1d6;  
-    color:#9a6500;  
-}  
-  
-button{  
-    border:0;  
-    padding:11px 15px;  
-    border-radius:8px;  
-    cursor:pointer;  
-    font-weight:bold;  
-}  
-  
-.back{  
-    background:#101820;  
-    color:white;  
-    width:100%;  
-    margin-top:10px;  
-}  
-  
-.delete{  
-    background:#e74c3c;  
-    color:white;  
-    margin-top:10px;  
-}  
-  
-.empty{  
-    text-align:center;  
-    padding:40px;  
-    background:white;  
-    border-radius:12px;  
-}  
-  
-@media(max-width:600px){  
-    .top{  
-        flex-direction:column;  
-    }  
-}  
-</style>  </head>  <body>  <header>  
-    <h1>800PowerBat</h1>  
-    <p>Invoice History</p>  
-</header>  <div class="container">  <input
-type="text"
-class="search"
-id="search"
-placeholder="🔎 Search customer, phone or invoice..."
-oninput="showInvoices()"
+<!DOCTYPE html>
+<html lang="en">
 
-> 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div id="invoiceList"></div>  <button class="back" onclick="location.href='index.html'">  
-← Back to Dashboard  
-</button>  </div>  <script>  
-  
-/* ================================  
-   LOGIN SECURITY  
-================================ */  
-  
-const isLoggedIn =  
-    localStorage.getItem("800PowerBatLoggedIn");  
-  
-const userRole =  
-    localStorage.getItem("800PowerBatUserRole");  
-  
-const technicianName =  
-    localStorage.getItem("800PowerBatTechnicianName") ||  
-    localStorage.getItem("800PowerBatUsername") ||  
-    "Unknown Technician";  
-  
-  
-if(isLoggedIn !== "true"){  
-  
-    window.location.replace("login.html");  
-  
-}  
-  
-  
-/* ================================  
-   ROLE SECURITY  
-================================ */  
-  
-if(  
-    userRole !== "admin" &&  
-    userRole !== "technician"  
-){  
-  
-    document.body.innerHTML = `  
-        <div style="  
-            min-height:100vh;  
-            display:flex;  
-            align-items:center;  
-            justify-content:center;  
-            padding:20px;  
-            background:#101820;  
-            font-family:Arial,Helvetica,sans-serif;  
-        ">  
-  
-            <div style="  
-                width:100%;  
-                max-width:420px;  
-                background:white;  
-                border-radius:16px;  
-                padding:35px 25px;  
-                text-align:center;  
-                box-shadow:0 15px 40px rgba(0,0,0,.35);  
-            ">  
-  
-                <div style="  
-                    font-size:50px;  
-                    margin-bottom:15px;  
-                ">  
-                    🔒  
-                </div>  
-  
-                <h2 style="  
-                    margin:0 0 10px;  
-                    color:#101820;  
-                ">  
-                    Access Denied  
-                </h2>  
-  
-                <p style="  
-                    margin:0 0 25px;  
-                    color:#667085;  
-                    line-height:1.5;  
-                ">  
-                    You do not have permission to access  
-                    Invoice History.  
-                </p>  
-  
-                <button  
-                    onclick="window.location.href='index.html'"  
-                    style="  
-                        border:0;  
-                        background:#f5b400;  
-                        color:#101820;  
-                        padding:12px 20px;  
-                        border-radius:8px;  
-                        font-weight:800;  
-                        cursor:pointer;  
-                        font-size:14px;  
-                    "  
-                >  
-                    ← Back to Dashboard  
-                </button>  
-  
-            </div>  
-  
-        </div>  
-    `;  
-  
-    throw new Error("Unauthorized Invoice History access.");  
-  
-}  
-  
-  
-/* ================================  
-   GET INVOICES  
-================================ */  
-  
-function getInvoices(){  
-  
-    return JSON.parse(  
-        localStorage.getItem("invoices")  
-    ) || [];  
-  
-}  
-  
-  
-/* ================================  
-   CHECK INVOICE OWNER  
-================================ */  
-  
-function invoiceBelongsToTechnician(invoice){  
-  
-    /*  
-       Old invoices without technician  
-       information remain visible to Admin.  
-  
-       Technician only sees invoices where  
-       technician matches logged-in technician.  
-    */  
-  
-    const invoiceTechnician =  
-        invoice.technician ||  
-        invoice.technicianName ||  
-        invoice.createdBy ||  
-        "";  
-  
-    return String(invoiceTechnician)  
-        .trim()  
-        .toLowerCase() ===  
-        String(technicianName)  
-        .trim()  
-        .toLowerCase();  
-  
-}  
-  
-  
-/* ================================  
-   SHOW INVOICES  
-================================ */  
-  
-function showInvoices(){  
-  
-    let invoices = getInvoices();  
-  
-    let search =  
-        document.getElementById("search")  
-        .value  
-        .toLowerCase()  
-        .trim();  
-  
-  
-    /*  
-       ADMIN:  
-       Show all invoices.  
-  
-       TECHNICIAN:  
-       Show only own invoices.  
-    */  
-  
-    if(userRole === "technician"){  
-  
-        invoices = invoices.filter(function(invoice){  
-  
-            return invoiceBelongsToTechnician(invoice);  
-  
-        });  
-  
-    }  
-  
-  
-    let filtered = invoices.filter(function(invoice){  
-  
-        const number =  
-            String(invoice.number || "")  
-            .toLowerCase();  
-  
-        const customer =  
-            String(invoice.customer || "")  
-            .toLowerCase();  
-  
-        const phone =  
-            String(invoice.phone || "")  
-            .toLowerCase();  
-  
-        return (  
-            number.includes(search) ||  
-            customer.includes(search) ||  
-            phone.includes(search)  
-        );  
-  
-    });  
-  
-  
-    let list =  
-        document.getElementById("invoiceList");  
-  
-  
-    if(filtered.length === 0){  
-  
-        list.innerHTML = `  
-            <div class="empty">  
-                <h2>No invoices found</h2>  
-                <p>Your saved invoices will appear here.</p>  
-            </div>  
-        `;  
-  
-        return;  
-  
-    }  
-  
-  
-    list.innerHTML = "";  
-  
-  
-    filtered  
-    .slice()  
-    .reverse()  
-    .forEach(function(invoice){  
-  
-        let statusClass =  
-            invoice.payment === "PAID"  
-            ? "paid"  
-            : "pending";  
-  
-  
-        let total =  
-            Number(invoice.total) || 0;  
-  
-  
-        let card =  
-            document.createElement("div");  
-  
-        card.className = "card";  
-  
-  
-        card.innerHTML = `  
-  
-            <div class="top">  
-  
-                <div>  
-  
-                    <div class="invoice-number">  
-                        ${invoice.number || "—"}  
-                    </div>  
-  
-                    <p>  
-                        <strong>  
-                            ${invoice.customer || "—"}  
-                        </strong>  
-                    </p>  
-  
-                    <p>  
-                        ${invoice.phone || "—"}  
-                    </p>  
-  
-                    <p>  
-                        ${invoice.car || "—"}  
-                    </p>  
-  
-                    <small>  
-                        ${invoice.date || "—"}  
-                    </small>  
-  
-                </div>  
-  
-  
-                <div>  
-  
-                    <span class="status ${statusClass}">  
-                        ${invoice.payment || "PENDING"}  
-                    </span>  
-  
-                    <h2>  
-                        AED ${total.toFixed(2)}  
-                    </h2>  
-  
-                </div>  
-  
-            </div>  
-  
-  
-            ${  
-                userRole === "admin"  
-                ? `  
-                    <button  
-                        class="delete"  
-                        onclick="deleteInvoice('${String(invoice.number || "").replace(/'/g,"\\\\'")}')">  
-                        Delete  
-                    </button>  
-                `  
-                : ""  
-            }  
-  
-        `;  
-  
-  
-        list.appendChild(card);  
-  
-    });  
-  
-}  
-  
-  
-/* ================================  
-   DELETE INVOICE  
-   ADMIN ONLY  
-================================ */  
-  
-function deleteInvoice(number){  
-  
-    if(userRole !== "admin"){  
-  
-        alert(  
-            "Only Administrator can delete invoices."  
-        );  
-  
-        return;  
-  
-    }  
-  
-  
-    if(!confirm("Delete this invoice?")){  
-  
-        return;  
-  
-    }  
-  
-  
-    let invoices = getInvoices();  
-  
-  
-    invoices =  
-        invoices.filter(function(invoice){  
-  
-            return invoice.number !== number;  
-  
-        });  
-  
-  
-    localStorage.setItem(  
-        "invoices",  
-        JSON.stringify(invoices)  
-    );  
-  
-  
-    showInvoices();  
-  
-}  
-  
-  
-/* ================================  
-   START  
-================================ */  
-  
-showInvoices();  
-  
-</script>  </body>  
+<title>Invoice History | 800PowerBat</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f6f8;
+    color:#17202a;
+}
+
+header{
+    background:#101820;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+header h1{
+    margin:0;
+    color:#f5b400;
+}
+
+header p{
+    margin:6px 0 0;
+    color:#d0d5dd;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+}
+
+.search{
+    width:100%;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    margin-bottom:20px;
+    font-size:16px;
+    outline:none;
+}
+
+.search:focus{
+    border-color:#f5b400;
+    box-shadow:0 0 0 3px rgba(245,180,0,.12);
+}
+
+.card{
+    background:white;
+    padding:18px;
+    border-radius:12px;
+    margin-bottom:15px;
+    box-shadow:0 3px 12px rgba(0,0,0,.07);
+    border:1px solid #eaecf0;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.invoice-number{
+    font-weight:bold;
+    color:#101820;
+    font-size:16px;
+}
+
+.card p{
+    margin:7px 0;
+}
+
+.status{
+    display:inline-block;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.paid{
+    background:#e7f7ed;
+    color:#168044;
+}
+
+.pending{
+    background:#fff1d6;
+    color:#9a6500;
+}
+
+button{
+    border:0;
+    padding:11px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.back{
+    background:#101820;
+    color:white;
+    width:100%;
+    margin-top:10px;
+}
+
+.back:hover{
+    background:#202b35;
+}
+
+.delete{
+    background:#e74c3c;
+    color:white;
+    margin-top:10px;
+}
+
+.delete:hover{
+    background:#c0392b;
+}
+
+.empty{
+    text-align:center;
+    padding:40px;
+    background:white;
+    border-radius:12px;
+    border:1px solid #eaecf0;
+}
+
+.empty h2{
+    margin-top:0;
+}
+
+@media(max-width:600px){
+
+    .top{
+        flex-direction:column;
+    }
+
+    .container{
+        padding:15px;
+    }
+
+    header{
+        padding:18px 15px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>800PowerBat</h1>
+
+    <p>Invoice History</p>
+
+</header>
+
+
+<div class="container">
+
+
+    <input
+        type="text"
+        class="search"
+        id="search"
+        placeholder="🔎 Search customer, phone or invoice..."
+        oninput="showInvoices()"
+    >
+
+
+    <div id="invoiceList"></div>
+
+
+    <button
+        class="back"
+        onclick="goDashboard()"
+    >
+        ← Back to Dashboard
+    </button>
+
+
+</div>
+
+
+<script>
+
+/* =========================================
+   LOGIN SECURITY
+========================================= */
+
+const isLoggedIn =
+    localStorage.getItem("800PowerBatLoggedIn");
+
+const userRole =
+    localStorage.getItem("800PowerBatUserRole") || "";
+
+
+/*
+   IMPORTANT:
+   Do not redirect immediately while the page
+   is loading. Check login first.
+*/
+
+if(isLoggedIn !== "true"){
+
+    window.location.replace("login.html");
+
+}
+
+
+/* =========================================
+   LOGGED-IN TECHNICIAN
+========================================= */
+
+const technicianName =
+    localStorage.getItem(
+        "800PowerBatTechnicianName"
+    ) ||
+    localStorage.getItem(
+        "800PowerBatUsername"
+    ) ||
+    "Unknown Technician";
+
+
+/* =========================================
+   GET INVOICES
+========================================= */
+
+function getInvoices(){
+
+    try{
+
+        const saved =
+            localStorage.getItem("invoices");
+
+        if(!saved){
+            return [];
+        }
+
+        const invoices =
+            JSON.parse(saved);
+
+        if(!Array.isArray(invoices)){
+            return [];
+        }
+
+        return invoices;
+
+    }catch(error){
+
+        console.error(
+            "Invoice data error:",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+/* =========================================
+   CHECK INVOICE OWNER
+========================================= */
+
+function invoiceBelongsToTechnician(invoice){
+
+    const invoiceTechnician =
+        invoice.technician ||
+        invoice.technicianName ||
+        invoice.createdBy ||
+        "";
+
+    return String(invoiceTechnician)
+        .trim()
+        .toLowerCase()
+        ===
+        String(technicianName)
+        .trim()
+        .toLowerCase();
+
+}
+
+
+/* =========================================
+   SHOW INVOICES
+========================================= */
+
+function showInvoices(){
+
+    let invoices =
+        getInvoices();
+
+
+    const searchInput =
+        document.getElementById("search");
+
+
+    const search =
+        searchInput
+        ? searchInput.value
+            .toLowerCase()
+            .trim()
+        : "";
+
+
+    /*
+       ADMIN:
+       Show all invoices.
+
+       TECHNICIAN:
+       Show only invoices created
+       by logged-in technician.
+    */
+
+    if(userRole === "technician"){
+
+        invoices =
+            invoices.filter(
+                function(invoice){
+
+                    return invoiceBelongsToTechnician(
+                        invoice
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* =====================================
+       SEARCH
+    ===================================== */
+
+    const filtered =
+        invoices.filter(
+            function(invoice){
+
+                const number =
+                    String(
+                        invoice.number || ""
+                    ).toLowerCase();
+
+                const customer =
+                    String(
+                        invoice.customer || ""
+                    ).toLowerCase();
+
+                const phone =
+                    String(
+                        invoice.phone || ""
+                    ).toLowerCase();
+
+                return (
+                    number.includes(search) ||
+                    customer.includes(search) ||
+                    phone.includes(search)
+                );
+
+            }
+        );
+
+
+    const list =
+        document.getElementById(
+            "invoiceList"
+        );
+
+
+    if(!list){
+        return;
+    }
+
+
+    /* =====================================
+       NO INVOICES
+    ===================================== */
+
+    if(filtered.length === 0){
+
+        list.innerHTML = `
+
+            <div class="empty">
+
+                <h2>No invoices found</h2>
+
+                <p>
+                    Your saved invoices will appear here.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML = "";
+
+
+    /* =====================================
+       DISPLAY NEWEST FIRST
+    ===================================== */
+
+    filtered
+        .slice()
+        .reverse()
+        .forEach(
+            function(invoice){
+
+                const payment =
+                    String(
+                        invoice.payment ||
+                        invoice.status ||
+                        "PENDING"
+                    )
+                    .trim()
+                    .toUpperCase();
+
+
+                const statusClass =
+                    payment === "PAID"
+                    ? "paid"
+                    : "pending";
+
+
+                const total =
+                    Number(
+                        invoice.total ||
+                        invoice.amount ||
+                        0
+                    );
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "card";
+
+
+                /*
+                   Create invoice details safely
+                */
+
+                const invoiceNumber =
+                    invoice.number || "—";
+
+                const customer =
+                    invoice.customer || "—";
+
+                const phone =
+                    invoice.phone || "—";
+
+                const car =
+                    invoice.car || "—";
+
+                const date =
+                    invoice.date || "—";
+
+
+                card.innerHTML = `
+
+                    <div class="top">
+
+                        <div>
+
+                            <div class="invoice-number">
+                                ${escapeHTML(invoiceNumber)}
+                            </div>
+
+                            <p>
+                                <strong>
+                                    ${escapeHTML(customer)}
+                                </strong>
+                            </p>
+
+                            <p>
+                                ${escapeHTML(phone)}
+                            </p>
+
+                            <p>
+                                ${escapeHTML(car)}
+                            </p>
+
+                            <small>
+                                ${escapeHTML(date)}
+                            </small>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="status ${statusClass}">
+                                ${escapeHTML(payment)}
+                            </span>
+
+                            <h2>
+                                AED ${total.toFixed(2)}
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    ${
+                        userRole === "admin"
+                        ?
+                        `
+                        <button
+                            class="delete"
+                            onclick="deleteInvoiceByNumber(
+                                '${escapeJS(String(invoiceNumber))}'
+                            )"
+                        >
+                            Delete
+                        </button>
+                        `
+                        :
+                        ""
+                    }
+
+                `;
+
+
+                list.appendChild(card);
+
+            }
+        );
+
+}
+
+
+/* =========================================
+   HTML SECURITY
+========================================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   JAVASCRIPT STRING SECURITY
+========================================= */
+
+function escapeJS(value){
+
+    return String(value)
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'")
+        .replace(/\r/g,"\\r")
+        .replace(/\n/g,"\\n");
+
+}
+
+
+/* =========================================
+   DELETE INVOICE
+   ADMIN ONLY
+========================================= */
+
+function deleteInvoiceByNumber(number){
+
+    if(userRole !== "admin"){
+
+        alert(
+            "Only Administrator can delete invoices."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !confirm(
+            "Delete this invoice?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    let invoices =
+        getInvoices();
+
+
+    invoices =
+        invoices.filter(
+            function(invoice){
+
+                return String(
+                    invoice.number || ""
+                ) !== String(number);
+
+            }
+        );
+
+
+    localStorage.setItem(
+        "invoices",
+        JSON.stringify(invoices)
+    );
+
+
+    showInvoices();
+
+}
+
+
+/* =========================================
+   BACK TO DASHBOARD
+========================================= */
+
+function goDashboard(){
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+showInvoices();
+
+</script>
+
+
+</body>
 </html>
