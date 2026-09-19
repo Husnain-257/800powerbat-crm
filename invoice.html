@@ -257,50 +257,14 @@ button{
 .preview-header{
     display:flex;
     justify-content:space-between;
-    align-items:flex-start;
-    gap:20px;
+    align-items:center;
+    gap:15px;
 }
 
 .logo-header-box{
     display:flex;
     align-items:center;
     gap:10px;
-}
-
-.logo-icon-shape{
-    width:38px;
-    height:30px;
-    background:#f5b400;
-    border-radius:4px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#121721;
-    font-weight:900;
-    font-size:18px;
-    position:relative;
-}
-
-.logo-icon-shape::before{
-    content:'';
-    position:absolute;
-    top:-4px;
-    left:7px;
-    width:6px;
-    height:4px;
-    background:#f5b400;
-    border-radius:1px;
-}
-
-.logo-icon-shape::after{
-    content:'';
-    position:absolute;
-    top:-4px;
-    right:7px;
-    width:6px;
-    height:4px;
-    background:#f5b400;
-    border-radius:1px;
 }
 
 .preview-company h2{
@@ -325,6 +289,21 @@ button{
     font-size:10px;
     color:#94a3b8;
     line-height:1.4;
+}
+
+/* CENTER LOGO IMAGE BOX */
+.center-logo-box{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:0 10px;
+}
+
+.center-logo-box img{
+    max-height:85px;
+    max-width:190px;
+    object-fit:contain;
 }
 
 .preview-invoice{
@@ -356,7 +335,7 @@ button{
 }
 
 /* =========================
-   MIDDLE WHITE SECTION (BILL TO -> WARRANTY)
+   MIDDLE WHITE SECTION
 ========================= */
 
 .middle-white-section{
@@ -365,7 +344,6 @@ button{
     padding:15px;
 }
 
-/* BILL SECTION */
 .bill-section{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -399,7 +377,6 @@ button{
     line-height:1.35;
 }
 
-/* INVOICE TABLE */
 .invoice-table{
     width:100%;
     border-collapse:collapse;
@@ -456,7 +433,6 @@ button{
     margin-top:2px;
 }
 
-/* SUMMARY */
 .summary{
     width:280px;
     margin-left:auto;
@@ -488,7 +464,6 @@ button{
     color:#b45309;
 }
 
-/* PAYMENT & WARRANTY */
 .payment-box{
     margin-top:12px;
     padding:0;
@@ -837,12 +812,9 @@ button{
         <div class="preview-header-area">
             <div class="preview-header">
                 <div>
-                    <div class="logo-header-box">
-                        <div class="logo-icon-shape">⚡</div>
-                        <div class="preview-company">
-                            <h2>800PowerBat</h2>
-                            <p class="subtitle">MOBILE CAR BATTERY SERVICE</p>
-                        </div>
+                    <div class="preview-company">
+                        <h2>800PowerBat</h2>
+                        <p class="subtitle">MOBILE CAR BATTERY SERVICE</p>
                     </div>
                     <div class="preview-company">
                         <p class="contact-info">
@@ -851,6 +823,11 @@ button{
                             📞 +971 52 404 0699
                         </p>
                     </div>
+                </div>
+
+                <!-- CENTER COMPANY LOGO PHOTO -->
+                <div class="center-logo-box">
+                    <img id="companyLogo" src="155338.jpg" alt="800PowerBat Logo">
                 </div>
 
                 <div class="preview-invoice">
