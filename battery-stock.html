@@ -53,7 +53,7 @@ body{
 
 /* MAIN */
 .container{
-    max-width:1200px;
+    max-width:1300px;
     margin:25px auto;
     padding:0 15px;
 }
@@ -72,7 +72,7 @@ body{
     color:#667085;
 }
 
-/* DASHBOARD CARDS */
+/* DASHBOARD */
 .cards{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -124,6 +124,7 @@ input,select{
     border-radius:8px;
     font-size:15px;
     outline:none;
+    background:white;
 }
 
 input:focus,select:focus{
@@ -171,7 +172,7 @@ input:focus,select:focus{
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:850px;
+    min-width:1250px;
 }
 
 th{
@@ -179,13 +180,15 @@ th{
     color:white;
     padding:14px 12px;
     text-align:left;
-    font-size:14px;
+    font-size:13px;
+    white-space:nowrap;
 }
 
 td{
     padding:13px 12px;
     border-bottom:1px solid #eaecf0;
     font-size:14px;
+    white-space:nowrap;
 }
 
 tr:hover{
@@ -244,14 +247,25 @@ tr:hover{
 }
 
 /* MOBILE */
-@media(max-width:800px){
+@media(max-width:1000px){
+
+    .cards{
+        grid-template-columns:1fr 1fr 1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:600px){
 
     .cards{
         grid-template-columns:1fr;
     }
 
     .form-grid{
-        grid-template-columns:1fr 1fr;
+        grid-template-columns:1fr;
     }
 
     .header{
@@ -264,17 +278,6 @@ tr:hover{
 
     .page-title h1{
         font-size:25px;
-    }
-}
-
-@media(max-width:500px){
-
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-
-    .container{
-        margin:18px auto;
     }
 
     .back-btn{
@@ -304,7 +307,7 @@ tr:hover{
 
     <div class="page-title">
         <h1>Battery Stock Management</h1>
-        <p>Manage your battery brands, models, quantities and stock status.</p>
+        <p>Manage battery brands, models, specifications, prices and stock.</p>
     </div>
 
 
@@ -345,13 +348,56 @@ tr:hover{
             <input
                 type="text"
                 id="model"
-                placeholder="Battery Model e.g. 55D23L"
+                placeholder="Battery Model e.g. DIN74"
+            >
+
+            <select id="batteryType">
+                <option value="">Select Battery Type</option>
+                <option value="AGM">AGM</option>
+                <option value="EFB">EFB</option>
+                <option value="MF">MF</option>
+                <option value="Conventional">Conventional</option>
+                <option value="Lithium">Lithium</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <input
+                type="text"
+                id="ah"
+                placeholder="Ah e.g. 70Ah"
+            >
+
+            <input
+                type="text"
+                id="size"
+                placeholder="Size e.g. DIN / JIS"
+            >
+
+            <input
+                type="text"
+                id="warranty"
+                placeholder="Warranty e.g. 12 Months"
+            >
+
+            <input
+                type="number"
+                id="purchasePrice"
+                placeholder="Purchase Price (AED)"
+                min="0"
+                step="0.01"
             >
 
             <input
                 type="number"
                 id="quantity"
                 placeholder="Quantity"
+                min="0"
+            >
+
+            <input
+                type="number"
+                id="minimumStock"
+                placeholder="Minimum Stock"
                 min="0"
             >
 
@@ -376,7 +422,7 @@ tr:hover{
         <input
             type="text"
             id="search"
-            placeholder="Search brand or model..."
+            placeholder="Search brand, model, type or size..."
             oninput="displayBatteries()"
         >
 
@@ -396,8 +442,14 @@ tr:hover{
                         <th>#</th>
                         <th>Brand</th>
                         <th>Model</th>
+                        <th>Type</th>
+                        <th>Ah</th>
+                        <th>Size</th>
+                        <th>Warranty</th>
+                        <th>Purchase Price</th>
                         <th>Quantity</th>
-                        <th>Stock Status</th>
+                        <th>Min Stock</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
 
@@ -420,6 +472,12 @@ tr:hover{
 
 <script>
 
+/*
+=========================================
+800PowerBat BATTERY STOCK SYSTEM
+=========================================
+*/
+
 let batteries = JSON.parse(
     localStorage.getItem("800PowerBatStock")
 ) || [];
@@ -439,7 +497,7 @@ function saveData(){
 }
 
 
-/* ADD / UPDATE */
+/* SAVE / UPDATE BATTERY */
 
 function saveBattery(){
 
@@ -449,27 +507,98 @@ function saveBattery(){
     const model =
         document.getElementById("model").value.trim();
 
-    const quantity =
-        parseInt(document.getElementById("quantity").value);
+    const batteryType =
+        document.getElementById("batteryType").value;
 
-    const status =
+    const ah =
+        document.getElementById("ah").value.trim();
+
+    const size =
+        document.getElementById("size").value.trim();
+
+    const warranty =
+        document.getElementById("warranty").value.trim();
+
+    const purchasePrice =
+        parseFloat(
+            document.getElementById("purchasePrice").value
+        ) || 0;
+
+    const quantity =
+        parseInt(
+            document.getElementById("quantity").value
+        );
+
+    const minimumStock =
+        parseInt(
+            document.getElementById("minimumStock").value
+        ) || 0;
+
+    let status =
         document.getElementById("status").value;
 
 
     if(!brand || !model || isNaN(quantity)){
 
-        alert("Please enter Brand, Model and Quantity.");
+        alert(
+            "Please enter Brand, Model and Quantity."
+        );
 
         return;
 
     }
 
 
+    /*
+    AUTOMATIC STOCK STATUS
+
+    If quantity is 0:
+    Out of Stock
+
+    If quantity is equal to or below minimum:
+    Low Stock
+
+    Otherwise:
+    In Stock
+    */
+
+    if(quantity === 0){
+
+        status = "Out of Stock";
+
+    }else if(quantity <= minimumStock){
+
+        status = "Low Stock";
+
+    }else{
+
+        status = "In Stock";
+
+    }
+
+
     const battery = {
+
         brand: brand,
+
         model: model,
+
+        batteryType: batteryType,
+
+        ah: ah,
+
+        size: size,
+
+        warranty: warranty,
+
+        purchasePrice: purchasePrice,
+
         quantity: quantity,
+
+        minimumStock: minimumStock,
+
         status: status
+
     };
 
 
@@ -483,11 +612,13 @@ function saveBattery(){
 
         editIndex = -1;
 
-        document.getElementById("formTitle").innerText =
-            "Add Battery";
+        document.getElementById(
+            "formTitle"
+        ).innerText = "Add Battery";
 
-        document.getElementById("saveButton").innerText =
-            "+ Add Battery";
+        document.getElementById(
+            "saveButton"
+        ).innerText = "+ Add Battery";
 
     }
 
@@ -512,7 +643,8 @@ function displayBatteries(){
         document.getElementById("emptyMessage");
 
     const search =
-        document.getElementById("search").value
+        document.getElementById("search")
+        .value
         .toLowerCase()
         .trim();
 
@@ -521,12 +653,35 @@ function displayBatteries(){
 
 
     const filtered =
-        batteries.filter(item =>
+        batteries.filter(item => {
 
-            item.brand.toLowerCase().includes(search) ||
-            item.model.toLowerCase().includes(search)
+            return (
 
-        );
+                String(item.brand || "")
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                String(item.model || "")
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                String(item.batteryType || "")
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                String(item.size || "")
+                    .toLowerCase()
+                    .includes(search)
+
+            );
+
+        });
 
 
     if(filtered.length === 0){
@@ -540,35 +695,104 @@ function displayBatteries(){
     }
 
 
-    filtered.forEach((item, index) => {
+    filtered.forEach((item,index) => {
 
         const originalIndex =
             batteries.indexOf(item);
 
 
+        /*
+        For old batteries that were saved
+        before the new fields were added,
+        default values are used.
+        */
+
+        const type =
+            item.batteryType || "-";
+
+        const ah =
+            item.ah || "-";
+
+        const size =
+            item.size || "-";
+
+        const warranty =
+            item.warranty || "-";
+
+        const purchasePrice =
+            Number(item.purchasePrice || 0);
+
+
+        let status =
+            item.status || "In Stock";
+
+
+        /*
+        Recalculate status based on quantity
+        and minimum stock.
+        */
+
+        const qty =
+            Number(item.quantity || 0);
+
+        const minStock =
+            Number(item.minimumStock || 0);
+
+
+        if(qty === 0){
+
+            status = "Out of Stock";
+
+        }else if(qty <= minStock){
+
+            status = "Low Stock";
+
+        }else{
+
+            status = "In Stock";
+
+        }
+
+
+        item.status = status;
+
+
         let statusClass = "";
 
-        if(item.status === "In Stock"){
+
+        if(status === "In Stock"){
+
             statusClass = "in-stock";
+
         }
 
-        if(item.status === "Low Stock"){
+        if(status === "Low Stock"){
+
             statusClass = "low-stock";
+
         }
 
-        if(item.status === "Out of Stock"){
+        if(status === "Out of Stock"){
+
             statusClass = "out-stock";
+
         }
 
 
-        const row = document.createElement("tr");
+        const row =
+            document.createElement("tr");
+
 
         row.innerHTML = `
 
-            <td>${index + 1}</td>
+            <td>
+                ${index + 1}
+            </td>
 
             <td>
-                <strong>${escapeHTML(item.brand)}</strong>
+                <strong>
+                    ${escapeHTML(item.brand)}
+                </strong>
             </td>
 
             <td>
@@ -576,12 +800,38 @@ function displayBatteries(){
             </td>
 
             <td>
-                <strong>${item.quantity}</strong>
+                ${escapeHTML(type)}
+            </td>
+
+            <td>
+                ${escapeHTML(ah)}
+            </td>
+
+            <td>
+                ${escapeHTML(size)}
+            </td>
+
+            <td>
+                ${escapeHTML(warranty)}
+            </td>
+
+            <td>
+                AED ${purchasePrice.toFixed(2)}
+            </td>
+
+            <td>
+                <strong>
+                    ${qty}
+                </strong>
+            </td>
+
+            <td>
+                ${minStock}
             </td>
 
             <td>
                 <span class="status ${statusClass}">
-                    ${item.status}
+                    ${status}
                 </span>
             </td>
 
@@ -605,10 +855,13 @@ function displayBatteries(){
 
         `;
 
+
         table.appendChild(row);
 
     });
 
+
+    saveData();
 
     updateDashboard();
 
@@ -619,135 +872,49 @@ function displayBatteries(){
 
 function editBattery(index){
 
-    const item = batteries[index];
+    const item =
+        batteries[index];
+
 
     document.getElementById("brand").value =
-        item.brand;
+        item.brand || "";
 
     document.getElementById("model").value =
-        item.model;
+        item.model || "";
+
+    document.getElementById("batteryType").value =
+        item.batteryType || "";
+
+    document.getElementById("ah").value =
+        item.ah || "";
+
+    document.getElementById("size").value =
+        item.size || "";
+
+    document.getElementById("warranty").value =
+        item.warranty || "";
+
+    document.getElementById("purchasePrice").value =
+        item.purchasePrice || "";
 
     document.getElementById("quantity").value =
-        item.quantity;
+        item.quantity || "";
+
+    document.getElementById("minimumStock").value =
+        item.minimumStock || 0;
+
 
     document.getElementById("status").value =
-        item.status;
+        item.status || "In Stock";
 
 
     editIndex = index;
 
 
-    document.getElementById("formTitle").innerText =
-        "Edit Battery";
-
-    document.getElementById("saveButton").innerText =
-        "✓ Update Battery";
+    document.getElementById(
+        "formTitle"
+    ).innerText = "Edit Battery";
 
 
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-
-/* DELETE */
-
-function deleteBattery(index){
-
-    const item = batteries[index];
-
-    const confirmDelete =
-        confirm(
-            "Delete " +
-            item.brand +
-            " " +
-            item.model +
-            " from stock?"
-        );
-
-
-    if(!confirmDelete) return;
-
-
-    batteries.splice(index,1);
-
-    saveData();
-
-    displayBatteries();
-
-}
-
-
-/* CLEAR FORM */
-
-function clearForm(){
-
-    document.getElementById("brand").value = "";
-
-    document.getElementById("model").value = "";
-
-    document.getElementById("quantity").value = "";
-
-    document.getElementById("status").value =
-        "In Stock";
-
-}
-
-
-/* DASHBOARD */
-
-function updateDashboard(){
-
-    document.getElementById("totalModels").innerText =
-        batteries.length;
-
-
-    const total =
-        batteries.reduce(
-            (sum,item) =>
-            sum + Number(item.quantity),
-            0
-        );
-
-
-    document.getElementById("totalQuantity").innerText =
-        total;
-
-
-    const low =
-        batteries.filter(item =>
-            item.status === "Low Stock" ||
-            item.status === "Out of Stock"
-        ).length;
-
-
-    document.getElementById("lowStock").innerText =
-        low;
-
-}
-
-
-/* SECURITY */
-
-function escapeHTML(text){
-
-    return String(text)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-/* LOAD */
-
-displayBatteries();
-
-</script>
-
-</body>
-</html>
+    document.getElementById(
+        "save
