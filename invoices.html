@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Invoice History | 800PowerBat</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+    color:#17202a;
+}
+
+header{
+    background:#101820;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+header h1{
+    margin:0;
+    color:#f5b400;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+}
+
+.search{
+    width:100%;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    margin-bottom:20px;
+    font-size:16px;
+}
+
+.card{
+    background:white;
+    padding:18px;
+    border-radius:12px;
+    margin-bottom:15px;
+    box-shadow:0 3px 12px rgba(0,0,0,.07);
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.invoice-number{
+    font-weight:bold;
+    color:#101820;
+}
+
+.status{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.paid{
+    background:#e7f7ed;
+    color:#168044;
+}
+
+.pending{
+    background:#fff1d6;
+    color:#9a6500;
+}
+
+button{
+    border:0;
+    padding:11px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.back{
+    background:#101820;
+    color:white;
+    width:100%;
+    margin-top:10px;
+}
+
+.delete{
+    background:#e74c3c;
+    color:white;
+    margin-top:10px;
+}
+
+.empty{
+    text-align:center;
+    padding:40px;
+    background:white;
+    border-radius:12px;
+}
+
+@media(max-width:600px){
+    .top{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>800PowerBat</h1>
+    <p>Invoice History</p>
+</header>
+
+<div class="container">
+
+<input
+    type="text"
+    class="search"
+    id="search"
+    placeholder="🔎 Search customer, phone or invoice..."
+    oninput="showInvoices()"
+>
+
+<div id="invoiceList"></div>
+
+<button class="back" onclick="location.href='index.html'">
+← Back to Dashboard
+</button>
+
+</div>
+
+<script>
+
+function getInvoices(){
+
+    return JSON.parse(
+        localStorage.getItem("invoices")
+    ) || [];
+
+}
+
+
+function showInvoices(){
+
+    let invoices = getInvoices();
+
+    let search =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+    let list =
+        document.getElementById("invoiceList");
+
+    let filtered = invoices.filter(function(invoice){
+
+        return (
+            invoice.number.toLowerCase().includes(search) ||
+            invoice.customer.toLowerCase().includes(search) ||
+            invoice.phone.toLowerCase().includes(search)
+        );
+
+    });
+
+
+    if(filtered.length === 0){
+
+        list.innerHTML = `
+            <div class="empty">
+                <h2>No invoices found</h2>
+                <p>Your saved invoices will appear here.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    list.innerHTML = "";
+
+
+    filtered.reverse().forEach(function(invoice){
+
+        let statusClass =
+            invoice.payment === "PAID"
+            ? "paid"
+            : "pending";
+
+
+        let card = document.createElement("div");
+
+        card.className = "card";
+
+
+        card.innerHTML = `
+
+            <div class="top">
+
+                <div>
+                    <div class="invoice-number">
+                        ${invoice.number}
+                    </div>
+
+                    <p>
+                        <strong>${invoice.customer}</strong>
+                    </p>
+
+                    <p>
+                        ${invoice.phone}
+                    </p>
+
+                    <p>
+                        ${invoice.car}
+                    </p>
+
+                    <small>
+                        ${invoice.date}
+                    </small>
+                </div>
+
+
+                <div>
+
+                    <span class="status ${statusClass}">
+                        ${invoice.payment}
+                    </span>
+
+                    <h2>
+                        AED ${invoice.total.toFixed(2)}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="delete"
+                onclick="deleteInvoice('${invoice.number}')">
+                Delete
+            </button>
+
+        `;
+
+
+        list.appendChild(card);
+
+    });
+
+}
+
+
+function deleteInvoice(number){
+
+    if(!confirm("Delete this invoice?")){
+        return;
+    }
+
+
+    let invoices = getInvoices();
+
+    invoices = invoices.filter(function(invoice){
+
+        return invoice.number !== number;
+
+    });
+
+
+    localStorage.setItem(
+        "invoices",
+        JSON.stringify(invoices)
+    );
+
+
+    showInvoices();
+
+}
+
+
+showInvoices();
+
+</script>
+
+</body>
+</html>
