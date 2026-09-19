@@ -23,16 +23,20 @@ body{
     min-height:297mm;
     margin:20px auto;
     background:#fff;
-    padding:12mm;
+    padding:11mm;
     box-shadow:0 4px 20px rgba(0,0,0,.12);
 }
+
+/* =========================
+   TOP HEADER
+========================= */
 
 .topbar{
     display:flex;
     justify-content:space-between;
     align-items:flex-start;
     border-bottom:3px solid #f5b400;
-    padding-bottom:10px;
+    padding-bottom:11px;
 }
 
 .company{
@@ -43,14 +47,15 @@ body{
 
 .company h1{
     margin:0;
-    font-size:28px;
+    font-size:29px;
     color:#101820;
     font-weight:900;
+    letter-spacing:.2px;
 }
 
 .company p{
     margin:0;
-    font-size:13px;
+    font-size:12px;
     color:#555;
 }
 
@@ -60,23 +65,27 @@ body{
 
 .invoice-title h2{
     margin:0;
-    font-size:30px;
+    font-size:29px;
     color:#101820;
     font-weight:900;
 }
 
 .invoice-title p{
     margin:4px 0 0;
-    font-size:12px;
+    font-size:11px;
     color:#555;
 }
 
+/* =========================
+   FORM SECTIONS
+========================= */
+
 .form-section{
-    margin-top:16px;
+    margin-top:13px;
     background:#f8f9fa;
-    border:1px solid #ddd;
-    padding:12px;
-    border-radius:8px;
+    border:1px solid #d8dde2;
+    padding:11px;
+    border-radius:7px;
 }
 
 .section-title{
@@ -85,13 +94,13 @@ body{
     color:#101820;
     border-left:5px solid #f5b400;
     padding-left:8px;
-    margin-bottom:12px;
+    margin-bottom:10px;
 }
 
 .grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:10px;
+    gap:9px;
 }
 
 .field{
@@ -109,7 +118,7 @@ body{
 .field input,
 .field select{
     width:100%;
-    height:38px;
+    height:37px;
     border:1px solid #cfd4d9;
     border-radius:5px;
     padding:0 9px;
@@ -128,7 +137,7 @@ body{
 }
 
 .car-note{
-    margin-top:9px;
+    margin-top:8px;
     background:#fff8df;
     border-left:4px solid #f5b400;
     padding:8px;
@@ -136,12 +145,16 @@ body{
     line-height:1.5;
 }
 
+/* =========================
+   BATTERY INFO
+========================= */
+
 .battery-info{
-    margin-top:10px;
+    margin-top:9px;
     background:#fff;
     border:1px solid #ddd;
     border-radius:6px;
-    padding:10px;
+    padding:9px;
 }
 
 .battery-info-grid{
@@ -169,7 +182,7 @@ body{
 }
 
 .vat-row{
-    margin-top:10px;
+    margin-top:9px;
     display:flex;
     align-items:center;
     gap:7px;
@@ -182,10 +195,14 @@ body{
     height:16px;
 }
 
+/* =========================
+   BUTTONS
+========================= */
+
 .buttons{
     display:flex;
     gap:8px;
-    margin-top:14px;
+    margin-top:13px;
 }
 
 button{
@@ -212,23 +229,30 @@ button{
     color:#222;
 }
 
+/* =========================
+   INVOICE PREVIEW
+========================= */
+
 .invoice-preview{
     display:none;
-    margin-top:18px;
+    margin-top:16px;
+    background:#fff;
 }
 
 .preview-header{
     display:flex;
     justify-content:space-between;
+    align-items:flex-start;
     gap:20px;
-    border-bottom:2px solid #101820;
+    border-bottom:3px solid #f5b400;
     padding-bottom:10px;
 }
 
 .preview-company h2{
     margin:0;
-    font-size:23px;
+    font-size:26px;
     font-weight:900;
+    color:#101820;
 }
 
 .preview-company p{
@@ -243,25 +267,33 @@ button{
 
 .preview-invoice h2{
     margin:0;
-    font-size:25px;
+    font-size:28px;
+    color:#101820;
+    font-weight:900;
 }
 
 .preview-invoice p{
     margin:3px 0;
     font-size:11px;
+    color:#555;
 }
+
+/* =========================
+   BILL SECTION
+========================= */
 
 .bill-section{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:12px;
-    margin-top:15px;
+    margin-top:13px;
 }
 
 .bill-box{
-    border:1px solid #ddd;
+    border:1px solid #d4d8dc;
     padding:10px;
     border-radius:6px;
+    background:#fff;
 }
 
 .bill-heading{
@@ -270,6 +302,8 @@ button{
     font-weight:800;
     text-transform:uppercase;
     margin-bottom:5px;
+    border-bottom:1px solid #eee;
+    padding-bottom:4px;
 }
 
 .bill-name{
@@ -282,35 +316,70 @@ button{
     font-size:11px;
     color:#444;
     margin-top:3px;
+    line-height:1.35;
 }
+
+/* =========================
+   INVOICE TABLE
+========================= */
 
 .invoice-table{
     width:100%;
     border-collapse:collapse;
-    margin-top:15px;
+    margin-top:14px;
+    table-layout:fixed;
 }
 
 .invoice-table th{
     background:#101820;
     color:#fff;
-    padding:9px 7px;
+    padding:10px 7px;
     font-size:11px;
+    font-weight:800;
     text-align:left;
 }
 
 .invoice-table td{
-    border:1px solid #ddd;
-    padding:9px 7px;
+    border:1px solid #d7dadd;
+    padding:10px 7px;
     font-size:11px;
+    vertical-align:top;
+    line-height:1.4;
 }
 
-.invoice-table td:last-child,
-.invoice-table th:last-child{
+.invoice-table th:nth-child(1),
+.invoice-table td:nth-child(1){
+    width:24%;
+}
+
+.invoice-table th:nth-child(2),
+.invoice-table td:nth-child(2){
+    width:32%;
+}
+
+.invoice-table th:nth-child(3),
+.invoice-table td:nth-child(3){
+    width:18%;
+}
+
+.invoice-table th:nth-child(4),
+.invoice-table td:nth-child(4){
+    width:9%;
+    text-align:center;
+}
+
+.invoice-table th:nth-child(5),
+.invoice-table td:nth-child(5){
+    width:17%;
     text-align:right;
 }
 
+/* =========================
+   SUMMARY
+========================= */
+
 .summary{
-    width:330px;
+    width:315px;
     margin-left:auto;
     margin-top:12px;
 }
@@ -326,38 +395,53 @@ button{
     border-top:2px solid #101820;
     margin-top:4px;
     padding-top:8px;
-    font-size:16px;
+    font-size:17px;
     font-weight:900;
 }
 
+/* =========================
+   PAYMENT
+========================= */
+
 .payment-box{
-    margin-top:14px;
-    border:1px solid #ddd;
+    margin-top:13px;
+    border:1px solid #d4d8dc;
     padding:10px;
     border-radius:6px;
+    background:#fff;
 }
 
 .payment-box h4{
-    margin:0 0 5px;
+    margin:0 0 6px;
     font-size:12px;
+    color:#101820;
+    font-weight:900;
 }
 
 .payment-box p{
-    margin:3px 0;
+    margin:4px 0;
     font-size:11px;
 }
+
+/* =========================
+   WARRANTY
+========================= */
 
 .warranty-box{
     margin-top:10px;
     background:#fff8df;
     border-left:4px solid #f5b400;
-    padding:9px;
+    padding:10px;
     font-size:11px;
     line-height:1.5;
 }
 
+/* =========================
+   FOOTER
+========================= */
+
 .footer{
-    margin-top:18px;
+    margin-top:16px;
     border-top:2px solid #101820;
     padding-top:9px;
     display:flex;
@@ -365,6 +449,10 @@ button{
     font-size:10px;
     color:#555;
 }
+
+/* =========================
+   HISTORY
+========================= */
 
 .history{
     margin-top:20px;
@@ -392,6 +480,10 @@ button{
     color:#c0392b;
     font-weight:700;
 }
+
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:700px){
 
@@ -456,15 +548,25 @@ button{
     }
 }
 
+/* =========================
+   PRINT
+========================= */
+
 @media print{
 
     @page{
         size:A4;
-        margin:8mm;
+        margin:7mm;
+    }
+
+    html,
+    body{
+        width:100%;
+        background:#fff;
     }
 
     body{
-        background:#fff;
+        margin:0;
     }
 
     .page{
@@ -475,6 +577,7 @@ button{
         box-shadow:none;
     }
 
+    .topbar,
     .form-section,
     .buttons,
     .history{
@@ -483,15 +586,44 @@ button{
 
     .invoice-preview{
         display:block !important;
-        margin-top:0;
+        margin:0;
+        width:100%;
+    }
+
+    .invoice-preview,
+    .invoice-preview *{
+        -webkit-print-color-adjust:exact !important;
+        print-color-adjust:exact !important;
+    }
+
+    .preview-header{
+        border-bottom:3px solid #f5b400;
     }
 
     .invoice-table{
         min-width:0;
+        width:100%;
     }
 
-    .topbar{
-        display:none;
+    .invoice-table th{
+        background:#101820 !important;
+        color:#fff !important;
+    }
+
+    .summary{
+        margin-top:10px;
+    }
+
+    .payment-box{
+        margin-top:10px;
+    }
+
+    .warranty-box{
+        margin-top:8px;
+    }
+
+    .footer{
+        margin-top:12px;
     }
 }
 </style>
@@ -517,7 +649,6 @@ button{
         </div>
 
     </div>
-
 
     <!-- CUSTOMER -->
 
@@ -555,7 +686,6 @@ button{
         </div>
 
     </div>
-
 
     <!-- VEHICLE -->
 
@@ -596,7 +726,6 @@ button{
 
     </div>
 
-
     <!-- BATTERY -->
 
     <div class="form-section">
@@ -625,7 +754,6 @@ button{
             </div>
 
         </div>
-
 
         <div class="battery-info">
 
@@ -657,14 +785,12 @@ button{
 
         </div>
 
-
         <div class="vat-row">
             <input type="checkbox" id="applyVAT">
             <label for="applyVAT">Apply 5% VAT</label>
         </div>
 
     </div>
-
 
     <!-- PAYMENT -->
 
@@ -693,7 +819,6 @@ button{
 
     </div>
 
-
     <!-- BUTTONS -->
 
     <div class="buttons">
@@ -711,7 +836,6 @@ button{
         </button>
 
     </div>
-
 
     <!-- INVOICE PREVIEW -->
 
@@ -733,7 +857,6 @@ button{
             </div>
 
         </div>
-
 
         <div class="bill-section">
 
@@ -763,7 +886,6 @@ button{
 
             </div>
 
-
             <div class="bill-box">
 
                 <div class="bill-heading">Vehicle</div>
@@ -779,7 +901,6 @@ button{
             </div>
 
         </div>
-
 
         <table class="invoice-table">
 
@@ -825,7 +946,6 @@ button{
 
         </table>
 
-
         <div class="summary">
 
             <div class="summary-row">
@@ -845,7 +965,6 @@ button{
 
         </div>
 
-
         <div class="payment-box">
 
             <h4>Payment Information</h4>
@@ -862,7 +981,6 @@ button{
 
         </div>
 
-
         <div class="warranty-box">
 
             <strong>Warranty Details:</strong>
@@ -873,7 +991,6 @@ button{
             </span>
 
         </div>
-
 
         <div class="footer">
 
@@ -889,7 +1006,6 @@ button{
 
     </div>
 
-
     <!-- HISTORY -->
 
     <div class="history">
@@ -903,7 +1019,6 @@ button{
     </div>
 
 </div>
-
 
 <script>
 
@@ -1556,6 +1671,7 @@ function loadBatteryModels(){
             document.createElement("option");
 
         option.value = item.model || "";
+
         option.textContent =
             (item.model || "Unknown Model") +
             " — " +
@@ -1628,7 +1744,6 @@ function loadBatteryInfo(){
 
     document.getElementById("batteryWarrantyInfo").textContent =
         battery.warranty || "—";
-
 
     const quantity =
         Number(battery.quantity) || 0;
@@ -1818,7 +1933,6 @@ function generateInvoice(){
 
     }
 
-
     const customerName =
         document.getElementById("customerName").value.trim();
 
@@ -1837,7 +1951,6 @@ function generateInvoice(){
     const companyTRN =
         document.getElementById("companyTRN").value.trim();
 
-
     const carBrand =
         document.getElementById("carBrand").value;
 
@@ -1847,23 +1960,19 @@ function generateInvoice(){
     const modelYear =
         document.getElementById("modelYear").value;
 
-
     const batteryBrand =
         document.getElementById("batteryBrand").value;
 
     const batteryModel =
         document.getElementById("batteryModel").value;
 
-
     const sellingPrice =
         Number(
             document.getElementById("sellingPrice").value
         );
 
-
     const paymentMethod =
         document.getElementById("paymentMethod").value;
-
 
     const applyVAT =
         document.getElementById("applyVAT").checked;
@@ -1874,7 +1983,6 @@ function generateInvoice(){
     if(!customerName){
 
         alert("Please enter customer name.");
-
         return;
 
     }
@@ -1882,7 +1990,6 @@ function generateInvoice(){
     if(!carBrand){
 
         alert("Please select car brand.");
-
         return;
 
     }
@@ -1890,7 +1997,6 @@ function generateInvoice(){
     if(!carModel){
 
         alert("Please select car model.");
-
         return;
 
     }
@@ -1898,7 +2004,6 @@ function generateInvoice(){
     if(!modelYear){
 
         alert("Please select model year.");
-
         return;
 
     }
@@ -1906,7 +2011,6 @@ function generateInvoice(){
     if(!batteryBrand){
 
         alert("Please select battery brand.");
-
         return;
 
     }
@@ -1914,7 +2018,6 @@ function generateInvoice(){
     if(!batteryModel){
 
         alert("Please select battery model.");
-
         return;
 
     }
@@ -1922,7 +2025,6 @@ function generateInvoice(){
     if(!sellingPrice || sellingPrice <= 0){
 
         alert("Please enter selling price.");
-
         return;
 
     }
@@ -1930,7 +2032,6 @@ function generateInvoice(){
     if(!paymentMethod){
 
         alert("Please select payment method.");
-
         return;
 
     }
@@ -1939,11 +2040,9 @@ function generateInvoice(){
     const battery =
         findBattery();
 
-
     if(!battery){
 
         alert("Selected battery was not found in stock.");
-
         return;
 
     }
@@ -1952,11 +2051,9 @@ function generateInvoice(){
     const quantity =
         Number(battery.quantity) || 0;
 
-
     if(quantity <= 0){
 
         alert("Selected battery is Out of Stock.");
-
         return;
 
     }
@@ -1967,11 +2064,8 @@ function generateInvoice(){
     const stockDeducted =
         deductBatteryFromStock();
 
-
     if(!stockDeducted){
-
         return;
-
     }
 
 
@@ -1995,8 +2089,6 @@ function generateInvoice(){
         now.toLocaleDateString("en-GB");
 
 
-    /* VEHICLE */
-
     const vehicleName =
         (
             carBrand +
@@ -2005,7 +2097,7 @@ function generateInvoice(){
         ).trim();
 
 
-    /* PREVIEW */
+    /* TOP */
 
     document.getElementById("invoiceNumberTop").textContent =
         "Invoice # " + invoiceNumber;
@@ -2014,12 +2106,16 @@ function generateInvoice(){
         "Date: " + invoiceDate;
 
 
+    /* PREVIEW HEADER */
+
     document.getElementById("previewInvoiceNumber").textContent =
         "Invoice # " + invoiceNumber;
 
     document.getElementById("previewInvoiceDate").textContent =
         "Date: " + invoiceDate;
 
+
+    /* CUSTOMER */
 
     document.getElementById("outCustomer").textContent =
         customerName;
@@ -2037,6 +2133,8 @@ function generateInvoice(){
         "TRN: " + (customerTRN || "—");
 
 
+    /* VEHICLE */
+
     document.getElementById("outCar").textContent =
         vehicleName;
 
@@ -2044,28 +2142,27 @@ function generateInvoice(){
         "Model Year: " + modelYear;
 
 
+    /* BATTERY */
+
     document.getElementById("outBatteryBrand").textContent =
         batteryBrand + " " + batteryModel;
-
 
     document.getElementById("outBatteryDetails").textContent =
         "Type: " +
         (battery.batteryType || "—") +
-        " | " +
-        "Ah: " +
+        " | Ah: " +
         (battery.ah || "—") +
-        " | " +
-        "Size: " +
+        " | Size: " +
         (battery.size || "—");
-
 
     document.getElementById("outWarranty").textContent =
         battery.warranty || "—";
 
 
+    /* MONEY */
+
     document.getElementById("outAmount").textContent =
         formatMoney(sellingPrice);
-
 
     document.getElementById("outSubtotal").textContent =
         formatMoney(subtotal);
@@ -2077,13 +2174,16 @@ function generateInvoice(){
         formatMoney(total);
 
 
+    /* PAYMENT */
+
     document.getElementById("outPayment").textContent =
         paymentMethod;
-
 
     document.getElementById("companyTRNOutput").textContent =
         companyTRN || "—";
 
+
+    /* WARRANTY */
 
     document.getElementById("warrantyText").textContent =
         (
@@ -2099,7 +2199,7 @@ function generateInvoice(){
         "block";
 
 
-    /* SAVE CAR FOR OLD DATABASE COMPATIBILITY */
+    /* SAVE CAR */
 
     saveSelectedCarRecord(
         carBrand,
@@ -2108,7 +2208,7 @@ function generateInvoice(){
     );
 
 
-    /* SAVE INVOICE HISTORY */
+    /* SAVE HISTORY */
 
     const invoiceData = {
 
@@ -2193,7 +2293,6 @@ function generateInvoice(){
 
     history.unshift(invoiceData);
 
-
     localStorage.setItem(
         INVOICE_STORAGE_KEY,
         JSON.stringify(history)
@@ -2201,7 +2300,6 @@ function generateInvoice(){
 
 
     invoiceGenerated = true;
-
 
     renderHistory();
 
@@ -2382,4 +2480,4 @@ document.addEventListener(
 </script>
 
 </body>
-    </html>
+</html>
