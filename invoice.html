@@ -1,5 +1,5 @@
-<!-- Is code mein sirf logged-in Technician Name ka system add kiya gaya hai.
-     Existing invoice design aur functionality same rakhi gayi hai. -->
+<!-- Is code mein sirf invoice saving/history system add kiya gaya hai.
+     Existing invoice design aur existing functionality same rakhi gayi hai. -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -1279,8 +1279,6 @@ id="outCar"
 —
 </div>
 
-<!-- ONLY ADDED: TECHNICIAN -->
-
 <div class="bill-heading" style="margin-top:9px;">
 TECHNICIAN
 </div>
@@ -1615,6 +1613,7 @@ No invoice history yet.
 <script>
 
 const BATTERY_STORAGE_KEY = "800PowerBatStock";
+const INVOICE_STORAGE_KEY = "invoices";
 
 let invoiceGenerated = false;
 
@@ -1678,13 +1677,57 @@ function generateInvoiceNumber(){
 
 
 /* =========================
+   SAVE INVOICE TO HISTORY
+========================= */
+
+function saveInvoiceToHistory(invoiceData){
+
+    try{
+
+        let invoices =
+        JSON.parse(
+            localStorage.getItem(
+                INVOICE_STORAGE_KEY
+            )
+        ) || [];
+
+        if(!Array.isArray(invoices)){
+            invoices=[];
+        }
+
+        invoices.unshift(invoiceData);
+
+        localStorage.setItem(
+            INVOICE_STORAGE_KEY,
+            JSON.stringify(invoices)
+        );
+
+        return true;
+
+    }catch(error){
+
+        console.error(
+            "Invoice save error:",
+            error
+        );
+
+        return false;
+
+    }
+
+}
+
+
+/* =========================
    INVOICE TYPE
 ========================= */
 
 function changeInvoiceType(){
 
     const type =
-    document.getElementById("invoiceType").value;
+    document.getElementById(
+        "invoiceType"
+    ).value;
 
     const batterySection =
     document.getElementById("batterySection");
@@ -2143,10 +2186,6 @@ function generateInvoice(){
     getTechnicianName();
 
 
-    /* ONLY ADDED:
-       AUTOMATIC TECHNICIAN NAME
-    */
-
     document.getElementById(
         "outTechnician"
     ).textContent =
@@ -2347,14 +2386,20 @@ function generateInvoice(){
     );
 
 
+    let batteryBrandValue="";
+    let batteryModelValue="";
+    let batterySizeValue="";
+    let warrantyPeriodValue="";
+
+
     if(type === "battery"){
 
-        const batteryBrand =
+        batteryBrandValue =
         document.getElementById(
             "batteryBrand"
         ).value || "Energizer";
 
-        const batteryModel =
+        batteryModelValue =
         document.getElementById(
             "batteryModel"
         ).value || "55d23L";
@@ -2362,7 +2407,7 @@ function generateInvoice(){
         const battery =
         findBattery();
 
-        const batterySize =
+        batterySizeValue =
         battery
         ? battery.size || "—"
         : "—";
@@ -2384,6 +2429,10 @@ function generateInvoice(){
 
         }
 
+        warrantyPeriodValue =
+        warrantyPeriod;
+
+
         const warrantyStr =
         warrantyPeriod +
         " Months";
@@ -2394,15 +2443,15 @@ function generateInvoice(){
 
         brand.textContent =
         "Brand: " +
-        batteryBrand;
+        batteryBrandValue;
 
         model.textContent =
         "Model: " +
-        batteryModel;
+        batteryModelValue;
 
         size.textContent =
         "Size: " +
-        batterySize;
+        batterySizeValue;
 
         warranty.textContent =
         "Warranty: " +
@@ -2525,10 +2574,101 @@ function generateInvoice(){
 
     invoiceGenerated=true;
 
+
+    /* =========================
+       SAVE COMPLETE INVOICE
+       FOR INVOICE HISTORY
+    ========================= */
+
+    const invoiceRecord = {
+
+        number: invoiceNumber,
+
+        date: invoiceDate,
+
+        customer: customerName,
+
+        phone: customerPhone,
+
+        email: customerEmail,
+
+        address: customerAddress,
+
+        customerTRN: customerTRN,
+
+        companyTRN: companyTRN,
+
+        carBrand: carBrand,
+
+        carModel: carModel,
+
+        modelYear: modelYear,
+
+        car:
+        (
+            carBrand +
+            " " +
+            carModel +
+            " " +
+            modelYear
+        ).toUpperCase(),
+
+        invoiceType: type,
+
+        serviceDetails:
+        document.getElementById(
+            "serviceDetails"
+        ).value.trim(),
+
+        batteryBrand:
+        batteryBrandValue,
+
+        batteryModel:
+        batteryModelValue,
+
+        batterySize:
+        batterySizeValue,
+
+        warranty:
+        warrantyPeriodValue
+        ? warrantyPeriodValue + " Months"
+        : "",
+
+        subtotal: subtotal,
+
+        vat: vat,
+
+        total: total,
+
+        payment: "PAID",
+
+        paymentMethod: paymentMethod,
+
+        technician: technician,
+
+        technicianName: technician,
+
+        createdBy: technician,
+
+        createdAt:
+        new Date().toISOString()
+
+    };
+
+
+    saveInvoiceToHistory(
+        invoiceRecord
+    );
+
+
     renderHistory();
 
 }
 
+
+/* =========================
+   PRINT
+========================= */
 
 function printInvoice(){
 
@@ -2543,6 +2683,10 @@ function printInvoice(){
 }
 
 
+/* =========================
+   HISTORY PREVIEW
+========================= */
+
 function renderHistory(){
 
     const container =
@@ -2550,17 +2694,74 @@ function renderHistory(){
         "historyList"
     );
 
+    let invoices=[];
+
+    try{
+
+        invoices =
+        JSON.parse(
+            localStorage.getItem(
+                INVOICE_STORAGE_KEY
+            )
+        ) || [];
+
+    }catch(error){
+
+        invoices=[];
+
+    }
+
+
+    if(
+        !Array.isArray(invoices) ||
+        invoices.length === 0
+    ){
+
+        container.innerHTML =
+        "No invoice history yet.";
+
+        return;
+
+    }
+
+
+    const recentInvoices =
+    invoices.slice(0,5);
+
+
     container.innerHTML =
-    "<div class='history-item'>" +
+    recentInvoices.map(function(invoice){
 
-    "<strong>800PowerBat</strong> | " +
+        return (
 
-    "Latest Invoice" +
+            "<div class='history-item'>" +
 
-    "</div>";
+            "<strong>" +
+            String(invoice.number || "—") +
+            "</strong> | " +
+
+            String(invoice.customer || "—") +
+
+            " | " +
+
+            String(invoice.technician || "—") +
+
+            " | " +
+
+            formatMoney(invoice.total || 0) +
+
+            "</div>"
+
+        );
+
+    }).join("");
 
 }
 
+
+/* =========================
+   BACK
+========================= */
 
 function goBack(){
 
@@ -2576,6 +2777,10 @@ function goBack(){
 
 }
 
+
+/* =========================
+   PAGE LOAD
+========================= */
 
 document.addEventListener(
 "DOMContentLoaded",
