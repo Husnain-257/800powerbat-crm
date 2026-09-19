@@ -18,8 +18,6 @@ body{
     color:#17202a;
 }
 
-/* HEADER */
-
 .header{
     background:#101820;
     color:#fff;
@@ -43,15 +41,11 @@ body{
     color:#cbd2da;
 }
 
-/* CONTAINER */
-
 .container{
     max-width:1100px;
     margin:25px auto;
     padding:0 15px;
 }
-
-/* CARD */
 
 .card{
     background:#fff;
@@ -69,8 +63,6 @@ body{
 .card h2 span{
     color:#f5b400;
 }
-
-/* FORM */
 
 .form-grid{
     display:grid;
@@ -101,8 +93,6 @@ input{
 input:focus{
     border-color:#f5b400;
 }
-
-/* BUTTONS */
 
 .buttons{
     display:flex;
@@ -137,7 +127,10 @@ button,
     color:#fff;
 }
 
-/* SEARCH */
+.load-btn{
+    background:#17202a;
+    color:#fff;
+}
 
 .search{
     margin-bottom:18px;
@@ -146,8 +139,6 @@ button,
 .search input{
     max-width:450px;
 }
-
-/* TABLE */
 
 .table-wrapper{
     width:100%;
@@ -212,8 +203,6 @@ tr:hover td{
     margin-left:4px;
 }
 
-/* DASHBOARD */
-
 .stats{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -239,15 +228,21 @@ tr:hover td{
     font-size:25px;
 }
 
-/* EMPTY */
-
 .empty{
     text-align:center;
     padding:30px;
     color:#777;
 }
 
-/* MOBILE */
+.info-box{
+    background:#fff8df;
+    border-left:4px solid #f5b400;
+    padding:13px 15px;
+    border-radius:6px;
+    margin-bottom:18px;
+    font-size:13px;
+    line-height:1.5;
+}
 
 @media(max-width:700px){
 
@@ -280,9 +275,6 @@ tr:hover td{
 
 <body>
 
-
-<!-- HEADER -->
-
 <header class="header">
 
 <div class="logo">
@@ -299,52 +291,25 @@ Car Database
 <div class="container">
 
 
-<!-- STATISTICS -->
-
 <div class="stats">
 
 <div class="stat">
-
-<small>
-Total Car Records
-</small>
-
-<strong id="totalCars">
-0
-</strong>
-
+<small>Total Car Records</small>
+<strong id="totalCars">0</strong>
 </div>
-
 
 <div class="stat">
-
-<small>
-Car Brands
-</small>
-
-<strong id="totalBrands">
-0
-</strong>
-
+<small>Car Brands</small>
+<strong id="totalBrands">0</strong>
 </div>
-
 
 <div class="stat">
-
-<small>
-Different Models
-</small>
-
-<strong id="totalModels">
-0
-</strong>
-
+<small>Different Models</small>
+<strong id="totalModels">0</strong>
 </div>
 
 </div>
 
-
-<!-- ADD CAR -->
 
 <div class="card">
 
@@ -352,46 +317,33 @@ Different Models
 Add <span>Car</span>
 </h2>
 
+<div class="info-box">
+Major car brands and models are already available in this database.
+You can also add your own brand, model and year manually.
+</div>
 
 <div class="form-grid">
 
-
 <div class="field">
-
-<label>
-Car Brand
-</label>
-
+<label>Car Brand</label>
 <input
 id="carBrand"
 type="text"
 placeholder="e.g. BMW"
 >
-
 </div>
 
-
 <div class="field">
-
-<label>
-Car Model
-</label>
-
+<label>Car Model</label>
 <input
 id="carModel"
 type="text"
 placeholder="e.g. X5"
 >
-
 </div>
 
-
 <div class="field">
-
-<label>
-Model Year
-</label>
-
+<label>Model Year</label>
 <input
 id="modelYear"
 type="number"
@@ -399,9 +351,7 @@ placeholder="e.g. 2024"
 min="1900"
 max="2100"
 >
-
 </div>
-
 
 </div>
 
@@ -415,7 +365,6 @@ onclick="saveCar()"
 Add Car
 </button>
 
-
 <button
 class="clear-btn"
 onclick="clearForm()"
@@ -423,6 +372,12 @@ onclick="clearForm()"
 Clear
 </button>
 
+<button
+class="load-btn"
+onclick="loadDefaultCars()"
+>
+Load / Update Car Database
+</button>
 
 <a
 href="index.html"
@@ -436,14 +391,11 @@ Dashboard
 </div>
 
 
-<!-- CAR LIST -->
-
 <div class="card">
 
 <h2>
 Car <span>Database</span>
 </h2>
-
 
 <div class="search">
 
@@ -464,35 +416,16 @@ oninput="displayCars()"
 <thead>
 
 <tr>
-
-<th>
-#
-</th>
-
-<th>
-Car Brand
-</th>
-
-<th>
-Car Model
-</th>
-
-<th>
-Model Year
-</th>
-
-<th>
-Actions
-</th>
-
+<th>#</th>
+<th>Car Brand</th>
+<th>Car Model</th>
+<th>Model Year</th>
+<th>Actions</th>
 </tr>
 
 </thead>
 
-
-<tbody id="carTable">
-
-</tbody>
+<tbody id="carTable"></tbody>
 
 </table>
 
@@ -500,14 +433,13 @@ Actions
 
 </div>
 
-
 </div>
 
 
 <script>
 
 /* =====================================================
-CAR DATABASE
+800POWERBAT CAR DATABASE
 ===================================================== */
 
 let cars =
@@ -515,8 +447,932 @@ JSON.parse(
     localStorage.getItem("800PowerBatCars")
 ) || [];
 
-
 let editIndex = -1;
+
+
+/* =====================================================
+DEFAULT CAR BRANDS + MODELS
+===================================================== */
+
+const defaultCars = {
+
+"Toyota":[
+"Corolla",
+"Camry",
+"Yaris",
+"Yaris Sedan",
+"Vios",
+"Prius",
+"Prius Hybrid",
+"Land Cruiser",
+"Land Cruiser Prado",
+"Fortuner",
+"RAV4",
+"Highlander",
+"4Runner",
+"Sequoia",
+"Tundra",
+"Hilux",
+"Hiace",
+"Avanza",
+"Rush",
+"Raize",
+"FJ Cruiser",
+"Supra",
+"GR86",
+"C-HR",
+"Urban Cruiser",
+"Veloz",
+"bZ4X"
+],
+
+"Nissan":[
+"Sunny",
+"Altima",
+"Maxima",
+"Sentra",
+"Versa",
+"Patrol",
+"Patrol Super Safari",
+"X-Trail",
+"Pathfinder",
+"Qashqai",
+"Juke",
+"Murano",
+"Armada",
+"Navara",
+"Frontier",
+"Urvan",
+"Kicks",
+"Tiida",
+"370Z",
+"Z"
+],
+
+"Lexus":[
+"IS",
+"ES",
+"GS",
+"LS",
+"UX",
+"NX",
+"RX",
+"GX",
+"LX",
+"LC",
+"RC",
+"LM"
+],
+
+"Honda":[
+"Civic",
+"Accord",
+"City",
+"Jazz",
+"Fit",
+"CR-V",
+"HR-V",
+"ZR-V",
+"Pilot",
+"Odyssey",
+"BR-V",
+"Ridgeline",
+"Passport",
+"NSX"
+],
+
+"Mercedes-Benz":[
+"A-Class",
+"B-Class",
+"C-Class",
+"CLA",
+"CLS",
+"E-Class",
+"S-Class",
+"GLA",
+"GLB",
+"GLC",
+"GLE",
+"GLS",
+"G-Class",
+"V-Class",
+"Sprinter",
+"AMG GT",
+"SL",
+"SLK",
+"EQS",
+"EQE",
+"EQB",
+"EQA"
+],
+
+"BMW":[
+"1 Series",
+"2 Series",
+"3 Series",
+"4 Series",
+"5 Series",
+"6 Series",
+"7 Series",
+"8 Series",
+"X1",
+"X2",
+"X3",
+"X4",
+"X5",
+"X6",
+"X7",
+"XM",
+"Z4",
+"i3",
+"i4",
+"i5",
+"i7",
+"iX",
+"iX1",
+"iX3",
+"M2",
+"M3",
+"M4",
+"M5",
+"M8"
+],
+
+"Audi":[
+"A1",
+"A3",
+"A4",
+"A5",
+"A6",
+"A7",
+"A8",
+"Q2",
+"Q3",
+"Q4",
+"Q5",
+"Q7",
+"Q8",
+"TT",
+"R8",
+"e-tron",
+"Q4 e-tron",
+"Q8 e-tron",
+"RS3",
+"RS4",
+"RS5",
+"RS6",
+"RS7",
+"RS Q8"
+],
+
+"Porsche":[
+"911",
+"718 Cayman",
+"718 Boxster",
+"Macan",
+"Cayenne",
+"Panamera",
+"Taycan",
+"Macan Electric",
+"Cayenne Coupe",
+"Taycan Cross Turismo"
+],
+
+"Land Rover":[
+"Range Rover",
+"Range Rover Sport",
+"Range Rover Velar",
+"Range Rover Evoque",
+"Range Rover Vogue",
+"Discovery",
+"Discovery Sport",
+"Defender",
+"Defender 90",
+"Defender 110",
+"Defender 130"
+],
+
+"Jaguar":[
+"XE",
+"XF",
+"XJ",
+"F-Pace",
+"E-Pace",
+"I-Pace",
+"F-Type",
+"X-Type"
+],
+
+"Volvo":[
+"S60",
+"S90",
+"V40",
+"V60",
+"V90",
+"XC40",
+"XC60",
+"XC90",
+"EX30",
+"EX90",
+"EM90"
+],
+
+"Volkswagen":[
+"Golf",
+"Passat",
+"Jetta",
+"Polo",
+"Tiguan",
+"Atlas",
+"Teramont",
+"Touareg",
+"Arteon",
+"ID.3",
+"ID.4",
+"ID.5",
+"ID.7",
+"Caddy",
+"Transporter",
+"Amarok"
+],
+
+"Ford":[
+"Figo",
+"Fiesta",
+"Focus",
+"Fusion",
+"Mondeo",
+"Mustang",
+"Mustang Mach-E",
+"Explorer",
+"Expedition",
+"Escape",
+"Edge",
+"Bronco",
+"Bronco Sport",
+"Ranger",
+"F-150",
+"Everest",
+"Territory",
+"Transit",
+"EcoSport"
+],
+
+"Chevrolet":[
+"Spark",
+"Aveo",
+"Cruze",
+"Malibu",
+"Impala",
+"Camaro",
+"Corvette",
+"Trax",
+"Trailblazer",
+"Equinox",
+"Blazer",
+"Tahoe",
+"Suburban",
+"Traverse",
+"Silverado",
+"Colorado"
+],
+
+"GMC":[
+"Yukon",
+"Yukon XL",
+"Acadia",
+"Terrain",
+"Denali",
+"Sierra",
+"Canyon",
+"Hummer EV"
+],
+
+"Cadillac":[
+"CT4",
+"CT5",
+"CT6",
+"XT4",
+"XT5",
+"XT6",
+"Escalade",
+"Lyriq"
+],
+
+"Jeep":[
+"Wrangler",
+"Grand Cherokee",
+"Cherokee",
+"Compass",
+"Renegade",
+"Gladiator",
+"Grand Wagoneer",
+"Wagoneer",
+"Avenger"
+],
+
+"Dodge":[
+"Charger",
+"Challenger",
+"Durango",
+"Journey",
+"Ram",
+"Hornet"
+],
+
+"Chrysler":[
+"300",
+"Pacifica",
+"Voyager"
+],
+
+"Hyundai":[
+"Accent",
+"Elantra",
+"Sonata",
+"Grandeur",
+"Azera",
+"i10",
+"i20",
+"i30",
+"Creta",
+"Tucson",
+"Santa Fe",
+"Palisade",
+"Kona",
+"Venue",
+"Staria",
+"Santa Cruz",
+"Ioniq",
+"Ioniq 5",
+"Ioniq 6"
+],
+
+"Kia":[
+"Picanto",
+"Rio",
+"Cerato",
+"Forte",
+"K5",
+"Optima",
+"Stinger",
+"Seltos",
+"Sportage",
+"Sorento",
+"Telluride",
+"Carens",
+"Sonet",
+"EV6",
+"EV9",
+"Carnival"
+],
+
+"Genesis":[
+"G70",
+"G80",
+"G90",
+"GV60",
+"GV70",
+"GV80"
+],
+
+"Mitsubishi":[
+"Lancer",
+"Attrage",
+"Mirage",
+"ASX",
+"Outlander",
+"Outlander Sport",
+"Pajero",
+"Montero",
+"Triton",
+"Eclipse Cross",
+"Xpander"
+],
+
+"Subaru":[
+"Impreza",
+"Legacy",
+"WRX",
+"BRZ",
+"Forester",
+"Outback",
+"Crosstrek",
+"Ascent"
+],
+
+"Suzuki":[
+"Swift",
+"Baleno",
+"Ciaz",
+"Jimny",
+"Vitara",
+"Grand Vitara",
+"Fronx",
+"Alto",
+"Dzire",
+"Ertiga",
+"XL7",
+"Carry"
+],
+
+"Isuzu":[
+"D-Max",
+"MU-X",
+"MU-7",
+"Trooper",
+"Elf"
+],
+
+"Infiniti":[
+"Q30",
+"Q50",
+"Q60",
+"Q70",
+"QX30",
+"QX50",
+"QX55",
+"QX60",
+"QX70",
+"QX80"
+],
+
+"Acura":[
+"ILX",
+"TLX",
+"RLX",
+"MDX",
+"RDX",
+"NSX"
+],
+
+"Lincoln":[
+"Continental",
+"MKC",
+"MKX",
+"MKZ",
+"Aviator",
+"Nautilus",
+"Navigator",
+"Corsair"
+],
+
+"Tesla":[
+"Model 3",
+"Model S",
+"Model X",
+"Model Y",
+"Cybertruck",
+"Roadster"
+],
+
+"Ferrari":[
+"F8 Tributo",
+"F8 Spider",
+"Roma",
+"296 GTB",
+"296 GTS",
+"SF90 Stradale",
+"SF90 Spider",
+"812 Superfast",
+"812 GTS",
+"Purosangue",
+"Portofino",
+"488 GTB",
+"488 Spider",
+"458 Italia",
+"California"
+],
+
+"Lamborghini":[
+"Urus",
+"Urus S",
+"Urus Performante",
+"Revuelto",
+"Revuelto Roadster",
+"Temerario",
+"Huracan",
+"Aventador",
+"Gallardo"
+],
+
+"Bentley":[
+"Continental GT",
+"Continental GTC",
+"Flying Spur",
+"Bentayga",
+"Mulsanne",
+"Azure",
+"Arnage"
+],
+
+"Rolls-Royce":[
+"Phantom",
+"Ghost",
+"Wraith",
+"Dawn",
+"Cullinan",
+"Spectre"
+],
+
+"Maserati":[
+"Ghibli",
+"Quattroporte",
+"Levante",
+"GranTurismo",
+"GranCabrio",
+"MC20",
+"MC20 Cielo"
+],
+
+"McLaren":[
+"720S",
+"750S",
+"765LT",
+"Artura",
+"GT",
+"570S",
+"600LT",
+"650S",
+"540C",
+"Senna",
+"Speedtail"
+],
+
+"Aston Martin":[
+"DB11",
+"DB12",
+"DBS",
+"Vantage",
+"Vanquish",
+"Rapide",
+"DBX",
+"Valkyrie"
+],
+
+"Lotus":[
+"Emira",
+"Evora",
+"Exige",
+"Elise",
+"Eletre",
+"Emeya"
+],
+
+"Peugeot":[
+"208",
+"2008",
+"308",
+"3008",
+"5008",
+"508",
+"Partner",
+"Expert"
+],
+
+"Renault":[
+"Clio",
+"Megane",
+"Fluence",
+"Symbol",
+"Captur",
+"Kadjar",
+"Koleos",
+"Arkana",
+"Duster",
+"Master",
+"Trafic"
+],
+
+"Citroen":[
+"C3",
+"C4",
+"C5",
+"C5 Aircross",
+"Berlingo",
+"Jumper"
+],
+
+"Fiat":[
+"500",
+"500X",
+"500L",
+"Panda",
+"Tipo",
+"Punto",
+"Doblo",
+"Ducato"
+],
+
+"Skoda":[
+"Fabia",
+"Octavia",
+"Superb",
+"Scala",
+"Kamiq",
+"Karoq",
+"Kodiaq",
+"Enyaq"
+],
+
+"Seat":[
+"Ibiza",
+"Leon",
+"Arona",
+"Ateca",
+"Tarraco"
+],
+
+"Mini":[
+"Cooper",
+"Cooper S",
+"Countryman",
+"Clubman",
+"Paceman",
+"Convertible"
+],
+
+"MG":[
+"MG3",
+"MG5",
+"MG6",
+"ZS",
+"ZS EV",
+"HS",
+"RX5",
+"RX8",
+"GT",
+"Marvel R",
+"Cyberster"
+],
+
+"Changan":[
+"Alsvin",
+"Eado",
+"CS35 Plus",
+"CS55 Plus",
+"CS75 Plus",
+"CS85",
+"CS95",
+"UNI-T",
+"UNI-K",
+"UNI-V"
+],
+
+"Geely":[
+"Emgrand",
+"Coolray",
+"Monjaro",
+"Azkarra",
+"Okavango",
+"Tugella",
+"Geometry C"
+],
+
+"Haval":[
+"Jolion",
+"H6",
+"H6 GT",
+"H9",
+"F7",
+"F7X",
+"Jolion Pro",
+"Dargo"
+],
+
+"Jetour":[
+"X70",
+"X70 Plus",
+"X90",
+"X90 Plus",
+"Dashing",
+"X50",
+"T2"
+],
+
+"BAIC":[
+"BJ40",
+"BJ40 Plus",
+"BJ60",
+"BJ80",
+"X25",
+"X35",
+"X55",
+"X7"
+],
+
+"Great Wall":[
+"Poer",
+"Wingle 5",
+"Wingle 7",
+"Cannon"
+],
+
+"GAC":[
+"GS3",
+"GS4",
+"GS5",
+"GS8",
+"Empow",
+"GN8",
+"Aion Y",
+"Aion V"
+],
+
+"BYD":[
+"Atto 3",
+"Dolphin",
+"Seal",
+"Han",
+"Tang",
+"Song Plus",
+"Qin Plus",
+"Yuan Plus",
+"Seagull"
+],
+
+"Chery":[
+"Tiggo 2",
+"Tiggo 3",
+"Tiggo 4",
+"Tiggo 7",
+"Tiggo 8",
+"Tiggo 8 Pro",
+"Arrizo 5",
+"Arrizo 6"
+],
+
+"JAC":[
+"S2",
+"S3",
+"S4",
+"S7",
+"JS4",
+"JS6",
+"JS8",
+"T8",
+"T9"
+],
+
+"Foton":[
+"Tunland",
+"Toano",
+"View",
+"Auman"
+],
+
+"Zhongxing":[
+"Terralord",
+"Grand Tiger"
+],
+
+"Mahindra":[
+"Scorpio",
+"Scorpio N",
+"Thar",
+"XUV500",
+"XUV700",
+"Bolero",
+"Bolero Neo"
+],
+
+"Tata":[
+"Tiago",
+"Tigor",
+"Altroz",
+"Nexon",
+"Harrier",
+"Safari",
+"Punch"
+],
+
+"Proton":[
+"Saga",
+"Persona",
+"IrIz",
+"Exora",
+"X50",
+"X70",
+"S70"
+],
+
+"Daewoo":[
+"Matiz",
+"Lanos",
+"Nubira",
+"Leganza"
+],
+
+"Rivian":[
+"R1T",
+"R1S"
+],
+
+"Lucid":[
+"Air",
+"Gravity"
+]
+
+};
+
+
+/* =====================================================
+DEFAULT YEARS
+===================================================== */
+
+const defaultYears = [];
+
+for(let year = 2010; year <= 2026; year++){
+    defaultYears.push(year);
+}
+
+
+/* =====================================================
+NORMALIZE TEXT
+===================================================== */
+
+function normalize(value){
+
+    return String(value || "")
+    .trim()
+    .toLowerCase();
+
+}
+
+
+/* =====================================================
+CHECK DUPLICATE
+===================================================== */
+
+function carExists(brand,model,year){
+
+    return cars.some(function(item){
+
+        return (
+            normalize(item.brand) === normalize(brand) &&
+            normalize(item.model) === normalize(model) &&
+            Number(item.year) === Number(year)
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+LOAD DEFAULT CAR DATABASE
+===================================================== */
+
+function loadDefaultCars(){
+
+    let added = 0;
+
+    Object.keys(defaultCars).forEach(function(brand){
+
+        defaultCars[brand].forEach(function(model){
+
+            defaultYears.forEach(function(year){
+
+                if(!carExists(brand,model,year)){
+
+                    cars.push({
+
+                        brand:brand,
+
+                        model:model,
+
+                        year:year
+
+                    });
+
+                    added++;
+
+                }
+
+            });
+
+        });
+
+    });
+
+
+    localStorage.setItem(
+        "800PowerBatCars",
+        JSON.stringify(cars)
+    );
+
+
+    displayCars();
+
+    updateStats();
+
+
+    alert(
+        added +
+        " car records added/updated successfully."
+    );
+
+}
 
 
 /* =====================================================
@@ -599,9 +1455,44 @@ function saveCar(){
     };
 
 
-    /* EDIT */
+    /* =================================================
+    EDIT
+    ================================================= */
 
     if(editIndex !== -1){
+
+        const duplicate =
+        cars.some(function(item,index){
+
+            if(index === editIndex){
+
+                return false;
+
+            }
+
+            return (
+
+                normalize(item.brand) === normalize(brand) &&
+
+                normalize(item.model) === normalize(model) &&
+
+                Number(item.year) === yearNumber
+
+            );
+
+        });
+
+
+        if(duplicate){
+
+            alert(
+                "This car already exists in the database."
+            );
+
+            return;
+
+        }
+
 
         cars[editIndex] =
         carData;
@@ -610,38 +1501,20 @@ function saveCar(){
 
     }
 
-    /* ADD */
+
+    /* =================================================
+    ADD
+    ================================================= */
 
     else{
 
-        /*
-        Prevent exact duplicate
-        */
-
-        const duplicate =
-        cars.some(function(item){
-
-            return (
-
-                item.brand.toLowerCase()
-                === brand.toLowerCase()
-
-                &&
-
-                item.model.toLowerCase()
-                === model.toLowerCase()
-
-                &&
-
-                Number(item.year)
-                === yearNumber
-
-            );
-
-        });
-
-
-        if(duplicate){
+        if(
+            carExists(
+                brand,
+                model,
+                yearNumber
+            )
+        ){
 
             alert(
                 "This car already exists in the database."
@@ -958,18 +1831,15 @@ function updateStats(){
     cars.forEach(function(item){
 
         brands.add(
-            String(item.brand)
-            .toLowerCase()
+            normalize(item.brand)
         );
 
 
         models.add(
-            String(item.brand)
-            .toLowerCase()
+            normalize(item.brand)
             +
             "||" +
-            String(item.model)
-            .toLowerCase()
+            normalize(item.model)
         );
 
     });
@@ -1017,6 +1887,26 @@ START
 displayCars();
 
 updateStats();
+
+
+/* =====================================================
+AUTO LOAD DEFAULT DATABASE ON FIRST USE
+===================================================== */
+
+if(
+    !localStorage.getItem(
+        "800PowerBatCarDatabaseLoaded"
+    )
+){
+
+    loadDefaultCars();
+
+    localStorage.setItem(
+        "800PowerBatCarDatabaseLoaded",
+        "yes"
+    );
+
+}
 
 </script>
 
