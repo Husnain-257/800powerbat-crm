@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>800PowerBat - Login</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#101820;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.login-box{
+    width:100%;
+    max-width:400px;
+    background:#ffffff;
+    border-radius:16px;
+    padding:35px 30px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.35);
+    text-align:center;
+}
+
+.logo{
+    width:90px;
+    height:90px;
+    object-fit:contain;
+    margin-bottom:10px;
+}
+
+.company-name{
+    margin:0;
+    font-size:28px;
+    font-weight:800;
+    color:#101820;
+}
+
+.company-name span{
+    color:#f5b400;
+}
+
+.subtitle{
+    margin:7px 0 28px;
+    color:#777;
+    font-size:14px;
+}
+
+.input-group{
+    text-align:left;
+    margin-bottom:18px;
+}
+
+.input-group label{
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    color:#333;
+    margin-bottom:7px;
+}
+
+.input-group input{
+    width:100%;
+    padding:13px 14px;
+    border:1px solid #d5d9dd;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+    transition:0.2s;
+}
+
+.input-group input:focus{
+    border-color:#f5b400;
+    box-shadow:0 0 0 2px rgba(245,180,0,0.15);
+}
+
+.login-btn{
+    width:100%;
+    border:0;
+    background:#f5b400;
+    color:#101820;
+    padding:14px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:800;
+    cursor:pointer;
+    margin-top:5px;
+}
+
+.login-btn:hover{
+    background:#ffca28;
+}
+
+.error{
+    display:none;
+    margin-top:15px;
+    padding:10px;
+    border-radius:7px;
+    background:#ffe5e5;
+    color:#c62828;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.footer{
+    margin-top:25px;
+    font-size:12px;
+    color:#999;
+}
+
+@media(max-width:480px){
+    .login-box{
+        padding:30px 22px;
+    }
+
+    .company-name{
+        font-size:25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
+
+    <!--
+    Agar aapke logo ka naam different hai
+    to neeche src="..." mein apni logo file ka naam likhein.
+    -->
+    <img src="logo.png" class="logo" alt="800PowerBat Logo"
+         onerror="this.style.display='none';">
+
+    <h1 class="company-name">
+        800<span>Power</span>Bat
+    </h1>
+
+    <div class="subtitle">
+        CRM Technician Login
+    </div>
+
+    <div class="input-group">
+        <label for="username">Username</label>
+        <input
+            type="text"
+            id="username"
+            placeholder="Enter username"
+            autocomplete="username"
+        >
+    </div>
+
+    <div class="input-group">
+        <label for="password">Password</label>
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter password"
+            autocomplete="current-password"
+        >
+    </div>
+
+    <button class="login-btn" onclick="login()">
+        LOGIN
+    </button>
+
+    <div class="error" id="errorMessage">
+        Invalid username or password.
+    </div>
+
+    <div class="footer">
+        800PowerBat • Professional Car Battery Services
+    </div>
+
+</div>
+
+<script>
+
+/* STEP 1 TEST ACCOUNT
+   Abhi sirf testing ke liye hai.
+   Step 2 mein proper technician accounts banayenge.
+*/
+
+const TEST_USERNAME = "husnain";
+const TEST_PASSWORD = "1234";
+
+function login(){
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const errorMessage =
+        document.getElementById("errorMessage");
+
+    if(
+        username === TEST_USERNAME &&
+        password === TEST_PASSWORD
+    ){
+
+        /*
+        Technician ka naam save ho raha hai.
+        Baad mein isi naam ko invoice par automatically
+        show karwayenge.
+        */
+
+        localStorage.setItem(
+            "800PowerBatLoggedIn",
+            "true"
+        );
+
+        localStorage.setItem(
+            "800PowerBatUsername",
+            "husnain"
+        );
+
+        localStorage.setItem(
+            "800PowerBatTechnicianName",
+            "Husnain Ali"
+        );
+
+        /* CRM page ka naam */
+        window.location.href = "index.html";
+
+    }else{
+
+        errorMessage.style.display = "block";
+
+    }
+}
+
+/* Enter key se login */
+document.addEventListener("keydown", function(event){
+
+    if(event.key === "Enter"){
+        login();
+    }
+
+});
+
+/* Agar already logged in hai */
+if(
+    localStorage.getItem("800PowerBatLoggedIn") === "true"
+){
+    // Login page par rehne ke liye kuch nahi karna.
+}
+
+</script>
+
+</body>
+</html>
