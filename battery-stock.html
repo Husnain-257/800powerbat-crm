@@ -472,6 +472,106 @@ tr:hover{
 
 <script>
 
+/* =========================================
+   SECURITY
+   ========================================= */
+
+const isLoggedIn =
+    localStorage.getItem("800PowerBatLoggedIn");
+
+const userRole =
+    localStorage.getItem("800PowerBatUserRole");
+
+
+/*
+    User must be logged in.
+*/
+
+if(isLoggedIn !== "true"){
+
+    window.location.replace("login.html");
+
+}
+
+
+/*
+    ONLY ADMIN CAN ACCESS BATTERY STOCK.
+*/
+
+if(userRole !== "admin"){
+
+    document.body.innerHTML = `
+
+        <div style="
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+            background:#101820;
+            font-family:Arial,Helvetica,sans-serif;
+        ">
+
+            <div style="
+                width:100%;
+                max-width:420px;
+                background:white;
+                border-radius:16px;
+                padding:35px 25px;
+                text-align:center;
+                box-shadow:0 15px 40px rgba(0,0,0,.35);
+            ">
+
+                <div style="
+                    font-size:50px;
+                    margin-bottom:15px;
+                ">
+                    🔒
+                </div>
+
+                <h2 style="
+                    margin:0 0 10px;
+                    color:#101820;
+                ">
+                    Access Denied
+                </h2>
+
+                <p style="
+                    margin:0 0 25px;
+                    color:#667085;
+                    line-height:1.5;
+                ">
+                    Battery Stock Management is available
+                    only to the Administrator.
+                </p>
+
+                <button
+                    onclick="window.location.href='index.html'"
+                    style="
+                        border:0;
+                        background:#f5b400;
+                        color:#101820;
+                        padding:12px 20px;
+                        border-radius:8px;
+                        font-weight:800;
+                        cursor:pointer;
+                        font-size:14px;
+                    "
+                >
+                    ← Back to Dashboard
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+    throw new Error("Unauthorized Battery Stock access.");
+
+}
+
+
 /*
 =========================================
 800PowerBat BATTERY STOCK SYSTEM
@@ -548,19 +648,6 @@ function saveBattery(){
 
     }
 
-
-    /*
-    AUTOMATIC STOCK STATUS
-
-    If quantity is 0:
-    Out of Stock
-
-    If quantity is equal to or below minimum:
-    Low Stock
-
-    Otherwise:
-    In Stock
-    */
 
     if(quantity === 0){
 
@@ -701,12 +788,6 @@ function displayBatteries(){
             batteries.indexOf(item);
 
 
-        /*
-        For old batteries that were saved
-        before the new fields were added,
-        default values are used.
-        */
-
         const type =
             item.batteryType || "-";
 
@@ -726,11 +807,6 @@ function displayBatteries(){
         let status =
             item.status || "In Stock";
 
-
-        /*
-        Recalculate status based on quantity
-        and minimum stock.
-        */
 
         const qty =
             Number(item.quantity || 0);
