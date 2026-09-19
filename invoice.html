@@ -993,4 +993,1966 @@ placeholder="Enter your selling price"
 
 
 <div class="field">
-<label>Installation / Service (AED
+<label>Installation / Service (AED)</label>
+
+<input
+id="servicePrice"
+type="number"
+value="0"
+min="0"
+step="0.01"
+>
+
+</div>
+
+
+<div class="field">
+<label>Discount (AED)</label>
+
+<input
+id="discount"
+type="number"
+value="0"
+min="0"
+step="0.01"
+>
+
+</div>
+
+
+<div class="field">
+<label>Warranty</label>
+
+<select id="warranty">
+
+<option>3 Months</option>
+<option>6 Months</option>
+<option selected>12 Months</option>
+<option>18 Months</option>
+<option>24 Months</option>
+<option>No Warranty</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+<label>Payment Status</label>
+
+<select id="payment">
+
+<option>PAID</option>
+<option>PENDING</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+<label>Payment Method</label>
+
+<select id="paymentMethod">
+
+<option>Cash</option>
+<option>Card</option>
+<option>Payment Link</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<!-- VAT -->
+
+<div class="vat-box">
+
+<h3>VAT Settings</h3>
+
+<div class="grid">
+
+<div class="field">
+
+<label>Company TRN</label>
+
+<input
+id="companyTRN"
+placeholder="Leave blank if not VAT registered"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>VAT</label>
+
+<div class="check-row">
+
+<input
+type="checkbox"
+id="vatEnabled"
+>
+
+<span>
+Apply 5% VAT
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="vat-note">
+
+VAT is OFF by default. Customer TRN is optional.
+If 800PowerBat becomes VAT registered in the future,
+enter the official Company TRN and enable 5% VAT.
+
+</div>
+
+</div>
+
+
+<!-- BUTTONS -->
+
+<div class="buttons">
+
+<button
+class="generate"
+onclick="generateInvoice()"
+>
+Generate Invoice
+</button>
+
+
+<button
+class="print"
+onclick="printInvoice()"
+>
+Print / Save PDF
+</button>
+
+
+<a
+class="btn history"
+href="invoices.html"
+>
+Invoice History
+</a>
+
+
+<a
+class="btn history"
+href="index.html"
+>
+Dashboard
+</a>
+
+</div>
+
+
+<div
+id="stockMessage"
+class="stock-message"
+>
+</div>
+
+</div>
+</div>
+
+
+<!-- =======================================================
+INVOICE
+======================================================= -->
+
+<div
+id="invoicePreview"
+class="invoice-wrapper"
+>
+
+<div class="invoice-header">
+
+<div class="brand-area">
+
+<div class="logo-row">
+
+<div class="battery-logo">
+
+<div class="battery-yellow"></div>
+
+<div class="battery-bolt">
+ϟ
+</div>
+
+</div>
+
+
+<div class="brand-name">
+
+<span class="eight">
+800
+</span>
+
+<span class="power">
+PowerBat
+</span>
+
+</div>
+
+</div>
+
+
+<div class="brand-sub">
+MOBILE CAR BATTERY SERVICE
+</div>
+
+
+<div class="company-info">
+
+<div class="info-item">
+
+<div class="info-icon">
+24/7
+</div>
+
+<span>
+24/7 Mobile Car Battery Service
+</span>
+
+</div>
+
+
+<div class="info-item">
+
+<div class="info-icon">
+●
+</div>
+
+<span>
+Dubai, UAE
+</span>
+
+</div>
+
+
+<div class="info-item">
+
+<div class="info-icon">
+☎
+</div>
+
+<span>
++971 52 404 0699
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="invoice-right">
+
+<h1 id="invoiceHeading">
+INVOICE
+</h1>
+
+<div class="invoice-meta">
+
+Invoice No:
+<strong id="invoiceNo">
+—
+</strong>
+
+<br>
+
+Date:
+<strong id="invoiceDate">
+—
+</strong>
+
+<br>
+
+<span id="companyTRNOutput"></span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="yellow-line"></div>
+
+
+<!-- BILL -->
+
+<div class="bill-section">
+
+<div>
+
+<div class="bill-title">
+BILL TO
+</div>
+
+<div
+class="bill-name"
+id="outCustomer"
+>
+Customer
+</div>
+
+<div
+class="bill-text"
+id="outPhone"
+>
+—
+</div>
+
+<div
+class="bill-text"
+id="customerTRNOutput"
+style="display:none;"
+>
+</div>
+
+</div>
+
+
+<div>
+
+<div class="bill-title">
+VEHICLE
+</div>
+
+<div
+class="bill-name"
+id="outCar"
+>
+Vehicle
+</div>
+
+</div>
+
+</div>
+
+
+<!-- TABLE -->
+
+<div class="table-area">
+
+<table class="invoice-table">
+
+<thead>
+
+<tr>
+
+<th>
+Description
+</th>
+
+<th>
+Qty
+</th>
+
+<th>
+Amount (AED)
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+<tr>
+
+<td>
+
+<div
+class="item-brand"
+id="outBatteryBrand"
+>
+Battery
+</div>
+
+
+<div
+class="item-model"
+id="outBatteryModel"
+>
+—
+</div>
+
+
+<div
+class="item-details"
+id="outBatteryDetails"
+>
+—
+</div>
+
+
+<div class="item-warranty">
+
+Warranty:
+
+<span
+id="outItemWarranty"
+>
+12 Months
+</span>
+
+</div>
+
+</td>
+
+
+<td>
+1
+</td>
+
+
+<td>
+
+<span id="outBatteryPrice">
+0.00
+</span>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Installation / Service
+</td>
+
+<td>
+1
+</td>
+
+<td>
+
+<span id="outService">
+0.00
+</span>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- TOTALS -->
+
+<div class="bottom-section">
+
+<div class="totals">
+
+<div class="total-row">
+
+<span>
+Subtotal
+</span>
+
+<strong>
+AED
+<span id="outSubtotal">
+0.00
+</span>
+</strong>
+
+</div>
+
+
+<div class="total-row">
+
+<span>
+Discount
+</span>
+
+<strong>
+AED
+<span id="outDiscount">
+0.00
+</span>
+</strong>
+
+</div>
+
+
+<div
+class="total-row"
+id="taxableRow"
+style="display:none;"
+>
+
+<span>
+Taxable Amount
+</span>
+
+<strong>
+AED
+<span id="outTaxable">
+0.00
+</span>
+</strong>
+
+</div>
+
+
+<div
+class="total-row"
+id="vatRow"
+style="display:none;"
+>
+
+<span>
+VAT 5%
+</span>
+
+<strong>
+AED
+<span id="outVAT">
+0.00
+</span>
+</strong>
+
+</div>
+
+
+<div class="total-line"></div>
+
+
+<div class="total-main">
+
+<span>
+TOTAL
+</span>
+
+<span>
+AED
+<span id="outTotal">
+0.00
+</span>
+</span>
+
+</div>
+
+
+<div class="payment-row">
+
+<span>
+Payment
+</span>
+
+<span
+id="outPayment"
+class="paid"
+>
+PAID
+</span>
+
+</div>
+
+
+<div class="payment-method">
+
+<span>
+Payment Method
+</span>
+
+<strong id="outPaymentMethod">
+Cash
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- WARRANTY -->
+
+<div class="warranty">
+
+<div class="warranty-title">
+Warranty & Terms
+</div>
+
+<div class="warranty-text">
+
+Warranty Period:
+<strong id="outWarranty">
+12 Months
+</strong>
+
+<br>
+
+Battery warranty is valid only for the stated warranty period.
+
+<br>
+
+<strong>
+Warranty Claim Policy:
+</strong>
+
+During the warranty period, the battery is eligible for
+<strong>
+replacement only once
+</strong>
+under a valid warranty claim.
+After one warranty replacement, no further replacement claim
+will be provided under the original warranty.
+
+<br>
+
+Warranty covers manufacturing defects under normal usage.
+Warranty does not cover physical damage, incorrect installation,
+deep discharge, misuse, neglect, accident, water damage,
+or electrical faults/problems in the vehicle.
+
+<br>
+
+Please retain this invoice as proof of purchase and warranty.
+Warranty claims require presentation of this original invoice.
+
+</div>
+
+</div>
+
+
+<!-- THANK YOU -->
+
+<div class="thank-you">
+
+<h2>
+Thank you for choosing 800PowerBat.
+</h2>
+
+<p>
+24/7 Mobile Car Battery Replacement • Jump Start • Battery Diagnosis
+</p>
+
+<p>
+Dubai, UAE | +971 52 404 0699
+</p>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<div class="invoice-footer">
+
+<div class="services">
+
+<div class="service">
+
+<div class="service-icon">
+🔋
+</div>
+
+<span>
+Battery<br>
+Replacement
+</span>
+
+</div>
+
+
+<div class="service">
+
+<div class="service-icon">
+⚡
+</div>
+
+<span>
+Jump<br>
+Start
+</span>
+
+</div>
+
+
+<div class="service">
+
+<div class="service-icon">
+⚙
+</div>
+
+<span>
+Battery<br>
+Diagnosis
+</span>
+
+</div>
+
+
+<div class="service">
+
+<div class="service-icon">
+🚐
+</div>
+
+<span>
+Roadside<br>
+Assistance
+</span>
+
+</div>
+
+</div>
+
+
+<div class="slogan">
+
+<div class="slogan-script">
+Powering Your Journey
+</div>
+
+<div class="slogan-small">
+FAST | RELIABLE | PROFESSIONAL
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+BATTERY STOCK DATABASE
+========================================================= */
+
+let batteries =
+JSON.parse(
+    localStorage.getItem("800PowerBatStock")
+) || [];
+
+
+/* =========================================================
+LOAD BRANDS
+========================================================= */
+
+function loadBatteryBrands(){
+
+    const brandSelect =
+    document.getElementById("batteryBrand");
+
+    brandSelect.innerHTML =
+    '<option value="">Select Battery Brand</option>';
+
+
+    const brands = [];
+
+
+    batteries.forEach(function(item){
+
+        const brand =
+        String(item.brand || "").trim();
+
+
+        if(
+            brand &&
+            !brands.some(function(existing){
+
+                return existing.toLowerCase()
+                === brand.toLowerCase();
+
+            })
+        ){
+
+            brands.push(brand);
+
+        }
+
+    });
+
+
+    brands.sort();
+
+
+    brands.forEach(function(brand){
+
+        const option =
+        document.createElement("option");
+
+        option.value = brand;
+
+        option.textContent = brand;
+
+        brandSelect.appendChild(option);
+
+    });
+
+}
+
+
+/* =========================================================
+LOAD MODELS
+========================================================= */
+
+function loadBatteryModels(){
+
+    const selectedBrand =
+    document.getElementById("batteryBrand").value;
+
+
+    const modelSelect =
+    document.getElementById("batteryModel");
+
+
+    modelSelect.innerHTML =
+    '<option value="">Select Battery Model</option>';
+
+
+    resetBatteryDetails();
+
+
+    if(!selectedBrand){
+        return;
+    }
+
+
+    const selectedBatteries =
+    batteries.filter(function(item){
+
+        return (
+            String(item.brand || "")
+            .toLowerCase()
+            ===
+            selectedBrand.toLowerCase()
+        );
+
+    });
+
+
+    selectedBatteries.forEach(function(item,index){
+
+        const option =
+        document.createElement("option");
+
+
+        /*
+        Use array index to identify exact
+        battery record.
+        */
+
+        option.value =
+        batteries.indexOf(item);
+
+
+        option.textContent =
+        item.model +
+        (
+            Number(item.quantity || 0) <= 0
+            ? " — OUT OF STOCK"
+            : " — " +
+            item.quantity +
+            " available"
+        );
+
+
+        if(Number(item.quantity || 0) <= 0){
+
+            option.disabled = true;
+
+        }
+
+
+        modelSelect.appendChild(option);
+
+    });
+
+}
+
+
+/* =========================================================
+LOAD SELECTED BATTERY DETAILS
+========================================================= */
+
+function loadBatteryDetails(){
+
+    const selectedIndex =
+    document.getElementById("batteryModel").value;
+
+
+    if(selectedIndex === ""){
+
+        resetBatteryDetails();
+
+        return;
+
+    }
+
+
+    const item =
+    batteries[Number(selectedIndex)];
+
+
+    if(!item){
+
+        resetBatteryDetails();
+
+        return;
+
+    }
+
+
+    document.getElementById("selectedType").innerText =
+    item.batteryType || "—";
+
+
+    document.getElementById("selectedAh").innerText =
+    item.ah || "—";
+
+
+    document.getElementById("selectedSize").innerText =
+    item.size || "—";
+
+
+    document.getElementById("selectedStock").innerText =
+    Number(item.quantity || 0);
+
+
+    document.getElementById("selectedPurchase").innerText =
+    "AED " +
+    Number(item.purchasePrice || 0).toFixed(2);
+
+
+    document.getElementById("selectedWarranty").innerText =
+    item.warranty || "—";
+
+
+    /*
+    Automatically use the warranty stored
+    in Battery Stock.
+    */
+
+    if(item.warranty){
+
+        const warrantySelect =
+        document.getElementById("warranty");
+
+
+        let found = false;
+
+
+        for(
+            let i = 0;
+            i < warrantySelect.options.length;
+            i++
+        ){
+
+            if(
+                warrantySelect.options[i].value
+                ===
+                item.warranty
+            ){
+
+                warrantySelect.selectedIndex =
+                i;
+
+                found = true;
+
+                break;
+
+            }
+
+        }
+
+
+        if(!found){
+
+            const newOption =
+            document.createElement("option");
+
+            newOption.value =
+            item.warranty;
+
+            newOption.textContent =
+            item.warranty;
+
+            warrantySelect.appendChild(
+                newOption
+            );
+
+            warrantySelect.value =
+            item.warranty;
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+RESET BATTERY DETAILS
+========================================================= */
+
+function resetBatteryDetails(){
+
+    document.getElementById("selectedType").innerText =
+    "—";
+
+    document.getElementById("selectedAh").innerText =
+    "—";
+
+    document.getElementById("selectedSize").innerText =
+    "—";
+
+    document.getElementById("selectedStock").innerText =
+    "—";
+
+    document.getElementById("selectedPurchase").innerText =
+    "—";
+
+    document.getElementById("selectedWarranty").innerText =
+    "—";
+
+}
+
+
+/* =========================================================
+NORMALIZE
+========================================================= */
+
+function normalizeText(value){
+
+    return String(value || "")
+    .trim()
+    .toLowerCase();
+
+}
+
+
+/* =========================================================
+STOCK DEDUCTION
+========================================================= */
+
+function deductBatteryFromStock(
+    brand,
+    model
+){
+
+    let stock =
+    JSON.parse(
+        localStorage.getItem(
+            "800PowerBatStock"
+        )
+    ) || [];
+
+
+    const wantedBrand =
+    normalizeText(brand);
+
+
+    const wantedModel =
+    normalizeText(model);
+
+
+    const index =
+    stock.findIndex(function(item){
+
+        return (
+
+            normalizeText(item.brand)
+            === wantedBrand
+
+            &&
+
+            normalizeText(item.model)
+            === wantedModel
+
+        );
+
+    });
+
+
+    if(index === -1){
+
+        return {
+            success:false,
+            reason:"not_found"
+        };
+
+    }
+
+
+    const currentQuantity =
+    Number(stock[index].quantity) || 0;
+
+
+    if(currentQuantity <= 0){
+
+        return {
+            success:false,
+            reason:"out_of_stock"
+        };
+
+    }
+
+
+    const newQuantity =
+    currentQuantity - 1;
+
+
+    stock[index].quantity =
+    newQuantity;
+
+
+    if(newQuantity === 0){
+
+        stock[index].status =
+        "Out of Stock";
+
+    }else if(
+        newQuantity <=
+        Number(
+            stock[index].minimumStock || 0
+        )
+    ){
+
+        stock[index].status =
+        "Low Stock";
+
+    }else{
+
+        stock[index].status =
+        "In Stock";
+
+    }
+
+
+    localStorage.setItem(
+        "800PowerBatStock",
+        JSON.stringify(stock)
+    );
+
+
+    return {
+
+        success:true,
+
+        remaining:newQuantity
+
+    };
+
+}
+
+
+/* =========================================================
+STOCK MESSAGE
+========================================================= */
+
+function showStockMessage(
+    message,
+    type
+){
+
+    const box =
+    document.getElementById(
+        "stockMessage"
+    );
+
+
+    box.innerText =
+    message;
+
+
+    box.className =
+    "stock-message " +
+    (
+        type === "success"
+        ? "stock-success"
+        : type === "error"
+        ? "stock-error"
+        : "stock-warning"
+    );
+
+
+    box.style.display =
+    "block";
+
+}
+
+
+/* =========================================================
+GENERATE INVOICE
+========================================================= */
+
+let invoiceGenerated = false;
+
+
+function generateInvoice(){
+
+    const brandSelect =
+    document.getElementById(
+        "batteryBrand"
+    );
+
+
+    const modelSelect =
+    document.getElementById(
+        "batteryModel"
+    );
+
+
+    const selectedIndex =
+    modelSelect.value;
+
+
+    if(!brandSelect.value){
+
+        alert(
+            "Please select a Battery Brand."
+        );
+
+        return;
+
+    }
+
+
+    if(selectedIndex === ""){
+
+        alert(
+            "Please select a Battery Model."
+        );
+
+        return;
+
+    }
+
+
+    const stock =
+    JSON.parse(
+        localStorage.getItem(
+            "800PowerBatStock"
+        )
+    ) || [];
+
+
+    const battery =
+    stock[
+        Number(selectedIndex)
+    ];
+
+
+    if(!battery){
+
+        alert(
+            "Selected battery was not found in stock."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        Number(battery.quantity || 0)
+        <= 0
+    ){
+
+        alert(
+            "This battery is Out of Stock."
+        );
+
+        return;
+
+    }
+
+
+    const customer =
+    document.getElementById(
+        "customer"
+    ).value.trim();
+
+
+    const phone =
+    document.getElementById(
+        "phone"
+    ).value.trim();
+
+
+    const customerTRN =
+    document.getElementById(
+        "customerTRN"
+    ).value.trim();
+
+
+    const carBrand =
+    document.getElementById(
+        "carBrand"
+    ).value.trim();
+
+
+    const carModel =
+    document.getElementById(
+        "carModel"
+    ).value.trim();
+
+
+    const batteryBrand =
+    battery.brand;
+
+
+    const batteryModel =
+    battery.model;
+
+
+    /* SALE PRICE IS MANUAL */
+
+    const batteryPrice =
+    parseFloat(
+        document.getElementById(
+            "batteryPrice"
+        ).value
+    ) || 0;
+
+
+    const service =
+    parseFloat(
+        document.getElementById(
+            "servicePrice"
+        ).value
+    ) || 0;
+
+
+    const discount =
+    parseFloat(
+        document.getElementById(
+            "discount"
+        ).value
+    ) || 0;
+
+
+    const warranty =
+    document.getElementById(
+        "warranty"
+    ).value;
+
+
+    const payment =
+    document.getElementById(
+        "payment"
+    ).value;
+
+
+    const paymentMethod =
+    document.getElementById(
+        "paymentMethod"
+    ).value;
+
+
+    const companyTRN =
+    document.getElementById(
+        "companyTRN"
+    ).value.trim();
+
+
+    const vatEnabled =
+    document.getElementById(
+        "vatEnabled"
+    ).checked;
+
+
+    /* CALCULATION */
+
+    const subtotal =
+    batteryPrice + service;
+
+
+    const taxable =
+    Math.max(
+        0,
+        subtotal - discount
+    );
+
+
+    const vat =
+    vatEnabled
+    ? taxable * 0.05
+    : 0;
+
+
+    const total =
+    taxable + vat;
+
+
+    /* INVOICE NUMBER */
+
+    const invoiceNumber =
+    "800-" +
+    Math.floor(
+        100000 +
+        Math.random() * 900000
+    );
+
+
+    /* DATE */
+
+    const today =
+    new Date();
+
+
+    const date =
+    today.toLocaleDateString(
+        "en-GB"
+    );
+
+
+    /* DEDUCT STOCK */
+
+    const stockResult =
+    deductBatteryFromStock(
+        batteryBrand,
+        batteryModel
+    );
+
+
+    if(stockResult.success){
+
+        showStockMessage(
+
+            "✓ " +
+            batteryBrand +
+            " " +
+            batteryModel +
+            " sold. " +
+            "Remaining stock: " +
+            stockResult.remaining,
+
+            "success"
+
+        );
+
+    }else{
+
+        showStockMessage(
+
+            "⚠ Stock could not be deducted. " +
+            "Please check Battery Stock.",
+
+            "warning"
+
+        );
+
+    }
+
+
+    /* OUTPUT */
+
+    document.getElementById(
+        "invoiceNo"
+    ).innerText =
+    invoiceNumber;
+
+
+    document.getElementById(
+        "invoiceDate"
+    ).innerText =
+    date;
+
+
+    document.getElementById(
+        "outCustomer"
+    ).innerText =
+    customer || "Customer";
+
+
+    document.getElementById(
+        "outPhone"
+    ).innerText =
+    phone || "—";
+
+
+    document.getElementById(
+        "outCar"
+    ).innerText =
+    (
+        carBrand +
+        " " +
+        carModel
+    ).trim()
+    || "Vehicle";
+
+
+    document.getElementById(
+        "outBatteryBrand"
+    ).innerText =
+    batteryBrand;
+
+
+    document.getElementById(
+        "outBatteryModel"
+    ).innerText =
+    batteryModel;
+
+
+    document.getElementById(
+        "outBatteryDetails"
+    ).innerText =
+
+    (
+        battery.batteryType
+        ? battery.batteryType
+        : ""
+    )
+
+    +
+
+    (
+        battery.ah
+        ? " • " + battery.ah
+        : ""
+    )
+
+    +
+
+    (
+        battery.size
+        ? " • " + battery.size
+        : ""
+    );
+
+
+    document.getElementById(
+        "outBatteryPrice"
+    ).innerText =
+    batteryPrice.toFixed(2);
+
+
+    document.getElementById(
+        "outService"
+    ).innerText =
+    service.toFixed(2);
+
+
+    document.getElementById(
+        "outSubtotal"
+    ).innerText =
+    subtotal.toFixed(2);
+
+
+    document.getElementById(
+        "outDiscount"
+    ).innerText =
+    discount.toFixed(2);
+
+
+    document.getElementById(
+        "outTotal"
+    ).innerText =
+    total.toFixed(2);
+
+
+    document.getElementById(
+        "outWarranty"
+    ).innerText =
+    warranty;
+
+
+    document.getElementById(
+        "outItemWarranty"
+    ).innerText =
+    warranty;
+
+
+    document.getElementById(
+        "outPaymentMethod"
+    ).innerText =
+    paymentMethod;
+
+
+    /* PAYMENT */
+
+    const paymentElement =
+    document.getElementById(
+        "outPayment"
+    );
+
+
+    paymentElement.innerText =
+    payment;
+
+
+    paymentElement.className =
+    payment === "PAID"
+    ? "paid"
+    : "pending";
+
+
+    /* CUSTOMER TRN */
+
+    const customerTRNOutput =
+    document.getElementById(
+        "customerTRNOutput"
+    );
+
+
+    if(customerTRN){
+
+        customerTRNOutput.innerHTML =
+        "Customer TRN: <strong>" +
+        escapeHTML(customerTRN) +
+        "</strong>";
+
+
+        customerTRNOutput.style.display =
+        "block";
+
+    }else{
+
+        customerTRNOutput.style.display =
+        "none";
+
+    }
+
+
+    /* VAT */
+
+    const vatRow =
+    document.getElementById(
+        "vatRow"
+    );
+
+
+    const taxableRow =
+    document.getElementById(
+        "taxableRow"
+    );
+
+
+    const invoiceHeading =
+    document.getElementById(
+        "invoiceHeading"
+    );
+
+
+    const companyTRNOutput =
+    document.getElementById(
+        "companyTRNOutput"
+    );
+
+
+    if(vatEnabled){
+
+        taxableRow.style.display =
+        "flex";
+
+
+        vatRow.style.display =
+        "flex";
+
+
+        document.getElementById(
+            "outTaxable"
+        ).innerText =
+        taxable.toFixed(2);
+
+
+        document.getElementById(
+            "outVAT"
+        ).innerText =
+        vat.toFixed(2);
+
+
+        invoiceHeading.innerText =
+        "TAX INVOICE";
+
+
+        companyTRNOutput.innerText =
+        companyTRN
+        ? "Company TRN: " + companyTRN
+        : "Company TRN: —";
+
+    }else{
+
+        taxableRow.style.display =
+        "none";
+
+
+        vatRow.style.display =
+        "none";
+
+
+        invoiceHeading.innerText =
+        "INVOICE";
+
+
+        companyTRNOutput.innerText =
+        companyTRN
+        ? "Company TRN: " + companyTRN
+        : "";
+
+    }
+
+
+    /* SHOW INVOICE */
+
+    document.getElementById(
+        "invoicePreview"
+    ).style.display =
+    "block";
+
+
+    /* SAVE HISTORY */
+
+    let invoices =
+    JSON.parse(
+        localStorage.getItem(
+            "invoices"
+        )
+    ) || [];
+
+
+    invoices.push({
+
+        number:invoiceNumber,
+
+        date:date,
+
+        customer:customer,
+
+        phone:phone,
+
+        customerTRN:customerTRN,
+
+        car:
+        (
+            carBrand +
+            " " +
+            carModel
+        ).trim(),
+
+        batteryBrand:batteryBrand,
+
+        batteryModel:batteryModel,
+
+        batteryType:
+        battery.batteryType || "",
+
+        ah:
+        battery.ah || "",
+
+        size:
+        battery.size || "",
+
+        purchasePrice:
+        Number(
+            battery.purchasePrice || 0
+        ),
+
+        batteryPrice:batteryPrice,
+
+        service:service,
+
+        discount:discount,
+
+        subtotal:subtotal,
+
+        taxable:taxable,
+
+        vatEnabled:vatEnabled,
+
+        vatRate:
+        vatEnabled ? 5 : 0,
+
+        vat:vat,
+
+        total:total,
+
+        companyTRN:companyTRN,
+
+        warranty:warranty,
+
+        payment:payment,
+
+        paymentMethod:paymentMethod,
+
+        stockDeducted:
+        stockResult.success,
+
+        stockRemaining:
+        stockResult.success
+        ? stockResult.remaining
+        : null
+
+    });
+
+
+    localStorage.setItem(
+        "invoices",
+        JSON.stringify(invoices)
+    );
+
+
+    invoiceGenerated =
+    true;
+
+
+    /*
+    Reload stock data in dropdowns
+    after sale.
+    */
+
+    batteries =
+    JSON.parse(
+        localStorage.getItem(
+            "800PowerBatStock"
+        )
+    ) || [];
+
+
+    loadBatteryBrands();
+
+
+    document.getElementById(
+        "batteryBrand"
+    ).value =
+    batteryBrand;
+
+
+    loadBatteryModels();
+
+
+    /*
+    Find the same model again
+    after stock update.
+    */
+
+    const updatedIndex =
+    batteries.findIndex(function(item){
+
+        return (
+
+            normalizeText(item.brand)
+            ===
+            normalizeText(batteryBrand)
+
+            &&
+
+            normalizeText(item.model)
+            ===
+            normalizeText(batteryModel)
+
+        );
+
+    });
+
+
+    if(updatedIndex !== -1){
+
+        document.getElementById(
+            "batteryModel"
+        ).value =
+        updatedIndex;
+
+        loadBatteryDetails();
+
+    }
+
+
+    document.getElementById(
+        "invoicePreview"
+    ).scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =========================================================
+PRINT / SAVE PDF
+========================================================= */
+
+function printInvoice(){
+
+    const preview =
+    document.getElementById(
+        "invoicePreview"
+    );
+
+
+    if(
+        preview.style.display !== "block"
+    ){
+
+        generateInvoice();
+
+
+        setTimeout(function(){
+
+            if(
+                preview.style.display
+                === "block"
+            ){
+
+                window.print();
+
+            }
+
+        },500);
+
+    }else{
+
+        window.print();
+
+    }
+
+}
+
+
+/* =========================================================
+ESCAPE HTML
+========================================================= */
+
+function escapeHTML(text){
+
+    return String(text)
+
+    .replace(/&/g,"&amp;")
+
+    .replace(/</g,"&lt;")
+
+    .replace(/>/g,"&gt;")
+
+    .replace(/"/g,"&quot;")
+
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+LOAD ON PAGE START
+========================================================= */
+
+loadBatteryBrands();
+
+</script>
+
+</body>
+    </html>
