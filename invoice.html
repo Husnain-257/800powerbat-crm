@@ -75,6 +75,47 @@ select:focus{
     border-color:#f5b400;
 }
 
+/* AUTO BATTERY INFO */
+
+.battery-info{
+    grid-column:1 / -1;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    padding:15px;
+    background:#f7f8fa;
+    border-left:5px solid #f5b400;
+    border-radius:8px;
+}
+
+.info-box{
+    background:#fff;
+    border:1px solid #e1e5ea;
+    border-radius:7px;
+    padding:10px;
+}
+
+.info-box small{
+    display:block;
+    color:#68717c;
+    font-size:11px;
+    margin-bottom:4px;
+}
+
+.info-box strong{
+    font-size:14px;
+}
+
+.sale-note{
+    grid-column:1 / -1;
+    background:#fff8dc;
+    border-left:4px solid #f5b400;
+    padding:10px 12px;
+    font-size:12px;
+    color:#665000;
+    border-radius:5px;
+}
+
 .vat-box{
     margin-top:20px;
     padding:18px;
@@ -139,9 +180,7 @@ button,
     color:#071426;
 }
 
-/* =========================================================
-STOCK MESSAGE
-========================================================= */
+/* STOCK MESSAGE */
 
 .stock-message{
     display:none;
@@ -189,9 +228,7 @@ A4 INVOICE
     print-color-adjust:exact;
 }
 
-/* =========================================================
-BLACK LETTERHEAD
-========================================================= */
+/* HEADER */
 
 .invoice-header{
     height:140px;
@@ -318,10 +355,6 @@ BLACK LETTERHEAD
     font-weight:bold;
 }
 
-/* =========================================================
-TAX INVOICE TOP RIGHT
-========================================================= */
-
 .invoice-right{
     text-align:right;
     min-width:245px;
@@ -351,18 +384,12 @@ TAX INVOICE TOP RIGHT
     color:#fff;
 }
 
-/* =========================================================
-YELLOW LINE
-========================================================= */
-
 .yellow-line{
     height:3px;
     background:#f5b400;
 }
 
-/* =========================================================
-BILL TO / VEHICLE
-========================================================= */
+/* BILL */
 
 .bill-section{
     display:grid;
@@ -391,9 +418,7 @@ BILL TO / VEHICLE
     color:#b3bdca;
 }
 
-/* =========================================================
-TABLE
-========================================================= */
+/* TABLE */
 
 .table-area{
     padding:0 38px;
@@ -454,8 +479,14 @@ TABLE
     color:#fff;
 }
 
-.item-warranty{
+.item-details{
     margin-top:5px;
+    font-size:9px;
+    color:#929eaf;
+}
+
+.item-warranty{
+    margin-top:4px;
     font-size:9px;
     font-weight:bold;
     color:#929eaf;
@@ -465,9 +496,7 @@ TABLE
     color:#f5b400;
 }
 
-/* =========================================================
-TOTALS
-========================================================= */
+/* TOTALS */
 
 .bottom-section{
     display:flex;
@@ -553,9 +582,7 @@ TOTALS
     font-weight:bold;
 }
 
-/* =========================================================
-WARRANTY
-========================================================= */
+/* WARRANTY */
 
 .warranty{
     margin:0 38px 12px;
@@ -583,9 +610,7 @@ WARRANTY
     color:#e4e9ef;
 }
 
-/* =========================================================
-THANK YOU
-========================================================= */
+/* THANK YOU */
 
 .thank-you{
     border-top:1px solid #28364a;
@@ -606,9 +631,7 @@ THANK YOU
     font-size:9px;
 }
 
-/* =========================================================
-FOOTER
-========================================================= */
+/* FOOTER */
 
 .invoice-footer{
     position:absolute;
@@ -699,9 +722,7 @@ FOOTER
     color:#c2cad5;
 }
 
-/* =========================================================
-PRINT A4 ONE PAGE
-========================================================= */
+/* PRINT */
 
 @media print{
 
@@ -743,14 +764,16 @@ PRINT A4 ONE PAGE
     }
 }
 
-/* =========================================================
-MOBILE
-========================================================= */
+/* MOBILE */
 
 @media(max-width:750px){
 
     .grid{
         grid-template-columns:1fr;
+    }
+
+    .battery-info{
+        grid-template-columns:1fr 1fr;
     }
 
     .invoice-wrapper{
@@ -878,1087 +901,96 @@ FORM
 <input id="carModel" placeholder="X5">
 </div>
 
+
+<!-- BATTERY BRAND FROM STOCK -->
+
 <div class="field">
 <label>Battery Brand</label>
-<select id="batteryBrand">
-<option value="">Select Battery Brand</option>
-<option>Fiamm</option>
-<option>Energizer</option>
-<option>Bosch</option>
-<option>Varta</option>
-<option>AC Delco</option>
-<option>Amaron</option>
-<option>SF Sonic</option>
-<option>Exide</option>
-<option>Kays</option>
-<option>Bekon</option>
+
+<select id="batteryBrand" onchange="loadBatteryModels()">
+
+<option value="">
+Select Battery Brand
+</option>
+
 </select>
+
 </div>
 
-<div class="field">
-<label>Battery Model / Size</label>
-<input id="batteryModel" placeholder="80 AGM">
-</div>
+
+<!-- BATTERY MODEL FROM STOCK -->
 
 <div class="field">
-<label>Battery Price (AED)</label>
-<input id="batteryPrice" type="number" value="0">
-</div>
+<label>Battery Model</label>
 
-<div class="field">
-<label>Installation / Service (AED)</label>
-<input id="servicePrice" type="number" value="0">
-</div>
+<select id="batteryModel" onchange="loadBatteryDetails()">
 
-<div class="field">
-<label>Discount (AED)</label>
-<input id="discount" type="number" value="0">
-</div>
+<option value="">
+Select Battery Model
+</option>
 
-<div class="field">
-<label>Warranty</label>
-<select id="warranty">
-<option>3 Months</option>
-<option>6 Months</option>
-<option selected>12 Months</option>
-<option>18 Months</option>
-<option>24 Months</option>
-<option>No Warranty</option>
 </select>
+
 </div>
+
+
+<!-- AUTO BATTERY DETAILS -->
+
+<div class="battery-info">
+
+<div class="info-box">
+<small>Battery Type</small>
+<strong id="selectedType">—</strong>
+</div>
+
+<div class="info-box">
+<small>Ah</small>
+<strong id="selectedAh">—</strong>
+</div>
+
+<div class="info-box">
+<small>Size</small>
+<strong id="selectedSize">—</strong>
+</div>
+
+<div class="info-box">
+<small>Stock Available</small>
+<strong id="selectedStock">—</strong>
+</div>
+
+<div class="info-box">
+<small>Purchase Price</small>
+<strong id="selectedPurchase">—</strong>
+</div>
+
+<div class="info-box">
+<small>Warranty</small>
+<strong id="selectedWarranty">—</strong>
+</div>
+
+<div class="sale-note">
+<strong>Sale Price:</strong>
+Enter your own customer selling price below.
+The selling price is NOT saved in Battery Stock.
+</div>
+
+</div>
+
 
 <div class="field">
-<label>Payment Status</label>
-<select id="payment">
-<option>PAID</option>
-<option>PENDING</option>
-</select>
+<label>Battery Sale Price (AED)</label>
+
+<input
+id="batteryPrice"
+type="number"
+value="0"
+min="0"
+step="0.01"
+placeholder="Enter your selling price"
+>
+
 </div>
+
 
 <div class="field">
-<label>Payment Method</label>
-<select id="paymentMethod">
-<option>Cash</option>
-<option>Card</option>
-<option>Payment Link</option>
-</select>
-</div>
-
-</div>
-
-<div class="vat-box">
-
-<h3>VAT Settings</h3>
-
-<div class="grid">
-
-<div class="field">
-<label>Company TRN</label>
-<input id="companyTRN" placeholder="Leave blank if not VAT registered">
-</div>
-
-<div class="field">
-<label>VAT</label>
-
-<div class="check-row">
-<input type="checkbox" id="vatEnabled">
-<span>Apply 5% VAT</span>
-</div>
-
-</div>
-
-</div>
-
-<div class="vat-note">
-VAT is OFF by default. Customer TRN is optional.
-If 800PowerBat becomes VAT registered in the future,
-enter the official Company TRN and enable 5% VAT.
-</div>
-
-</div>
-
-<div class="buttons">
-
-<button class="generate" onclick="generateInvoice()">
-Generate Invoice
-</button>
-
-<button class="print" onclick="printInvoice()">
-Print / Save PDF
-</button>
-
-<a class="btn history" href="invoices.html">
-Invoice History
-</a>
-
-<a class="btn history" href="index.html">
-Dashboard
-</a>
-
-</div>
-
-<div id="stockMessage" class="stock-message"></div>
-
-</div>
-</div>
-
-
-<!-- =======================================================
-INVOICE
-======================================================= -->
-
-<div id="invoicePreview" class="invoice-wrapper">
-
-<div class="invoice-header">
-
-<div class="brand-area">
-
-<div class="logo-row">
-
-<div class="battery-logo">
-<div class="battery-yellow"></div>
-<div class="battery-bolt">ϟ</div>
-</div>
-
-<div class="brand-name">
-<span class="eight">800</span><span class="power">PowerBat</span>
-</div>
-
-</div>
-
-<div class="brand-sub">
-MOBILE CAR BATTERY SERVICE
-</div>
-
-<div class="company-info">
-
-<div class="info-item">
-<div class="info-icon">24/7</div>
-<span>24/7 Mobile Car Battery Service</span>
-</div>
-
-<div class="info-item">
-<div class="info-icon">●</div>
-<span>Dubai, UAE</span>
-</div>
-
-<div class="info-item">
-<div class="info-icon">☎</div>
-<span>+971 52 404 0699</span>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- TOP RIGHT TAX INVOICE -->
-
-<div class="invoice-right">
-
-<h1 id="invoiceHeading">
-INVOICE
-</h1>
-
-<div class="invoice-meta">
-
-Invoice No:
-<strong id="invoiceNo">—</strong>
-
-<br>
-
-Date:
-<strong id="invoiceDate">—</strong>
-
-<br>
-
-<span id="companyTRNOutput"></span>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="yellow-line"></div>
-
-
-<!-- BILL TO -->
-
-<div class="bill-section">
-
-<div>
-
-<div class="bill-title">
-BILL TO
-</div>
-
-<div class="bill-name" id="outCustomer">
-Customer
-</div>
-
-<div class="bill-text" id="outPhone">
-—
-</div>
-
-<div class="bill-text" id="customerTRNOutput" style="display:none;"></div>
-
-</div>
-
-
-<div>
-
-<div class="bill-title">
-VEHICLE
-</div>
-
-<div class="bill-name" id="outCar">
-Vehicle
-</div>
-
-</div>
-
-</div>
-
-
-<!-- DESCRIPTION -->
-
-<div class="table-area">
-
-<table class="invoice-table">
-
-<thead>
-<tr>
-<th>Description</th>
-<th>Qty</th>
-<th>Amount (AED)</th>
-</tr>
-</thead>
-
-<tbody>
-
-<tr>
-
-<td>
-
-<div class="item-brand" id="outBatteryBrand">
-Battery
-</div>
-
-<div class="item-model" id="outBatteryModel">
-—
-</div>
-
-<div class="item-warranty">
-Warranty:
-<span id="outItemWarranty">
-12 Months
-</span>
-</div>
-
-</td>
-
-<td>1</td>
-
-<td>
-<span id="outBatteryPrice">
-0.00
-</span>
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-Installation / Service
-</td>
-
-<td>
-1
-</td>
-
-<td>
-<span id="outService">
-0.00
-</span>
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-
-<!-- TOTALS -->
-
-<div class="bottom-section">
-
-<div class="totals">
-
-<div class="total-row">
-<span>Subtotal</span>
-<strong>
-AED <span id="outSubtotal">0.00</span>
-</strong>
-</div>
-
-<div class="total-row">
-<span>Discount</span>
-<strong>
-AED <span id="outDiscount">0.00</span>
-</strong>
-</div>
-
-<div class="total-row" id="taxableRow" style="display:none;">
-<span>Taxable Amount</span>
-<strong>
-AED <span id="outTaxable">0.00</span>
-</strong>
-</div>
-
-<div class="total-row" id="vatRow" style="display:none;">
-<span>VAT 5%</span>
-<strong>
-AED <span id="outVAT">0.00</span>
-</strong>
-</div>
-
-<div class="total-line"></div>
-
-<div class="total-main">
-<span>TOTAL</span>
-<span>
-AED <span id="outTotal">0.00</span>
-</span>
-</div>
-
-<div class="payment-row">
-
-<span>Payment</span>
-
-<span id="outPayment" class="paid">
-PAID
-</span>
-
-</div>
-
-<div class="payment-method">
-
-<span>Payment Method</span>
-
-<strong id="outPaymentMethod">
-Cash
-</strong>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- WARRANTY -->
-
-<div class="warranty">
-
-<div class="warranty-title">
-Warranty & Terms
-</div>
-
-<div class="warranty-text">
-
-Warranty Period:
-<strong id="outWarranty">12 Months</strong>
-
-<br>
-
-Battery warranty is valid only for the stated warranty period.
-
-<br>
-
-<strong>Warranty Claim Policy:</strong>
-During the warranty period, the battery is eligible for
-<strong>replacement only once</strong> under a valid warranty claim.
-After one warranty replacement, no further replacement claim
-will be provided under the original warranty.
-
-<br>
-
-Warranty covers manufacturing defects under normal usage.
-Warranty does not cover physical damage, incorrect installation,
-deep discharge, misuse, neglect, accident, water damage,
-or electrical faults/problems in the vehicle.
-
-<br>
-
-Please retain this invoice as proof of purchase and warranty.
-Warranty claims require presentation of this original invoice.
-
-</div>
-
-</div>
-
-
-<!-- THANK YOU -->
-
-<div class="thank-you">
-
-<h2>
-Thank you for choosing 800PowerBat.
-</h2>
-
-<p>
-24/7 Mobile Car Battery Replacement • Jump Start • Battery Diagnosis
-</p>
-
-<p>
-Dubai, UAE | +971 52 404 0699
-</p>
-
-</div>
-
-
-<!-- FOOTER -->
-
-<div class="invoice-footer">
-
-<div class="services">
-
-<div class="service">
-<div class="service-icon">🔋</div>
-<span>Battery<br>Replacement</span>
-</div>
-
-<div class="service">
-<div class="service-icon">⚡</div>
-<span>Jump<br>Start</span>
-</div>
-
-<div class="service">
-<div class="service-icon">⚙</div>
-<span>Battery<br>Diagnosis</span>
-</div>
-
-<div class="service">
-<div class="service-icon">🚐</div>
-<span>Roadside<br>Assistance</span>
-</div>
-
-</div>
-
-<div class="slogan">
-
-<div class="slogan-script">
-Powering Your Journey
-</div>
-
-<div class="slogan-small">
-FAST | RELIABLE | PROFESSIONAL
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<script>
-
-/* =========================================================
-800PowerBat STOCK
-========================================================= */
-
-let invoiceGenerated = false;
-
-function normalizeText(value){
-
-    return String(value || "")
-    .trim()
-    .toLowerCase();
-
-}
-
-function showStockMessage(message,type){
-
-    const box =
-    document.getElementById("stockMessage");
-
-    box.innerText = message;
-
-    box.className =
-    "stock-message " +
-    (
-        type === "success"
-        ? "stock-success"
-        : type === "error"
-        ? "stock-error"
-        : "stock-warning"
-    );
-
-    box.style.display = "block";
-
-}
-
-function deductBatteryFromStock(brand,model){
-
-    let stock =
-    JSON.parse(
-        localStorage.getItem("800PowerBatStock")
-    ) || [];
-
-    const wantedBrand =
-    normalizeText(brand);
-
-    const wantedModel =
-    normalizeText(model);
-
-    if(!wantedBrand || !wantedModel){
-
-        return {
-            success:false,
-            reason:"missing"
-        };
-
-    }
-
-    const index =
-    stock.findIndex(function(item){
-
-        return (
-            normalizeText(item.brand) === wantedBrand &&
-            normalizeText(item.model) === wantedModel
-        );
-
-    });
-
-    if(index === -1){
-
-        return {
-            success:false,
-            reason:"not_found"
-        };
-
-    }
-
-    const currentQuantity =
-    Number(stock[index].quantity) || 0;
-
-    if(currentQuantity <= 0){
-
-        return {
-            success:false,
-            reason:"out_of_stock"
-        };
-
-    }
-
-    const newQuantity =
-    currentQuantity - 1;
-
-    if(newQuantity <= 0){
-
-        stock.splice(index,1);
-
-        localStorage.setItem(
-            "800PowerBatStock",
-            JSON.stringify(stock)
-        );
-
-        return {
-            success:true,
-            remaining:0,
-            removed:true
-        };
-
-    }
-
-    stock[index].quantity =
-    newQuantity;
-
-    stock[index].status =
-    newQuantity <= 2
-    ? "Low Stock"
-    : "In Stock";
-
-    localStorage.setItem(
-        "800PowerBatStock",
-        JSON.stringify(stock)
-    );
-
-    return {
-        success:true,
-        remaining:newQuantity,
-        removed:false
-    };
-
-}
-
-
-/* =========================================================
-GENERATE INVOICE
-========================================================= */
-
-function generateInvoice(){
-
-    if(invoiceGenerated){
-
-        const createNew =
-        confirm(
-            "This invoice has already been generated.\n\n" +
-            "Do you want to create a NEW invoice?\n\n" +
-            "A new invoice will deduct another battery from stock."
-        );
-
-        if(!createNew){
-            return;
-        }
-
-    }
-
-    const customer =
-    document.getElementById("customer").value.trim();
-
-    const phone =
-    document.getElementById("phone").value.trim();
-
-    const customerTRN =
-    document.getElementById("customerTRN").value.trim();
-
-    const carBrand =
-    document.getElementById("carBrand").value.trim();
-
-    const carModel =
-    document.getElementById("carModel").value.trim();
-
-    const batteryBrand =
-    document.getElementById("batteryBrand").value.trim();
-
-    const batteryModel =
-    document.getElementById("batteryModel").value.trim();
-
-    const batteryPrice =
-    parseFloat(
-        document.getElementById("batteryPrice").value
-    ) || 0;
-
-    const service =
-    parseFloat(
-        document.getElementById("servicePrice").value
-    ) || 0;
-
-    const discount =
-    parseFloat(
-        document.getElementById("discount").value
-    ) || 0;
-
-    const warranty =
-    document.getElementById("warranty").value;
-
-    const payment =
-    document.getElementById("payment").value;
-
-    const paymentMethod =
-    document.getElementById("paymentMethod").value;
-
-    const companyTRN =
-    document.getElementById("companyTRN").value.trim();
-
-    const vatEnabled =
-    document.getElementById("vatEnabled").checked;
-
-
-    /* VALIDATION */
-
-    if(!batteryBrand){
-
-        alert(
-            "Please select the Battery Brand before generating the invoice."
-        );
-
-        return;
-    }
-
-    if(!batteryModel){
-
-        alert(
-            "Please enter the Battery Model / Size before generating the invoice."
-        );
-
-        return;
-    }
-
-
-    /* CALCULATION */
-
-    const subtotal =
-    batteryPrice + service;
-
-    const taxable =
-    Math.max(
-        0,
-        subtotal - discount
-    );
-
-    const vat =
-    vatEnabled
-    ? taxable * 0.05
-    : 0;
-
-    const total =
-    taxable + vat;
-
-
-    /* INVOICE NUMBER */
-
-    const invoiceNumber =
-    "800-" +
-    Math.floor(
-        100000 +
-        Math.random() * 900000
-    );
-
-
-    /* DATE */
-
-    const today =
-    new Date();
-
-    const date =
-    today.toLocaleDateString("en-GB");
-
-
-    /* STOCK */
-
-    const stockResult =
-    deductBatteryFromStock(
-        batteryBrand,
-        batteryModel
-    );
-
-
-    if(stockResult.success){
-
-        if(stockResult.removed){
-
-            showStockMessage(
-                "✓ " +
-                batteryBrand +
-                " " +
-                batteryModel +
-                " sold. Stock quantity reached 0 and the battery was removed from Battery Stock.",
-                "success"
-            );
-
-        }else{
-
-            showStockMessage(
-                "✓ " +
-                batteryBrand +
-                " " +
-                batteryModel +
-                " deducted from stock. Remaining quantity: " +
-                stockResult.remaining,
-                "success"
-            );
-
-        }
-
-    }else if(stockResult.reason === "out_of_stock"){
-
-        showStockMessage(
-            "⚠ " +
-            batteryBrand +
-            " " +
-            batteryModel +
-            " is already Out of Stock. Invoice was created, but stock was not deducted.",
-            "warning"
-        );
-
-    }else if(stockResult.reason === "not_found"){
-
-        showStockMessage(
-            "⚠ " +
-            batteryBrand +
-            " " +
-            batteryModel +
-            " was not found in Battery Stock. Invoice was created, but stock was not deducted.",
-            "warning"
-        );
-
-    }
-
-
-    /* OUTPUT */
-
-    document.getElementById("invoiceNo").innerText =
-    invoiceNumber;
-
-    document.getElementById("invoiceDate").innerText =
-    date;
-
-    document.getElementById("outCustomer").innerText =
-    customer || "Customer";
-
-    document.getElementById("outPhone").innerText =
-    phone || "—";
-
-    document.getElementById("outCar").innerText =
-    (carBrand + " " + carModel).trim()
-    || "Vehicle";
-
-
-    /* BATTERY ONLY IN DESCRIPTION */
-
-    document.getElementById("outBatteryBrand").innerText =
-    batteryBrand || "Battery";
-
-    document.getElementById("outBatteryModel").innerText =
-    batteryModel || "—";
-
-
-    document.getElementById("outBatteryPrice").innerText =
-    batteryPrice.toFixed(2);
-
-    document.getElementById("outService").innerText =
-    service.toFixed(2);
-
-    document.getElementById("outSubtotal").innerText =
-    subtotal.toFixed(2);
-
-    document.getElementById("outDiscount").innerText =
-    discount.toFixed(2);
-
-    document.getElementById("outTotal").innerText =
-    total.toFixed(2);
-
-    document.getElementById("outWarranty").innerText =
-    warranty;
-
-    document.getElementById("outItemWarranty").innerText =
-    warranty;
-
-    document.getElementById("outPaymentMethod").innerText =
-    paymentMethod;
-
-
-    /* PAYMENT */
-
-    const paymentElement =
-    document.getElementById("outPayment");
-
-    paymentElement.innerText =
-    payment;
-
-    paymentElement.className =
-    payment === "PAID"
-    ? "paid"
-    : "pending";
-
-
-    /* CUSTOMER TRN */
-
-    const customerTRNOutput =
-    document.getElementById("customerTRNOutput");
-
-    if(customerTRN){
-
-        customerTRNOutput.innerHTML =
-        "Customer TRN: <strong>" +
-        customerTRN +
-        "</strong>";
-
-        customerTRNOutput.style.display =
-        "block";
-
-    }else{
-
-        customerTRNOutput.style.display =
-        "none";
-
-    }
-
-
-    /* VAT */
-
-    const vatRow =
-    document.getElementById("vatRow");
-
-    const taxableRow =
-    document.getElementById("taxableRow");
-
-    const invoiceHeading =
-    document.getElementById("invoiceHeading");
-
-    const companyTRNOutput =
-    document.getElementById("companyTRNOutput");
-
-
-    if(vatEnabled){
-
-        taxableRow.style.display =
-        "flex";
-
-        vatRow.style.display =
-        "flex";
-
-        document.getElementById("outTaxable").innerText =
-        taxable.toFixed(2);
-
-        document.getElementById("outVAT").innerText =
-        vat.toFixed(2);
-
-        invoiceHeading.innerText =
-        "TAX INVOICE";
-
-        companyTRNOutput.innerText =
-        companyTRN
-        ? "Company TRN: " + companyTRN
-        : "Company TRN: —";
-
-    }else{
-
-        taxableRow.style.display =
-        "none";
-
-        vatRow.style.display =
-        "none";
-
-        invoiceHeading.innerText =
-        "INVOICE";
-
-        companyTRNOutput.innerText =
-        companyTRN
-        ? "Company TRN: " + companyTRN
-        : "";
-
-    }
-
-
-    /* SHOW */
-
-    document.getElementById("invoicePreview").style.display =
-    "block";
-
-
-    /* SAVE HISTORY */
-
-    let invoices =
-    JSON.parse(
-        localStorage.getItem("invoices")
-    ) || [];
-
-
-    const invoiceData = {
-
-        number:invoiceNumber,
-        date:date,
-        customer:customer,
-        phone:phone,
-        customerTRN:customerTRN,
-
-        car:
-        (carBrand + " " + carModel).trim(),
-
-        batteryBrand:batteryBrand,
-        batteryModel:batteryModel,
-
-        batteryPrice:batteryPrice,
-        service:service,
-        discount:discount,
-        subtotal:subtotal,
-
-        taxable:taxable,
-
-        vatEnabled:vatEnabled,
-        vatRate:vatEnabled ? 5 : 0,
-        vat:vat,
-
-        total:total,
-
-        companyTRN:companyTRN,
-
-        warranty:warranty,
-
-        payment:payment,
-        paymentMethod:paymentMethod,
-
-        stockDeducted:
-        stockResult.success,
-
-        stockRemaining:
-        stockResult.success
-        ? stockResult.remaining
-        : null,
-
-        stockRemoved:
-        stockResult.success
-        ? stockResult.removed
-        : false
-
-    };
-
-
-    invoices.push(invoiceData);
-
-    localStorage.setItem(
-        "invoices",
-        JSON.stringify(invoices)
-    );
-
-
-    invoiceGenerated =
-    true;
-
-
-    document.getElementById("invoicePreview")
-    .scrollIntoView({
-        behavior:"smooth"
-    });
-
-}
-
-
-/* =========================================================
-PRINT / SAVE PDF
-========================================================= */
-
-function printInvoice(){
-
-    const preview =
-    document.getElementById("invoicePreview");
-
-    if(preview.style.display !== "block"){
-
-        generateInvoice();
-
-        setTimeout(function(){
-
-            if(
-                document.getElementById("invoicePreview")
-                .style.display === "block"
-            ){
-
-                window.print();
-
-            }
-
-        },500);
-
-    }else{
-
-        window.print();
-
-    }
-
-}
-
-</script>
-
-</body>
-</html>
+<label>Installation / Service (AED
