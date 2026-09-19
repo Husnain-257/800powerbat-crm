@@ -186,12 +186,20 @@ body{
 <script>
 
 /* =========================================
-   TESTING TECHNICIAN ACCOUNT
+   ADMIN ACCOUNT
    ========================================= */
 
-const TEST_USERNAME = "maaz";
-const TEST_PASSWORD = "1234";
+const ADMIN_USERNAME = "admin";
+const ADMIN_PASSWORD = "1234";
+const ADMIN_NAME = "Husnain Ali";
 
+
+/* =========================================
+   TECHNICIAN ACCOUNT
+   ========================================= */
+
+const TECHNICIAN_USERNAME = "maaz";
+const TECHNICIAN_PASSWORD = "1234";
 const TECHNICIAN_NAME = "Maaz";
 
 
@@ -216,46 +224,81 @@ function login(){
     errorMessage.style.display = "none";
 
 
-    /* Check username & password */
+    /* =========================================
+       ADMIN LOGIN
+       ========================================= */
 
     if(
-        username === TEST_USERNAME &&
-        password === TEST_PASSWORD
+        username === ADMIN_USERNAME &&
+        password === ADMIN_PASSWORD
     ){
-
-        /* Login status */
 
         localStorage.setItem(
             "800PowerBatLoggedIn",
             "true"
         );
 
+        localStorage.setItem(
+            "800PowerBatUsername",
+            ADMIN_USERNAME
+        );
 
-        /* Save username */
+        localStorage.setItem(
+            "800PowerBatTechnicianName",
+            ADMIN_NAME
+        );
+
+        localStorage.setItem(
+            "800PowerBatUserRole",
+            "admin"
+        );
+
+        window.location.href = "index.html";
+
+        return;
+    }
+
+
+    /* =========================================
+       TECHNICIAN LOGIN
+       ========================================= */
+
+    if(
+        username === TECHNICIAN_USERNAME &&
+        password === TECHNICIAN_PASSWORD
+    ){
+
+        localStorage.setItem(
+            "800PowerBatLoggedIn",
+            "true"
+        );
 
         localStorage.setItem(
             "800PowerBatUsername",
-            TEST_USERNAME
+            TECHNICIAN_USERNAME
         );
-
-
-        /* Save technician name */
 
         localStorage.setItem(
             "800PowerBatTechnicianName",
             TECHNICIAN_NAME
         );
 
-
-        /* Open CRM */
+        localStorage.setItem(
+            "800PowerBatUserRole",
+            "technician"
+        );
 
         window.location.href = "index.html";
 
-    }else{
-
-        errorMessage.style.display = "block";
-
+        return;
     }
+
+
+    /* =========================================
+       INVALID LOGIN
+       ========================================= */
+
+    errorMessage.style.display = "block";
 }
 
 
