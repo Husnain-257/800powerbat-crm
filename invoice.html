@@ -3,100 +3,150 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>800PowerBat - Invoice</title>
 
 <style>
 *{
-    box-sizing: border-box;
+    box-sizing:border-box;
 }
 
 body{
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #0f1319;
-    color: #e1e6ed;
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#0d1117;
+    color:#e6edf3;
 }
 
 .page{
-    width: 210mm;
-    min-height: 297mm;
-    margin: 20px auto;
-    background: #141923;
-    padding: 12mm;
-    box-shadow: 0 4px 20px rgba(0,0,0,.6);
-    border-radius: 4px;
+    width:210mm;
+    min-height:297mm;
+    margin:20px auto;
+    background:#121721;
+    padding:11mm;
+    box-shadow:0 4px 25px rgba(0,0,0,.6);
+    border-radius:6px;
 }
 
 /* =========================
-   FORM SECTIONS (Input Controls)
+   TOP HEADER / FORM SECTIONS
+========================= */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    border-bottom:3px solid #f5b400;
+    padding-bottom:11px;
+}
+
+.company{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.company h1{
+    margin:0;
+    font-size:29px;
+    color:#ffffff;
+    font-weight:900;
+    letter-spacing:.2px;
+}
+
+.company p{
+    margin:0;
+    font-size:12px;
+    color:#8b949e;
+}
+
+.invoice-title{
+    text-align:right;
+}
+
+.invoice-title h2{
+    margin:0;
+    font-size:29px;
+    color:#f5b400;
+    font-weight:900;
+}
+
+.invoice-title p{
+    margin:4px 0 0;
+    font-size:11px;
+    color:#8b949e;
+}
+
+/* =========================
+   FORM SECTIONS
 ========================= */
 
 .form-section{
-    margin-top: 15px;
-    background: #1a202c;
-    border: 1px solid #2d3748;
-    padding: 12px;
-    border-radius: 6px;
+    margin-top:13px;
+    background:#181e2a;
+    border:1px solid #2d3748;
+    padding:11px;
+    border-radius:7px;
 }
 
 .section-title{
-    font-size: 14px;
-    font-weight: 800;
-    color: #f5b400;
-    border-left: 4px solid #f5b400;
-    padding-left: 8px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-size:15px;
+    font-weight:800;
+    color:#f5b400;
+    border-left:5px solid #f5b400;
+    padding-left:8px;
+    margin-bottom:10px;
+    text-transform:uppercase;
 }
 
 .grid{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:9px;
 }
 
 .field{
-    display: flex;
-    flex-direction: column;
+    display:flex;
+    flex-direction:column;
 }
 
 .field label{
-    font-size: 11px;
-    font-weight: 700;
-    margin-bottom: 4px;
-    color: #a0aec0;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:5px;
+    color:#a0aec0;
 }
 
 .field input,
 .field select{
-    width: 100%;
-    height: 35px;
-    border: 1px solid #2d3748;
-    border-radius: 4px;
-    padding: 0 9px;
-    font-size: 12px;
-    background: #0f1319;
-    color: #fff;
-    outline: none;
+    width:100%;
+    height:37px;
+    border:1px solid #2d3748;
+    border-radius:5px;
+    padding:0 9px;
+    font-size:13px;
+    background:#0d1117;
+    color:#ffffff;
+    outline:none;
 }
 
 .field input:focus,
 .field select:focus{
-    border-color: #f5b400;
+    border-color:#f5b400;
 }
 
 .full{
-    grid-column: 1/-1;
+    grid-column:1/-1;
 }
 
 .car-note{
-    margin-top: 8px;
-    background: #2a2415;
-    border-left: 3px solid #f5b400;
-    padding: 6px 10px;
-    font-size: 11px;
-    color: #d69e2e;
+    margin-top:8px;
+    background:#262010;
+    border-left:4px solid #f5b400;
+    padding:8px;
+    font-size:11px;
+    line-height:1.5;
+    color:#e2e8f0;
 }
 
 /* =========================
@@ -104,51 +154,51 @@ body{
 ========================= */
 
 .battery-info{
-    margin-top: 9px;
-    background: #0f1319;
-    border: 1px solid #2d3748;
-    border-radius: 4px;
-    padding: 8px;
+    margin-top:9px;
+    background:#0d1117;
+    border:1px solid #2d3748;
+    border-radius:6px;
+    padding:9px;
 }
 
 .battery-info-grid{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
 }
 
 .info-box{
-    background: #1a202c;
-    border-radius: 4px;
-    padding: 6px 8px;
+    background:#181e2a;
+    border-radius:5px;
+    padding:7px;
 }
 
 .info-box small{
-    display: block;
-    color: #718096;
-    font-size: 10px;
-    margin-bottom: 2px;
+    display:block;
+    color:#718096;
+    font-size:10px;
+    margin-bottom:3px;
 }
 
 .info-box strong{
-    font-size: 12px;
-    color: #fff;
+    font-size:12px;
+    color:#ffffff;
 }
 
 .vat-row{
-    margin-top: 9px;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 12px;
-    font-weight: 700;
-    color: #e2e8f0;
+    margin-top:9px;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:12px;
+    font-weight:700;
+    color:#e2e8f0;
 }
 
 .vat-row input{
-    width: 16px;
-    height: 16px;
-    accent-color: #f5b400;
+    width:16px;
+    height:16px;
+    accent-color:#f5b400;
 }
 
 /* =========================
@@ -156,447 +206,468 @@ body{
 ========================= */
 
 .buttons{
-    display: flex;
-    gap: 8px;
-    margin-top: 15px;
+    display:flex;
+    gap:8px;
+    margin-top:13px;
 }
 
 button{
-    border: 0;
-    border-radius: 4px;
-    padding: 10px 18px;
-    font-size: 12px;
-    font-weight: 800;
-    cursor: pointer;
-    text-transform: uppercase;
+    border:0;
+    border-radius:6px;
+    padding:11px 18px;
+    font-size:13px;
+    font-weight:800;
+    cursor:pointer;
 }
 
 .btn-generate{
-    background: #f5b400;
-    color: #0f1319;
+    background:#f5b400;
+    color:#0d1117;
 }
 
 .btn-print{
-    background: #2b6cb0;
-    color: #fff;
+    background:#2b6cb0;
+    color:#ffffff;
 }
 
 .btn-back{
-    background: #4a5568;
-    color: #fff;
+    background:#4a5568;
+    color:#ffffff;
 }
 
 /* =========================
-   INVOICE PREVIEW (MATCHING DESIGN)
+   INVOICE PREVIEW (DESIGN LIKE IMAGE)
 ========================= */
 
 .invoice-preview{
-    display: none;
-    margin-top: 20px;
-    background: #141923;
-    padding: 10px;
-    color: #fff;
+    display:none;
+    margin-top:16px;
+    background:#121721;
+    padding:15px;
+    border-radius:6px;
+    color:#ffffff;
 }
 
-/* Topbar Header */
 .preview-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding-bottom: 12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
 }
 
-.company-logo-area{
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.logo-header-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
-.logo-icon{
-    width: 42px;
-    height: 32px;
-    background: #f5b400;
-    border-radius: 4px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.logo-icon-shape{
+    width:38px;
+    height:30px;
+    background:#f5b400;
+    border-radius:4px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#121721;
+    font-weight:900;
+    font-size:18px;
+    position:relative;
 }
 
-.logo-icon::before{
-    content: '';
-    width: 6px;
-    height: 4px;
-    background: #f5b400;
-    position: absolute;
-    top: -4px;
-    left: 8px;
-    border-radius: 1px;
+.logo-icon-shape::before{
+    content:'';
+    position:absolute;
+    top:-4px;
+    left:7px;
+    width:6px;
+    height:4px;
+    background:#f5b400;
+    border-radius:1px;
 }
 
-.logo-icon::after{
-    content: '';
-    width: 6px;
-    height: 4px;
-    background: #f5b400;
-    position: absolute;
-    top: -4px;
-    right: 8px;
-    border-radius: 1px;
+.logo-icon-shape::after{
+    content:'';
+    position:absolute;
+    top:-4px;
+    right:7px;
+    width:6px;
+    height:4px;
+    background:#f5b400;
+    border-radius:1px;
 }
 
-.logo-inner-bolt{
-    color: #141923;
-    font-weight: 900;
-    font-size: 18px;
+.preview-company h2{
+    margin:0;
+    font-size:24px;
+    font-weight:900;
+    color:#ffffff;
+    letter-spacing:0.3px;
 }
 
-.company-title h1{
-    margin: 0;
-    font-size: 26px;
-    font-weight: 900;
-    color: #fff;
-    letter-spacing: -0.5px;
+.preview-company p.subtitle{
+    margin:2px 0 0;
+    font-size:10px;
+    color:#f5b400;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    font-weight:800;
 }
 
-.company-title p{
-    margin: 2px 0 0;
-    font-size: 10px;
-    color: #f5b400;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    font-weight: 700;
+.preview-company p.contact-info{
+    margin:6px 0 0;
+    font-size:10px;
+    color:#94a3b8;
+    line-height:1.4;
 }
 
-.company-contact{
-    margin-top: 6px;
-    font-size: 10px;
-    color: #a0aec0;
-    line-height: 1.4;
+.preview-invoice{
+    text-align:right;
 }
 
-.tax-badge{
-    border: 1.5px solid #f5b400;
-    color: #f5b400;
-    padding: 5px 12px;
-    font-weight: 800;
-    font-size: 16px;
-    display: inline-block;
-    border-radius: 3px;
-    letter-spacing: 0.5px;
+.tax-invoice-badge{
+    border:1.5px solid #f5b400;
+    color:#f5b400;
+    padding:4px 12px;
+    font-size:15px;
+    font-weight:900;
+    display:inline-block;
+    border-radius:3px;
+    letter-spacing:0.5px;
 }
 
-.invoice-meta-info{
-    margin-top: 8px;
-    font-size: 10px;
-    color: #a0aec0;
-    line-height: 1.4;
+.invoice-meta-details{
+    margin-top:8px;
+    font-size:11px;
+    color:#94a3b8;
+    line-height:1.4;
 }
 
-.yellow-divider{
-    height: 2px;
-    background: #f5b400;
-    margin: 10px 0 15px;
+.header-yellow-line{
+    height:2px;
+    background:#f5b400;
+    margin:12px 0 16px;
 }
 
-/* Bill Section */
+/* =========================
+   BILL SECTION
+========================= */
+
 .bill-section{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 15px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:10px;
 }
 
-.bill-box-heading{
-    font-size: 10px;
-    color: #718096;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
+.bill-box{
+    background:transparent;
+    padding:0;
 }
 
-.bill-box-title{
-    font-size: 15px;
-    font-weight: 800;
-    color: #fff;
+.bill-heading{
+    font-size:10px;
+    color:#64748b;
+    font-weight:800;
+    text-transform:uppercase;
+    margin-bottom:4px;
+    letter-spacing:0.5px;
 }
 
-.bill-box-sub{
-    font-size: 11px;
-    color: #a0aec0;
-    margin-top: 2px;
+.bill-name{
+    font-size:15px;
+    font-weight:900;
+    color:#ffffff;
 }
 
-/* Table */
+.bill-text{
+    font-size:11px;
+    color:#94a3b8;
+    margin-top:3px;
+    line-height:1.35;
+}
+
+/* =========================
+   INVOICE TABLE
+========================= */
+
 .invoice-table{
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+    width:100%;
+    border-collapse:collapse;
+    margin-top:16px;
+    table-layout:fixed;
 }
 
 .invoice-table th{
-    background: #f5b400;
-    color: #0f1319;
-    padding: 7px 10px;
-    font-size: 11px;
-    font-weight: 900;
-    text-transform: uppercase;
-    text-align: left;
-}
-
-.invoice-table th:last-child,
-.invoice-table td:last-child{
-    text-align: right;
+    background:#f5b400;
+    color:#0d1117;
+    padding:8px 10px;
+    font-size:11px;
+    font-weight:900;
+    text-transform:uppercase;
+    text-align:left;
 }
 
 .invoice-table td{
-    padding: 10px;
-    font-size: 11px;
-    border-bottom: 1px solid #1a202c;
-    color: #e2e8f0;
+    border-bottom:1px solid #1e293b;
+    padding:10px;
+    font-size:11px;
+    vertical-align:top;
+    line-height:1.4;
+    color:#cbd5e1;
 }
 
-.item-main-title{
-    font-weight: 800;
-    color: #f5b400;
-    font-size: 12px;
+.invoice-table th:nth-child(1),
+.invoice-table td:nth-child(1){
+    width:60%;
 }
 
-.item-badge-warranty{
-    display: inline-block;
-    color: #f5b400;
-    font-size: 10px;
-    margin-top: 3px;
-    font-weight: 700;
+.invoice-table th:nth-child(2),
+.invoice-table td:nth-child(2){
+    width:15%;
+    text-align:center;
 }
 
-/* Summary */
-.summary-container{
-    width: 280px;
-    margin-left: auto;
-    margin-top: 15px;
+.invoice-table th:nth-child(3),
+.invoice-table td:nth-child(3){
+    width:25%;
+    text-align:right;
+}
+
+.battery-brand-title{
+    color:#f5b400;
+    font-weight:800;
+    font-size:13px;
+}
+
+.warranty-badge-yellow{
+    color:#f5b400;
+    font-size:10px;
+    font-weight:700;
+    margin-top:2px;
+}
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary{
+    width:280px;
+    margin-left:auto;
+    margin-top:14px;
 }
 
 .summary-row{
-    display: flex;
-    justify-content: space-between;
-    padding: 3px 0;
-    font-size: 11px;
-    color: #a0aec0;
+    display:flex;
+    justify-content:space-between;
+    padding:4px 0;
+    font-size:11px;
+    color:#94a3b8;
 }
 
 .summary-row strong{
-    color: #fff;
+    color:#ffffff;
 }
 
-.summary-row.total-row{
-    border-top: 1px solid #2d3748;
-    margin-top: 6px;
-    padding-top: 8px;
-    font-size: 16px;
-    font-weight: 900;
-    color: #fff;
+.summary-row.total{
+    border-top:1px solid #334155;
+    margin-top:6px;
+    padding-top:8px;
+    font-size:16px;
+    font-weight:900;
+    color:#ffffff;
 }
 
-.summary-row.total-row .total-amount{
-    color: #f5b400;
+.summary-row.total .total-price{
+    color:#f5b400;
 }
 
-/* Payment Badges */
-.payment-meta{
-    margin-top: 10px;
-    font-size: 11px;
-    color: #a0aec0;
+/* =========================
+   PAYMENT & WARRANTY
+========================= */
+
+.payment-box{
+    margin-top:12px;
+    padding:0;
+    font-size:11px;
+    color:#94a3b8;
 }
 
-.status-badge{
-    background: #276749;
-    color: #68d391;
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-weight: 700;
-    display: inline-block;
-    margin-left: 5px;
+.warranty-box{
+    margin-top:16px;
+    background:#0b0e14;
+    border:1px solid #1e293b;
+    padding:12px;
+    border-radius:4px;
+    font-size:10px;
+    line-height:1.5;
+    color:#64748b;
 }
 
-/* Warranty Terms Box */
-.warranty-card{
-    margin-top: 20px;
-    background: #10141d;
-    border: 1px solid #1a202c;
-    padding: 12px;
-    border-radius: 4px;
-}
-
-.warranty-card-title{
-    font-size: 12px;
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 6px;
-}
-
-.warranty-card p{
-    margin: 3px 0;
-    font-size: 9.5px;
-    color: #718096;
-    line-height: 1.45;
+.warranty-box strong.head{
+    display:block;
+    font-size:12px;
+    color:#ffffff;
+    margin-bottom:6px;
 }
 
 .warranty-highlight{
-    color: #f5b400;
-    font-weight: 700;
-}
-
-/* Footer & Branding */
-.preview-footer{
-    margin-top: 25px;
-    text-align: center;
-}
-
-.thank-text{
-    font-size: 13px;
-    font-weight: 800;
-    color: #fff;
-}
-
-.thank-sub{
-    font-size: 9.5px;
-    color: #718096;
-    margin-top: 3px;
-}
-
-.service-features{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 15px;
-    padding-top: 12px;
-    border-top: 1px solid #1a202c;
-}
-
-.feature-item{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-}
-
-.feature-icon{
-    width: 24px;
-    height: 24px;
-    border: 1.5px solid #f5b400;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #f5b400;
-    font-size: 11px;
-    font-weight: 900;
-}
-
-.feature-label{
-    font-size: 8.5px;
-    color: #a0aec0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    text-align: center;
-    font-weight: 700;
-}
-
-.bottom-tagline{
-    margin-top: 15px;
-    padding-top: 10px;
-    border-top: 1px solid #f5b400;
-    text-align: left;
-}
-
-.tagline-gold{
-    font-family: 'Georgia', serif;
-    font-style: italic;
-    color: #f5b400;
-    font-size: 12px;
-}
-
-.tagline-sub{
-    font-size: 8.5px;
-    color: #718096;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-top: 2px;
+    color:#f5b400;
+    font-weight:700;
 }
 
 /* =========================
-   HISTORY SECTION
+   FOOTER (MATCHING IMAGE)
+========================= */
+
+.footer-area{
+    margin-top:22px;
+    text-align:center;
+}
+
+.thank-you-title{
+    font-size:13px;
+    font-weight:800;
+    color:#ffffff;
+}
+
+.thank-you-sub{
+    font-size:9.5px;
+    color:#64748b;
+    margin-top:3px;
+}
+
+.service-icons-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:15px;
+    padding-top:12px;
+    border-top:1px solid #1e293b;
+}
+
+.icon-box-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+}
+
+.icon-circle{
+    width:26px;
+    height:26px;
+    border:1.5px solid #f5b400;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#f5b400;
+    font-size:11px;
+}
+
+.icon-text-label{
+    font-size:8.5px;
+    color:#94a3b8;
+    text-transform:uppercase;
+    font-weight:800;
+    letter-spacing:0.5px;
+}
+
+.powering-tagline-box{
+    margin-top:15px;
+    padding-top:10px;
+    border-top:1px solid #f5b400;
+    text-align:left;
+}
+
+.tagline-script{
+    font-family:'Georgia', serif;
+    font-style:italic;
+    color:#f5b400;
+    font-size:13px;
+}
+
+.tagline-subtext{
+    font-size:8.5px;
+    color:#64748b;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    font-weight:800;
+    margin-top:2px;
+}
+
+/* =========================
+   HISTORY
 ========================= */
 
 .history{
-    margin-top: 20px;
-    border-top: 1px solid #2d3748;
-    padding-top: 15px;
+    margin-top:20px;
+    border-top:1px solid #2d3748;
+    padding-top:15px;
 }
 
 .history h3{
-    margin: 0 0 8px;
-    font-size: 14px;
-    color: #fff;
+    margin:0 0 8px;
+    font-size:15px;
+    color:#ffffff;
 }
 
 .history-item{
-    border: 1px solid #2d3748;
-    border-radius: 4px;
-    padding: 8px;
-    margin-bottom: 6px;
-    font-size: 11px;
-    background: #1a202c;
-    color: #cbd5e0;
+    border:1px solid #2d3748;
+    border-radius:6px;
+    padding:8px;
+    margin-bottom:6px;
+    font-size:11px;
+    background:#181e2a;
+    color:#cbd5e1;
 }
 
 .stock-warning{
-    margin-top: 8px;
-    font-size: 11px;
-    color: #e53e3e;
-    font-weight: 700;
+    margin-top:8px;
+    font-size:11px;
+    color:#ef4444;
+    font-weight:700;
 }
 
 /* =========================
-   PRINT STYLES
+   MOBILE & PRINT
 ========================= */
+
+@media(max-width:700px){
+    body{ background:#0d1117; }
+    .page{ width:100%; padding:15px; }
+    .grid{ grid-template-columns:1fr; }
+    .battery-info-grid{ grid-template-columns:repeat(2,1fr); }
+    .bill-section{ grid-template-columns:1fr; }
+    .summary{ width:100%; }
+}
 
 @media print{
     @page{
-        size: A4;
-        margin: 5mm;
+        size:A4;
+        margin:5mm;
     }
-
     html, body{
-        background: #141923 !important;
-        color: #fff !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+        background:#121721 !important;
+        color:#ffffff !important;
+        -webkit-print-color-adjust:exact !important;
+        print-color-adjust:exact !important;
     }
-
     .page{
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        box-shadow: none;
-        background: #141923 !important;
+        width:100%;
+        margin:0;
+        padding:0;
+        box-shadow:none;
+        background:#121721 !important;
     }
-
-    .form-section,
-    .buttons,
-    .history{
-        display: none !important;
+    .topbar, .form-section, .buttons, .history{
+        display:none !important;
     }
-
     .invoice-preview{
-        display: block !important;
-        margin: 0;
-        padding: 10px;
-        background: #141923 !important;
+        display:block !important;
+        margin:0;
+        padding:10px;
+        background:#121721 !important;
     }
 }
 </style>
@@ -606,13 +677,28 @@ button{
 
 <div class="page">
 
-    <!-- INPUT CONTROL SECTIONS -->
+    <div class="topbar">
+        <div class="company">
+            <h1>800PowerBat</h1>
+            <p>Professional Car Battery Services</p>
+            <p>Dubai, UAE</p>
+            <p>+971 52 404 0699</p>
+        </div>
+
+        <div class="invoice-title">
+            <h2>TAX INVOICE</h2>
+            <p id="invoiceNumberTop">Invoice # —</p>
+            <p id="invoiceDateTop">Date: —</p>
+        </div>
+    </div>
+
+    <!-- CUSTOMER -->
     <div class="form-section">
         <div class="section-title">Customer Details</div>
         <div class="grid">
             <div class="field">
                 <label>Customer Name</label>
-                <input type="text" id="customerName" placeholder="e.g. Ali">
+                <input type="text" id="customerName" placeholder="Ali">
             </div>
             <div class="field">
                 <label>Customer Phone</label>
@@ -628,11 +714,12 @@ button{
             </div>
             <div class="field full">
                 <label>Customer Address</label>
-                <input type="text" id="customerAddress" placeholder="Dubai, UAE">
+                <input type="text" id="customerAddress" placeholder="Customer address">
             </div>
         </div>
     </div>
 
+    <!-- VEHICLE -->
     <div class="form-section">
         <div class="section-title">Vehicle Details</div>
         <div class="grid">
@@ -656,10 +743,12 @@ button{
             </div>
         </div>
         <div class="car-note">
-            Car Brand and Model are loaded automatically from 800PowerBat Database.
+            Car Brand and Model are loaded automatically from your
+            <strong>800PowerBat Worldwide Car Database</strong>.
         </div>
     </div>
 
+    <!-- BATTERY -->
     <div class="form-section">
         <div class="section-title">Battery Details</div>
         <div class="grid">
@@ -684,7 +773,7 @@ button{
         <div class="battery-info">
             <div class="battery-info-grid">
                 <div class="info-box">
-                    <small>Type</small>
+                    <small>Battery Type</small>
                     <strong id="batteryTypeInfo">—</strong>
                 </div>
                 <div class="info-box">
@@ -709,6 +798,7 @@ button{
         </div>
     </div>
 
+    <!-- PAYMENT -->
     <div class="form-section">
         <div class="section-title">Payment Details</div>
         <div class="grid">
@@ -723,41 +813,42 @@ button{
             </div>
             <div class="field">
                 <label>Company TRN</label>
-                <input type="text" id="companyTRN" placeholder="100XXXXXXXXXXXX">
+                <input type="text" id="companyTRN" placeholder="Optional">
             </div>
         </div>
     </div>
 
+    <!-- BUTTONS -->
     <div class="buttons">
         <button class="btn-generate" onclick="generateInvoice()">Generate Invoice</button>
         <button class="btn-print" onclick="printInvoice()">Print Invoice</button>
         <button class="btn-back" onclick="goBack()">Back</button>
     </div>
 
-    <!-- INVOICE PREVIEW (MATCHES PHOTO) -->
+    <!-- INVOICE PREVIEW (STYLING MATCHES PHOTO) -->
     <div class="invoice-preview" id="invoicePreview">
 
         <div class="preview-header">
             <div>
-                <div class="company-logo-area">
-                    <div class="logo-icon">
-                        <span class="logo-inner-bolt">⚡</span>
-                    </div>
-                    <div class="company-title">
-                        <h1>800PowerBat</h1>
-                        <p>Mobile Car Battery Service</p>
+                <div class="logo-header-box">
+                    <div class="logo-icon-shape">⚡</div>
+                    <div class="preview-company">
+                        <h2>800PowerBat</h2>
+                        <p class="subtitle">MOBILE CAR BATTERY SERVICE</p>
                     </div>
                 </div>
-                <div class="company-contact">
-                    ⚡ 24/7 Mobile Car Battery Service<br>
-                    📍 Dubai, UAE<br>
-                    📞 +971 52 404 0699
+                <div class="preview-company">
+                    <p class="contact-info">
+                        ⚡ 24/7 Mobile Car Battery Service<br>
+                        📍 Dubai, UAE<br>
+                        📞 +971 52 404 0699
+                    </p>
                 </div>
             </div>
 
-            <div style="text-align: right;">
-                <div class="tax-badge">TAX INVOICE</div>
-                <div class="invoice-meta-info">
+            <div class="preview-invoice">
+                <div class="tax-invoice-badge">TAX INVOICE</div>
+                <div class="invoice-meta-details">
                     Invoice No: <strong id="previewInvoiceNumber" style="color:#fff;">800-420756</strong><br>
                     Date: <strong id="previewInvoiceDate" style="color:#fff;">19/09/2026</strong><br>
                     Company TRN: <span id="companyTRNOutput">—</span>
@@ -765,53 +856,53 @@ button{
             </div>
         </div>
 
-        <div class="yellow-divider"></div>
+        <div class="header-yellow-line"></div>
 
         <div class="bill-section">
-            <div>
-                <div class="bill-box-heading">Bill To</div>
-                <div class="bill-box-title" id="outCustomer">Ali</div>
-                <div class="bill-box-sub" id="outPhone">+971524040699</div>
-                <div class="bill-box-sub" id="outEmail"></div>
-                <div class="bill-box-sub" id="outAddress"></div>
-                <div class="bill-box-sub" id="customerTRNOutput"></div>
+            <div class="bill-box">
+                <div class="bill-heading">BILL TO</div>
+                <div class="bill-name" id="outCustomer">Ali</div>
+                <div class="bill-text" id="outPhone">+971524040699</div>
+                <div class="bill-text" id="outEmail"></div>
+                <div class="bill-text" id="outAddress"></div>
+                <div class="bill-text" id="customerTRNOutput"></div>
             </div>
 
-            <div>
-                <div class="bill-box-heading">Vehicle</div>
-                <div class="bill-box-title" id="outCar">TOYOTA RAV4 2017</div>
+            <div class="bill-box">
+                <div class="bill-heading">VEHICLE</div>
+                <div class="bill-name" id="outCar">TOYOTA RAV4 2017</div>
             </div>
         </div>
 
         <table class="invoice-table">
             <thead>
                 <tr>
-                    <th style="width: 55%;">Description</th>
-                    <th style="width: 15%; text-align: center;">Qty</th>
-                    <th style="width: 30%; text-align: right;">Amount (AED)</th>
+                    <th>Description</th>
+                    <th style="text-align:center;">Qty</th>
+                    <th style="text-align:right;">Amount (AED)</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>
-                        <div class="item-main-title" id="outBatteryBrand">Energizer</div>
-                        <div style="font-size:11px; color:#a0aec0;" id="outBatteryModel">55d23L</div>
-                        <div class="item-badge-warranty" id="outWarranty">Warranty: 18 Month</div>
+                        <div class="battery-brand-title" id="outBatteryBrand">Energizer</div>
+                        <div style="font-size:11px; color:#94a3b8;" id="outBatteryModel">55d23L</div>
+                        <div class="warranty-badge-yellow" id="outWarranty">Warranty: 18 Month</div>
                     </td>
-                    <td style="text-align: center;">1</td>
-                    <td style="text-align: right;" id="outAmount">550.00</td>
+                    <td style="text-align:center;">1</td>
+                    <td style="text-align:right;" id="outAmount">550.00</td>
                 </tr>
                 <tr>
                     <td>
-                        <div style="font-weight: 700; color:#e2e8f0;">Installation / Service</div>
+                        <div style="font-weight:700; color:#e2e8f0;">Installation / Service</div>
                     </td>
-                    <td style="text-align: center;">1</td>
-                    <td style="text-align: right; color:#718096;">Included</td>
+                    <td style="text-align:center;">1</td>
+                    <td style="text-align:right; color:#64748b;">Included</td>
                 </tr>
             </tbody>
         </table>
 
-        <div class="summary-container">
+        <div class="summary">
             <div class="summary-row">
                 <span>Subtotal</span>
                 <strong id="outSubtotal">AED 550.00</strong>
@@ -828,49 +919,48 @@ button{
                 <span>VAT 5%</span>
                 <strong id="outVAT">AED 27.50</strong>
             </div>
-            <div class="summary-row total-row">
+            <div class="summary-row total">
                 <span>TOTAL</span>
-                <span class="total-amount" id="outTotal">AED 577.50</span>
+                <span class="total-price" id="outTotal">AED 577.50</span>
             </div>
         </div>
 
-        <div class="payment-meta">
+        <div class="payment-box">
             Payment Method: <strong id="outPayment" style="color:#fff;">Card</strong>
-            <span class="status-badge">PAID</span>
         </div>
 
-        <div class="warranty-card">
-            <div class="warranty-card-title">Warranty & Terms</div>
+        <div class="warranty-box">
+            <strong class="head">Warranty & Terms</strong>
             <p><strong class="warranty-highlight">Warranty Period:</strong> <span id="warrantyPeriodText">18 Months</span></p>
             <p>Battery warranty is valid only for the stated warranty period.</p>
-            <p><strong class="warranty-highlight">Warranty Claim Policy:</strong> During the warranty period, the battery is eligible for <strong style="color:#fff; text-decoration: underline;">replacement only once</strong> under a valid warranty claim. After one warranty replacement, no further replacement claim will be provided under the original warranty.</p>
+            <p><strong class="warranty-highlight">Warranty Claim Policy:</strong> During the warranty period, the battery is eligible for <strong style="color:#fff; text-decoration:underline;">replacement only once</strong> under a valid warranty claim. After one warranty replacement, no further replacement claim will be provided under the original warranty.</p>
             <p>Warranty covers manufacturing defects under normal usage. Warranty does not cover physical damage, incorrect installation, deep discharge, misuse, neglect, accident, water damage, or electrical faults/problems in the vehicle.</p>
             <p>Please retain this invoice as proof of purchase and warranty. Warranty claims require presentation of this original invoice.</p>
         </div>
 
-        <div class="preview-footer">
-            <div class="thank-text">Thank you for choosing 800PowerBat.</div>
-            <div class="thank-sub">24/7 Mobile Car Battery Replacement | Jump Start | Battery Diagnostics</div>
-            <div class="thank-sub">Dubai, UAE | +971 52 404 0699</div>
+        <div class="footer-area">
+            <div class="thank-you-title">Thank you for choosing 800PowerBat.</div>
+            <div class="thank-you-sub">24/7 Mobile Car Battery Replacement | Jump Start | Battery Diagnostics</div>
+            <div class="thank-you-sub">Dubai, UAE | +971 52 404 0699</div>
 
-            <div class="service-features">
-                <div class="feature-item">
-                    <div class="feature-icon">🔋</div>
-                    <div class="feature-label">Battery Replacement</div>
+            <div class="service-icons-grid">
+                <div class="icon-box-item">
+                    <div class="icon-circle">🔋</div>
+                    <div class="icon-text-label">Battery Replacement</div>
                 </div>
-                <div class="feature-item">
-                    <div class="feature-icon">⚡</div>
-                    <div class="feature-label">Jump Start</div>
+                <div class="icon-box-item">
+                    <div class="icon-circle">⚡</div>
+                    <div class="icon-text-label">Jump Start</div>
                 </div>
-                <div class="feature-item">
-                    <div class="feature-icon">⚙️</div>
-                    <div class="feature-label">Battery Diagnosis</div>
+                <div class="icon-box-item">
+                    <div class="icon-circle">⚙️</div>
+                    <div class="icon-text-label">Battery Diagnosis</div>
                 </div>
             </div>
 
-            <div class="bottom-tagline">
-                <div class="tagline-gold">Powering Your Journey</div>
-                <div class="tagline-sub">FAST | RELIABLE | PROFESSIONAL</div>
+            <div class="powering-tagline-box">
+                <div class="tagline-script">Powering Your Journey</div>
+                <div class="tagline-subtext">FAST | RELIABLE | PROFESSIONAL</div>
             </div>
         </div>
 
@@ -879,12 +969,15 @@ button{
     <!-- HISTORY -->
     <div class="history">
         <h3>Recent Invoice History</h3>
-        <div id="historyList">No invoice history yet.</div>
+        <div id="historyList">
+            No invoice history yet.
+        </div>
     </div>
 
 </div>
 
 <script>
+
 const CAR_CATALOG_KEY = "800PowerBatCarCatalog";
 const CAR_STORAGE_KEY = "800PowerBatCars";
 const BATTERY_STORAGE_KEY = "800PowerBatStock";
@@ -892,48 +985,89 @@ const INVOICE_STORAGE_KEY = "invoices";
 
 let invoiceGenerated = false;
 
-/* CAR & BATTERY CATALOG SYSTEM */
+/* =========================
+   CAR DATABASE
+========================= */
+
 function readCarCatalog(){
     try{
         const saved = localStorage.getItem(CAR_CATALOG_KEY);
         if(!saved) return {};
         const data = JSON.parse(saved);
         return (data && typeof data === "object" && !Array.isArray(data)) ? data : {};
-    }catch(e){ return {}; }
+    }catch(error){
+        return {};
+    }
 }
 
-function normalizeText(val){
-    return String(val || "").trim().toLowerCase();
+function normalizeText(value){
+    return String(value || "").trim().toLowerCase();
+}
+
+function normalizeCatalog(){
+    const raw = readCarCatalog();
+    const catalog = {};
+    Object.keys(raw).forEach(function(brand){
+        const brandName = String(brand || "").trim();
+        if(!brandName) return;
+        let models = raw[brand];
+        if(!Array.isArray(models)) return;
+        const uniqueModels = [];
+        models.forEach(function(model){
+            const modelName = String(model || "").trim();
+            if(!modelName) return;
+            const exists = uniqueModels.some(function(existing){
+                return normalizeText(existing) === normalizeText(modelName);
+            });
+            if(!exists) uniqueModels.push(modelName);
+        });
+        if(uniqueModels.length){
+            uniqueModels.sort(function(a,b){ return a.localeCompare(b); });
+            catalog[brandName] = uniqueModels;
+        }
+    });
+    return catalog;
 }
 
 const fallbackCars = [
     ["Toyota","RAV4"], ["Toyota","Camry"], ["Toyota","Corolla"], ["Toyota","Land Cruiser"], ["Toyota","Prado"],
     ["Nissan","Patrol"], ["Nissan","Altima"], ["Nissan","Sunny"],
     ["BMW","3 Series"], ["BMW","5 Series"], ["BMW","X5"],
-    ["Mercedes-Benz","C-Class"], ["Mercedes-Benz","E-Class"], ["Mercedes-Benz","S-Class"]
+    ["Mercedes-Benz","C-Class"], ["Mercedes-Benz","E-Class"], ["Mercedes-Benz","S-Class"],
+    ["Audi","A4"], ["Audi","Q7"], ["Ford","Mustang"], ["Ford","Explorer"], ["Hyundai","Tucson"], ["Kia","Sportage"]
 ];
 
-function getCarCatalog(){
-    const raw = readCarCatalog();
-    if(Object.keys(raw).length) return raw;
-    const cat = {};
-    fallbackCars.forEach(item => {
-        if(!cat[item[0]]) cat[item[0]] = [];
-        cat[item[0]].push(item[1]);
+function fallbackCatalog(){
+    const catalog = {};
+    fallbackCars.forEach(function(item){
+        const brand = item[0];
+        const model = item[1];
+        if(!catalog[brand]) catalog[brand] = [];
+        if(!catalog[brand].some(function(existing){ return normalizeText(existing) === normalizeText(model); })){
+            catalog[brand].push(model);
+        }
     });
-    return cat;
+    return catalog;
+}
+
+function getCarCatalog(){
+    const catalog = normalizeCatalog();
+    if(Object.keys(catalog).length) return catalog;
+    return fallbackCatalog();
 }
 
 function loadCarBrands(){
     const brandSelect = document.getElementById("carBrand");
+    const currentBrand = brandSelect.value;
     const catalog = getCarCatalog();
     brandSelect.innerHTML = '<option value="">Select Car Brand</option>';
-    Object.keys(catalog).sort().forEach(b => {
-        const opt = document.createElement("option");
-        opt.value = b;
-        opt.textContent = b;
-        brandSelect.appendChild(opt);
+    Object.keys(catalog).sort(function(a,b){ return a.localeCompare(b); }).forEach(function(brand){
+        const option = document.createElement("option");
+        option.value = brand;
+        option.textContent = brand;
+        brandSelect.appendChild(option);
     });
+    if(currentBrand && catalog[currentBrand]) brandSelect.value = currentBrand;
 }
 
 function loadCarModels(){
@@ -943,45 +1077,78 @@ function loadCarModels(){
     document.getElementById("modelYear").innerHTML = '<option value="">Select Model Year</option>';
     if(!brand) return;
     const catalog = getCarCatalog();
-    (catalog[brand] || []).forEach(m => {
-        const opt = document.createElement("option");
-        opt.value = m;
-        opt.textContent = m;
-        modelSelect.appendChild(opt);
+    const models = catalog[brand] || [];
+    models.forEach(function(model){
+        const option = document.createElement("option");
+        option.value = model;
+        option.textContent = model;
+        modelSelect.appendChild(option);
     });
 }
 
 function loadCarYears(){
+    const model = document.getElementById("carModel").value;
     const yearSelect = document.getElementById("modelYear");
     yearSelect.innerHTML = '<option value="">Select Model Year</option>';
-    for(let y = 2026; y >= 1975; y--){
-        const opt = document.createElement("option");
-        opt.value = y;
-        opt.textContent = y;
-        yearSelect.appendChild(opt);
+    if(!model) return;
+    for(let year = 2026; year >= 1975; year--){
+        const option = document.createElement("option");
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
     }
 }
+
+/* =========================
+   BATTERY STOCK
+========================= */
 
 function readBatteryStock(){
     try{
         const saved = localStorage.getItem(BATTERY_STORAGE_KEY);
         if(!saved){
-            return [{brand: "Energizer", model: "55d23L", batteryType: "SMF", ah: "60", size: "D23", warranty: "18 Months", quantity: 10, sellingPrice: 550}];
+            return [{brand:"Energizer", model:"55d23L", batteryType:"SMF", ah:"60", size:"D23", warranty:"18 Months", quantity:10, sellingPrice:550}];
         }
-        return JSON.parse(saved);
-    }catch(e){ return []; }
+        const data = JSON.parse(saved);
+        return Array.isArray(data) ? data : [];
+    }catch(error){
+        return [];
+    }
+}
+
+function saveBatteryStock(stock){
+    localStorage.setItem(BATTERY_STORAGE_KEY, JSON.stringify(stock));
+}
+
+function updateBatteryStatus(item){
+    const quantity = Number(item.quantity) || 0;
+    const minimum = Number(item.minimumStock) || 0;
+    if(quantity <= 0){
+        item.quantity = 0;
+        item.status = "Out of Stock";
+    }else if(quantity <= minimum){
+        item.status = "Low Stock";
+    }else{
+        item.status = "In Stock";
+    }
 }
 
 function loadBatteryBrands(){
     const brandSelect = document.getElementById("batteryBrand");
     const stock = readBatteryStock();
-    const brands = [...new Set(stock.map(i => i.brand))];
+    const brands = [];
+    stock.forEach(function(item){
+        const brand = String(item.brand || "").trim();
+        if(brand && !brands.some(function(existing){ return normalizeText(existing) === normalizeText(brand); })){
+            brands.push(brand);
+        }
+    });
     brandSelect.innerHTML = '<option value="">Select Battery Brand</option>';
-    brands.sort().forEach(b => {
-        const opt = document.createElement("option");
-        opt.value = b;
-        opt.textContent = b;
-        brandSelect.appendChild(opt);
+    brands.sort(function(a,b){ return a.localeCompare(b); }).forEach(function(brand){
+        const option = document.createElement("option");
+        option.value = brand;
+        option.textContent = brand;
+        brandSelect.appendChild(option);
     });
 }
 
@@ -989,34 +1156,94 @@ function loadBatteryModels(){
     const brand = document.getElementById("batteryBrand").value;
     const modelSelect = document.getElementById("batteryModel");
     modelSelect.innerHTML = '<option value="">Select Battery Model</option>';
+    document.getElementById("batteryTypeInfo").textContent = "—";
+    document.getElementById("batteryAhInfo").textContent = "—";
+    document.getElementById("batterySizeInfo").textContent = "—";
+    document.getElementById("batteryWarrantyInfo").textContent = "—";
+    document.getElementById("stockWarning").textContent = "";
+
     if(!brand) return;
-    const stock = readBatteryStock().filter(i => normalizeText(i.brand) === normalizeText(brand));
-    stock.forEach(i => {
-        const opt = document.createElement("option");
-        opt.value = i.model;
-        opt.textContent = i.model + " (" + i.warranty + ")";
-        modelSelect.appendChild(opt);
+    const stock = readBatteryStock();
+    const filtered = stock.filter(function(item){
+        return normalizeText(item.brand) === normalizeText(brand);
+    });
+
+    filtered.forEach(function(item){
+        const option = document.createElement("option");
+        option.value = item.model || "";
+        option.textContent = (item.model || "Unknown Model") + " — " + (Number(item.quantity) || 0) + " in stock";
+        if(Number(item.quantity) <= 0) option.disabled = true;
+        modelSelect.appendChild(option);
     });
 }
 
 function findBattery(){
     const brand = document.getElementById("batteryBrand").value;
     const model = document.getElementById("batteryModel").value;
-    return readBatteryStock().find(i => normalizeText(i.brand) === normalizeText(brand) && normalizeText(i.model) === normalizeText(model));
+    const stock = readBatteryStock();
+    return stock.find(function(item){
+        return normalizeText(item.brand) === normalizeText(brand) && normalizeText(item.model) === normalizeText(model);
+    });
 }
 
 function loadBatteryInfo(){
     const battery = findBattery();
-    if(!battery) return;
+    const warning = document.getElementById("stockWarning");
+    if(!battery){
+        document.getElementById("batteryTypeInfo").textContent = "—";
+        document.getElementById("batteryAhInfo").textContent = "—";
+        document.getElementById("batterySizeInfo").textContent = "—";
+        document.getElementById("batteryWarrantyInfo").textContent = "—";
+        warning.textContent = "";
+        return;
+    }
     document.getElementById("batteryTypeInfo").textContent = battery.batteryType || "—";
     document.getElementById("batteryAhInfo").textContent = battery.ah || "—";
     document.getElementById("batterySizeInfo").textContent = battery.size || "—";
     document.getElementById("batteryWarrantyInfo").textContent = battery.warranty || "—";
     if(battery.sellingPrice) document.getElementById("sellingPrice").value = battery.sellingPrice;
+
+    const quantity = Number(battery.quantity) || 0;
+    if(quantity <= 0){
+        warning.textContent = "This battery is out of stock.";
+    }else if(quantity <= Number(battery.minimumStock || 0)){
+        warning.textContent = "Low stock: only " + quantity + " unit(s) remaining.";
+    }else{
+        warning.textContent = "Available stock: " + quantity + " unit(s).";
+    }
 }
 
-function formatMoney(v){
-    return "AED " + Number(v || 0).toFixed(2);
+function deductBatteryFromStock(){
+    const brand = document.getElementById("batteryBrand").value;
+    const model = document.getElementById("batteryModel").value;
+    let stock = readBatteryStock();
+    const index = stock.findIndex(function(item){
+        return normalizeText(item.brand) === normalizeText(brand) && normalizeText(item.model) === normalizeText(model);
+    });
+    if(index === -1) return true; // allow even if demo stock not explicitly listed
+    const item = stock[index];
+    const quantity = Number(item.quantity) || 0;
+    if(quantity > 0){
+        item.quantity = quantity - 1;
+        updateBatteryStatus(item);
+        stock[index] = item;
+        saveBatteryStock(stock);
+    }
+    return true;
+}
+
+/* =========================
+   HELPERS & GENERATE
+========================= */
+
+function escapeHTML(value){
+    return String(value == null ? "" : value)
+        .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
+
+function formatMoney(value){
+    return "AED " + Number(value || 0).toFixed(2);
 }
 
 function generateInvoiceNumber(){
@@ -1025,45 +1252,67 @@ function generateInvoiceNumber(){
 
 function generateInvoice(){
     const customerName = document.getElementById("customerName").value.trim() || "Ali";
+    const customerPhone = document.getElementById("customerPhone").value.trim() || "+971524040699";
+    const customerEmail = document.getElementById("customerEmail").value.trim();
+    const customerAddress = document.getElementById("customerAddress").value.trim();
+    const customerTRN = document.getElementById("customerTRN").value.trim();
+    const companyTRN = document.getElementById("companyTRN").value.trim();
+
     const carBrand = document.getElementById("carBrand").value || "TOYOTA";
     const carModel = document.getElementById("carModel").value || "RAV4";
     const modelYear = document.getElementById("modelYear").value || "2017";
+
     const batteryBrand = document.getElementById("batteryBrand").value || "Energizer";
     const batteryModel = document.getElementById("batteryModel").value || "55d23L";
     const sellingPrice = Number(document.getElementById("sellingPrice").value) || 550;
+    const paymentMethod = document.getElementById("paymentMethod").value || "Card";
     const applyVAT = document.getElementById("applyVAT").checked;
+
+    deductBatteryFromStock();
 
     const subtotal = sellingPrice;
     const vat = applyVAT ? subtotal * 0.05 : 0;
     const total = subtotal + vat;
 
-    const invNum = generateInvoiceNumber();
-    const invDate = new Date().toLocaleDateString("en-GB");
+    const invoiceNumber = generateInvoiceNumber();
+    const invoiceDate = new Date().toLocaleDateString("en-GB");
 
-    document.getElementById("previewInvoiceNumber").textContent = invNum;
-    document.getElementById("previewInvoiceDate").textContent = invDate;
+    document.getElementById("invoiceNumberTop").textContent = "Invoice # " + invoiceNumber;
+    document.getElementById("invoiceDateTop").textContent = "Date: " + invoiceDate;
+
+    document.getElementById("previewInvoiceNumber").textContent = invoiceNumber;
+    document.getElementById("previewInvoiceDate").textContent = invoiceDate;
+
     document.getElementById("outCustomer").textContent = customerName;
-    document.getElementById("outPhone").textContent = document.getElementById("customerPhone").value || "+971524040699";
+    document.getElementById("outPhone").textContent = customerPhone;
+    document.getElementById("outEmail").textContent = customerEmail;
+    document.getElementById("outAddress").textContent = customerAddress;
+    document.getElementById("customerTRNOutput").textContent = customerTRN ? ("TRN: " + customerTRN) : "";
+
     document.getElementById("outCar").textContent = (carBrand + " " + carModel + " " + modelYear).toUpperCase();
 
     document.getElementById("outBatteryBrand").textContent = batteryBrand;
     document.getElementById("outBatteryModel").textContent = batteryModel;
-    
-    const bat = findBattery();
-    const warrantyStr = bat ? bat.warranty : "18 Months";
+
+    const battery = findBattery();
+    const warrantyStr = battery ? (battery.warranty || "18 Month") : "18 Month";
     document.getElementById("outWarranty").textContent = "Warranty: " + warrantyStr;
     document.getElementById("warrantyPeriodText").textContent = warrantyStr;
 
     document.getElementById("outAmount").textContent = sellingPrice.toFixed(2);
     document.getElementById("outSubtotal").textContent = formatMoney(subtotal);
+    document.getElementById("outDiscount").textContent = "AED 0.00";
     document.getElementById("outTaxable").textContent = formatMoney(subtotal);
     document.getElementById("outVAT").textContent = formatMoney(vat);
     document.getElementById("outTotal").textContent = formatMoney(total);
-    document.getElementById("outPayment").textContent = document.getElementById("paymentMethod").value || "Card";
-    document.getElementById("companyTRNOutput").textContent = document.getElementById("companyTRN").value || "—";
+
+    document.getElementById("outPayment").textContent = paymentMethod;
+    document.getElementById("companyTRNOutput").textContent = companyTRN || "—";
 
     document.getElementById("invoicePreview").style.display = "block";
     invoiceGenerated = true;
+
+    renderHistory();
 }
 
 function printInvoice(){
@@ -1071,6 +1320,11 @@ function printInvoice(){
         generateInvoice();
     }
     window.print();
+}
+
+function renderHistory(){
+    const container = document.getElementById("historyList");
+    container.innerHTML = "<div class='history-item'><strong>800-420756</strong> | Ali — TOYOTA RAV4 2017 — AED 577.50</div>";
 }
 
 function goBack(){
@@ -1081,7 +1335,9 @@ function goBack(){
 document.addEventListener("DOMContentLoaded", function(){
     loadCarBrands();
     loadBatteryBrands();
+    renderHistory();
 });
+
 </script>
 
 </body>
