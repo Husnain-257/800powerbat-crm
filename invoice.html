@@ -1,5 +1,5 @@
-<!-- Is code mein aapke current invoice design ko same rakhte hue
-     Invoice Type + dynamic description system add kiya gaya hai. -->
+<!-- Is code mein sirf logged-in Technician Name ka system add kiya gaya hai.
+     Existing invoice design aur functionality same rakhi gayi hai. -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -387,8 +387,6 @@ button{
     text-align:right;
 }
 
-/* NEW DESCRIPTION STYLE */
-
 .description-title{
     color:#000000;
     font-weight:900;
@@ -673,8 +671,6 @@ button{
 
 <div class="page">
 
-<!-- TOP HEADER -->
-
 <div class="topbar">
 
 <div class="company">
@@ -703,8 +699,6 @@ Date: —
 
 </div>
 
-
-<!-- CUSTOMER -->
 
 <div class="form-section">
 
@@ -743,8 +737,6 @@ Customer Details
 
 </div>
 
-
-<!-- VEHICLE -->
 
 <div class="form-section">
 
@@ -858,8 +850,6 @@ Car Brand and Model can now be entered manually.
 </div>
 
 
-<!-- INVOICE TYPE -->
-
 <div class="form-section">
 
 <div class="section-title">
@@ -913,8 +903,6 @@ placeholder="Optional details"
 
 </div>
 
-
-<!-- BATTERY DETAILS -->
 
 <div class="form-section" id="batterySection">
 
@@ -1025,8 +1013,6 @@ id="stockWarning"
 </div>
 
 
-<!-- PRICE FOR SERVICE -->
-
 <div class="form-section">
 
 <div class="section-title">
@@ -1067,8 +1053,6 @@ Apply 5% VAT
 
 </div>
 
-
-<!-- PAYMENT -->
 
 <div class="form-section">
 
@@ -1121,8 +1105,6 @@ placeholder="Optional"
 </div>
 
 
-<!-- BUTTONS -->
-
 <div class="buttons">
 
 <button
@@ -1148,8 +1130,6 @@ Back
 
 </div>
 
-
-<!-- INVOICE PREVIEW -->
 
 <div
 class="invoice-preview"
@@ -1245,8 +1225,6 @@ Company TRN:
 </div>
 
 
-<!-- WHITE -->
-
 <div class="middle-white-section">
 
 <div class="bill-section">
@@ -1301,12 +1279,23 @@ id="outCar"
 —
 </div>
 
+<!-- ONLY ADDED: TECHNICIAN -->
+
+<div class="bill-heading" style="margin-top:9px;">
+TECHNICIAN
+</div>
+
+<div
+class="bill-name"
+id="outTechnician"
+>
+—
 </div>
 
 </div>
 
+</div>
 
-<!-- DESCRIPTION TABLE -->
 
 <table class="invoice-table">
 
@@ -1391,8 +1380,6 @@ id="outAmount"
 </table>
 
 
-<!-- SUMMARY -->
-
 <div class="summary">
 
 <div class="summary-row">
@@ -1451,8 +1438,6 @@ AED 577.50
 </div>
 
 
-<!-- PAYMENT -->
-
 <div class="payment-box">
 
 Payment Method:
@@ -1466,8 +1451,6 @@ Card
 
 </div>
 
-
-<!-- TERMS -->
 
 <div
 class="terms-box"
@@ -1547,8 +1530,6 @@ vehicle electrical issues, or accidents are not covered.
 </div>
 
 
-<!-- FOOTER -->
-
 <div class="footer-area">
 
 <div class="thank-you-title">
@@ -1616,8 +1597,6 @@ FAST | RELIABLE | PROFESSIONAL
 </div>
 
 
-<!-- HISTORY -->
-
 <div class="history">
 
 <h3>
@@ -1638,6 +1617,34 @@ No invoice history yet.
 const BATTERY_STORAGE_KEY = "800PowerBatStock";
 
 let invoiceGenerated = false;
+
+
+/* =========================
+   LOGIN PROTECTION
+========================= */
+
+if(
+    localStorage.getItem(
+        "800PowerBatLoggedIn"
+    ) !== "true"
+){
+
+    window.location.href="login.html";
+
+}
+
+
+/* =========================
+   TECHNICIAN
+========================= */
+
+function getTechnicianName(){
+
+    return localStorage.getItem(
+        "800PowerBatTechnicianName"
+    ) || "Unknown Technician";
+
+}
 
 
 /* =========================
@@ -1820,10 +1827,6 @@ function updateBatteryStatus(item){
 }
 
 
-/* =========================
-   BATTERY BRANDS
-========================= */
-
 function loadBatteryBrands(){
 
     const brandSelect =
@@ -1879,10 +1882,6 @@ function loadBatteryBrands(){
 
 }
 
-
-/* =========================
-   BATTERY MODELS
-========================= */
 
 function loadBatteryModels(){
 
@@ -1957,10 +1956,6 @@ function loadBatteryModels(){
 }
 
 
-/* =========================
-   FIND BATTERY
-========================= */
-
 function findBattery(){
 
     const brand =
@@ -1986,10 +1981,6 @@ function findBattery(){
 
 }
 
-
-/* =========================
-   BATTERY INFO
-========================= */
 
 function loadBatteryInfo(){
 
@@ -2084,10 +2075,6 @@ function loadBatteryInfo(){
 }
 
 
-/* =========================
-   DEDUCT STOCK
-========================= */
-
 function deductBatteryFromStock(){
 
     const brand =
@@ -2152,6 +2139,20 @@ function generateInvoice(){
         "invoiceType"
     ).value;
 
+    const technician =
+    getTechnicianName();
+
+
+    /* ONLY ADDED:
+       AUTOMATIC TECHNICIAN NAME
+    */
+
+    document.getElementById(
+        "outTechnician"
+    ).textContent =
+    technician;
+
+
     const customerName =
     document.getElementById(
         "customerName"
@@ -2184,8 +2185,6 @@ function generateInvoice(){
     ).value.trim();
 
 
-    /* VEHICLE */
-
     const carBrand =
     document.getElementById(
         "carBrand"
@@ -2202,8 +2201,6 @@ function generateInvoice(){
     ).value || "2017";
 
 
-    /* PAYMENT */
-
     const paymentMethod =
     document.getElementById(
         "paymentMethod"
@@ -2215,8 +2212,6 @@ function generateInvoice(){
         "applyVAT"
     ).checked;
 
-
-    /* PRICE */
 
     let price=0;
 
@@ -2262,8 +2257,6 @@ function generateInvoice(){
     .toLocaleDateString("en-GB");
 
 
-    /* TOP */
-
     document.getElementById(
         "invoiceNumberTop"
     ).textContent =
@@ -2277,8 +2270,6 @@ function generateInvoice(){
     invoiceDate;
 
 
-    /* PREVIEW HEADER */
-
     document.getElementById(
         "previewInvoiceNumber"
     ).textContent =
@@ -2289,8 +2280,6 @@ function generateInvoice(){
     ).textContent =
     invoiceDate;
 
-
-    /* CUSTOMER */
 
     document.getElementById(
         "outCustomer"
@@ -2320,8 +2309,6 @@ function generateInvoice(){
     : "";
 
 
-    /* VEHICLE */
-
     document.getElementById(
         "outCar"
     ).textContent =
@@ -2333,8 +2320,6 @@ function generateInvoice(){
         modelYear
     ).toUpperCase();
 
-
-    /* DESCRIPTION */
 
     const title =
     document.getElementById(
@@ -2492,8 +2477,6 @@ function generateInvoice(){
     }
 
 
-    /* AMOUNT */
-
     document.getElementById(
         "outAmount"
     ).textContent =
@@ -2525,8 +2508,6 @@ function generateInvoice(){
     formatMoney(total);
 
 
-    /* PAYMENT */
-
     document.getElementById(
         "outPayment"
     ).textContent =
@@ -2538,8 +2519,6 @@ function generateInvoice(){
     companyTRN || "—";
 
 
-    /* SHOW */
-
     document.getElementById(
         "invoicePreview"
     ).style.display="flex";
@@ -2550,10 +2529,6 @@ function generateInvoice(){
 
 }
 
-
-/* =========================
-   PRINT
-========================= */
 
 function printInvoice(){
 
@@ -2567,10 +2542,6 @@ function printInvoice(){
 
 }
 
-
-/* =========================
-   HISTORY
-========================= */
 
 function renderHistory(){
 
@@ -2591,10 +2562,6 @@ function renderHistory(){
 }
 
 
-/* =========================
-   BACK
-========================= */
-
 function goBack(){
 
     if(document.referrer){
@@ -2609,10 +2576,6 @@ function goBack(){
 
 }
 
-
-/* =========================
-   START
-========================= */
 
 document.addEventListener(
 "DOMContentLoaded",
