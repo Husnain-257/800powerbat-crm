@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Customers | 800PowerBat</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+    color:#17202a;
+}
+
+header{
+    background:#101820;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+header h1{
+    margin:0;
+    color:#f5b400;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    padding:20px;
+}
+
+.box{
+    background:white;
+    padding:20px;
+    border-radius:14px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+input, select{
+    width:100%;
+    padding:14px;
+    margin:7px 0 14px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:15px;
+}
+
+label{
+    font-weight:bold;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:0;
+    border-radius:9px;
+    background:#101820;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#f5b400;
+    color:#101820;
+}
+
+.back{
+    display:block;
+    margin-top:15px;
+    text-align:center;
+    color:#101820;
+    text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>800PowerBat</h1>
+    <p>Customer Management</p>
+</header>
+
+<div class="container">
+
+<div class="box">
+
+<h2>Add Customer</h2>
+
+<label>Customer Name</label>
+<input type="text" id="name" placeholder="Enter customer name">
+
+<label>Phone Number</label>
+<input type="tel" id="phone" placeholder="+971">
+
+<label>Car Brand</label>
+<input type="text" id="car" placeholder="Toyota, BMW, Mercedes...">
+
+<label>Car Model</label>
+<input type="text" id="model" placeholder="Enter car model">
+
+<label>Battery Brand</label>
+<select id="battery">
+<option value="">Select Battery Brand</option>
+<option>Fiamm</option>
+<option>Energizer</option>
+<option>Bosch</option>
+<option>Varta</option>
+<option>AC Delco</option>
+<option>Amaron</option>
+<option>SF Sonic</option>
+<option>Exide</option>
+<option>Kays</option>
+<option>Bekon</option>
+</select>
+
+<button onclick="saveCustomer()">Save Customer</button>
+
+<a class="back" href="index.html">← Back to Dashboard</a>
+
+</div>
+
+</div>
+
+<script>
+
+function saveCustomer(){
+
+let name=document.getElementById("name").value;
+let phone=document.getElementById("phone").value;
+let car=document.getElementById("car").value;
+let model=document.getElementById("model").value;
+let battery=document.getElementById("battery").value;
+
+if(name==="" || phone===""){
+    alert("Please enter customer name and phone number.");
+    return;
+}
+
+let customers=JSON.parse(localStorage.getItem("customers")) || [];
+
+customers.push({
+    name:name,
+    phone:phone,
+    car:car,
+    model:model,
+    battery:battery,
+    date:new Date().toLocaleString()
+});
+
+localStorage.setItem("customers",JSON.stringify(customers));
+
+alert("Customer saved successfully!");
+
+document.getElementById("name").value="";
+document.getElementById("phone").value="";
+document.getElementById("car").value="";
+document.getElementById("model").value="";
+document.getElementById("battery").value="";
+
+}
+
+</script>
+
+</body>
+</html>
