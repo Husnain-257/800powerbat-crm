@@ -65,6 +65,16 @@ header p{
     margin-bottom:15px;
     box-shadow:0 3px 12px rgba(0,0,0,.07);
     border:1px solid #eaecf0;
+
+    /* CLICKABLE */
+    cursor:pointer;
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-2px);
+    border-color:#f5b400;
+    box-shadow:0 6px 18px rgba(0,0,0,.10);
 }
 
 .top{
@@ -124,6 +134,7 @@ button{
     background:#e74c3c;
     color:white;
     margin-top:10px;
+    cursor:pointer;
 }
 
 .delete:hover{
@@ -140,6 +151,13 @@ button{
 
 .empty h2{
     margin-top:0;
+}
+
+.open-text{
+    margin-top:12px;
+    color:#f5b400;
+    font-size:13px;
+    font-weight:bold;
 }
 
 @media(max-width:600px){
@@ -204,17 +222,7 @@ const isLoggedIn =
 const userRole =
     localStorage.getItem("800PowerBatUserRole") || "";
 
-
-/*
-   Only redirect when we are completely
-   sure that the user is not logged in.
-*/
-
-if(
-    isLoggedIn === null ||
-    isLoggedIn === "" ||
-    isLoggedIn === "false"
-){
+if(isLoggedIn !== "true"){
 
     window.location.replace("./login.html");
 
@@ -297,6 +305,47 @@ function invoiceBelongsToTechnician(invoice){
 
 
 /* =========================================
+   OPEN SELECTED INVOICE
+========================================= */
+
+function openInvoice(invoice){
+
+    try{
+
+        /*
+           Save complete invoice object.
+           invoice.html will read this data.
+        */
+
+        localStorage.setItem(
+            "selectedInvoice",
+            JSON.stringify(invoice)
+        );
+
+        /*
+           Open the actual invoice page.
+        */
+
+        window.location.href =
+            "./invoice.html";
+
+    }catch(error){
+
+        console.error(
+            "Unable to open invoice:",
+            error
+        );
+
+        alert(
+            "Unable to open this invoice."
+        );
+
+    }
+
+}
+
+
+/* =========================================
    SHOW INVOICES
 ========================================= */
 
@@ -315,13 +364,10 @@ function showInvoices(){
             .trim()
         : "";
 
-    /*
-       ADMIN:
-       Show all invoices.
 
+    /*
        TECHNICIAN:
-       Show only invoices created
-       by logged-in technician.
+       Show only own invoices.
     */
 
     if(userRole === "technician"){
@@ -456,6 +502,19 @@ function showInvoices(){
                     "card";
 
 
+                /*
+                   Clicking anywhere on the card
+                   opens this exact invoice.
+                */
+
+                card.onclick =
+                    function(){
+
+                        openInvoice(invoice);
+
+                    };
+
+
                 const invoiceNumber =
                     invoice.number || "—";
 
@@ -500,6 +559,10 @@ function showInvoices(){
                                 ${escapeHTML(date)}
                             </small>
 
+                            <div class="open-text">
+                                Tap to open invoice →
+                            </div>
+
                         </div>
 
 
@@ -524,7 +587,7 @@ function showInvoices(){
                         `
                         <button
                             class="delete"
-                            onclick="deleteInvoiceByNumber(
+                            onclick="event.stopPropagation(); deleteInvoiceByNumber(
                                 '${escapeJS(String(invoiceNumber))}'
                             )"
                         >
