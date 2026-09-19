@@ -236,7 +236,7 @@ button{
 }
 
 /* =========================
-   INVOICE PREVIEW (DESIGN LIKE IMAGE)
+   INVOICE PREVIEW DESIGN
 ========================= */
 
 .invoice-preview{
@@ -246,6 +246,12 @@ button{
     padding:15px;
     border-radius:6px;
     color:#ffffff;
+}
+
+/* TOP HEADER (DARK AREA) */
+.preview-header-area{
+    background:#121721;
+    padding:10px 10px 5px 10px;
 }
 
 .preview-header{
@@ -344,20 +350,26 @@ button{
 }
 
 .header-yellow-line{
-    height:2px;
+    height:3px;
     background:#f5b400;
-    margin:12px 0 16px;
+    margin:12px 0 0 0;
 }
 
 /* =========================
-   BILL SECTION
+   MIDDLE WHITE SECTION (BILL TO -> WARRANTY)
 ========================= */
 
+.middle-white-section{
+    background:#ffffff;
+    color:#000000;
+    padding:15px;
+}
+
+/* BILL SECTION */
 .bill-section{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:12px;
-    margin-top:10px;
 }
 
 .bill-box{
@@ -377,20 +389,17 @@ button{
 .bill-name{
     font-size:15px;
     font-weight:900;
-    color:#ffffff;
+    color:#000000;
 }
 
 .bill-text{
     font-size:11px;
-    color:#94a3b8;
+    color:#334155;
     margin-top:3px;
     line-height:1.35;
 }
 
-/* =========================
-   INVOICE TABLE
-========================= */
-
+/* INVOICE TABLE */
 .invoice-table{
     width:100%;
     border-collapse:collapse;
@@ -400,7 +409,7 @@ button{
 
 .invoice-table th{
     background:#f5b400;
-    color:#0d1117;
+    color:#000000;
     padding:8px 10px;
     font-size:11px;
     font-weight:900;
@@ -409,12 +418,12 @@ button{
 }
 
 .invoice-table td{
-    border-bottom:1px solid #1e293b;
+    border-bottom:1px solid #cbd5e1;
     padding:10px;
     font-size:11px;
     vertical-align:top;
     line-height:1.4;
-    color:#cbd5e1;
+    color:#000000;
 }
 
 .invoice-table th:nth-child(1),
@@ -435,22 +444,19 @@ button{
 }
 
 .battery-brand-title{
-    color:#f5b400;
+    color:#d97706;
     font-weight:800;
     font-size:13px;
 }
 
 .warranty-badge-yellow{
-    color:#f5b400;
+    color:#b45309;
     font-size:10px;
     font-weight:700;
     margin-top:2px;
 }
 
-/* =========================
-   SUMMARY
-========================= */
-
+/* SUMMARY */
 .summary{
     width:280px;
     margin-left:auto;
@@ -462,66 +468,65 @@ button{
     justify-content:space-between;
     padding:4px 0;
     font-size:11px;
-    color:#94a3b8;
+    color:#475569;
 }
 
 .summary-row strong{
-    color:#ffffff;
+    color:#000000;
 }
 
 .summary-row.total{
-    border-top:1px solid #334155;
+    border-top:2px solid #000000;
     margin-top:6px;
     padding-top:8px;
     font-size:16px;
     font-weight:900;
-    color:#ffffff;
+    color:#000000;
 }
 
 .summary-row.total .total-price{
-    color:#f5b400;
+    color:#b45309;
 }
 
-/* =========================
-   PAYMENT & WARRANTY
-========================= */
-
+/* PAYMENT & WARRANTY */
 .payment-box{
     margin-top:12px;
     padding:0;
     font-size:11px;
-    color:#94a3b8;
+    color:#334155;
 }
 
 .warranty-box{
     margin-top:16px;
-    background:#0b0e14;
-    border:1px solid #1e293b;
+    background:#f8fafc;
+    border:1px solid #cbd5e1;
     padding:12px;
     border-radius:4px;
     font-size:10px;
     line-height:1.5;
-    color:#64748b;
+    color:#334155;
 }
 
 .warranty-box strong.head{
     display:block;
     font-size:12px;
-    color:#ffffff;
+    color:#000000;
     margin-bottom:6px;
 }
 
 .warranty-highlight{
-    color:#f5b400;
+    color:#b45309;
     font-weight:700;
 }
 
 /* =========================
-   FOOTER (MATCHING IMAGE)
+   FOOTER AREA
 ========================= */
 
 .footer-area{
-    margin-top:22px;
+    margin-top:0;
+    background:#121721;
+    padding:15px;
     text-align:center;
 }
 
@@ -666,7 +671,7 @@ button{
     .invoice-preview{
         display:block !important;
         margin:0;
-        padding:10px;
+        padding:0;
         background:#121721 !important;
     }
 }
@@ -825,119 +830,126 @@ button{
         <button class="btn-back" onclick="goBack()">Back</button>
     </div>
 
-    <!-- INVOICE PREVIEW (STYLING MATCHES PHOTO) -->
+    <!-- INVOICE PREVIEW -->
     <div class="invoice-preview" id="invoicePreview">
 
-        <div class="preview-header">
-            <div>
-                <div class="logo-header-box">
-                    <div class="logo-icon-shape">⚡</div>
+        <!-- HEADER AREA (DARK) -->
+        <div class="preview-header-area">
+            <div class="preview-header">
+                <div>
+                    <div class="logo-header-box">
+                        <div class="logo-icon-shape">⚡</div>
+                        <div class="preview-company">
+                            <h2>800PowerBat</h2>
+                            <p class="subtitle">MOBILE CAR BATTERY SERVICE</p>
+                        </div>
+                    </div>
                     <div class="preview-company">
-                        <h2>800PowerBat</h2>
-                        <p class="subtitle">MOBILE CAR BATTERY SERVICE</p>
+                        <p class="contact-info">
+                            ⚡ 24/7 Mobile Car Battery Service<br>
+                            📍 Dubai, UAE<br>
+                            📞 +971 52 404 0699
+                        </p>
                     </div>
                 </div>
-                <div class="preview-company">
-                    <p class="contact-info">
-                        ⚡ 24/7 Mobile Car Battery Service<br>
-                        📍 Dubai, UAE<br>
-                        📞 +971 52 404 0699
-                    </p>
+
+                <div class="preview-invoice">
+                    <div class="tax-invoice-badge">TAX INVOICE</div>
+                    <div class="invoice-meta-details">
+                        Invoice No: <strong id="previewInvoiceNumber" style="color:#fff;">800-420756</strong><br>
+                        Date: <strong id="previewInvoiceDate" style="color:#fff;">19/09/2026</strong><br>
+                        Company TRN: <span id="companyTRNOutput">—</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="preview-invoice">
-                <div class="tax-invoice-badge">TAX INVOICE</div>
-                <div class="invoice-meta-details">
-                    Invoice No: <strong id="previewInvoiceNumber" style="color:#fff;">800-420756</strong><br>
-                    Date: <strong id="previewInvoiceDate" style="color:#fff;">19/09/2026</strong><br>
-                    Company TRN: <span id="companyTRNOutput">—</span>
+            <div class="header-yellow-line"></div>
+        </div>
+
+        <!-- MIDDLE AREA (WHITE BACKGROUND / BLACK TEXT) -->
+        <div class="middle-white-section">
+            <div class="bill-section">
+                <div class="bill-box">
+                    <div class="bill-heading">BILL TO</div>
+                    <div class="bill-name" id="outCustomer">Ali</div>
+                    <div class="bill-text" id="outPhone">+971524040699</div>
+                    <div class="bill-text" id="outEmail"></div>
+                    <div class="bill-text" id="outAddress"></div>
+                    <div class="bill-text" id="customerTRNOutput"></div>
+                </div>
+
+                <div class="bill-box">
+                    <div class="bill-heading">VEHICLE</div>
+                    <div class="bill-name" id="outCar">TOYOTA RAV4 2017</div>
                 </div>
             </div>
-        </div>
 
-        <div class="header-yellow-line"></div>
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th style="text-align:center;">Qty</th>
+                        <th style="text-align:right;">Amount (AED)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="battery-brand-title" id="outBatteryBrand">Energizer</div>
+                            <div style="font-size:11px; color:#475569;" id="outBatteryModel">55d23L</div>
+                            <div class="warranty-badge-yellow" id="outWarranty">Warranty: 18 Month</div>
+                        </td>
+                        <td style="text-align:center;">1</td>
+                        <td style="text-align:right;" id="outAmount">550.00</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="font-weight:700; color:#000000;">Installation / Service</div>
+                        </td>
+                        <td style="text-align:center;">1</td>
+                        <td style="text-align:right; color:#64748b;">Included</td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <div class="bill-section">
-            <div class="bill-box">
-                <div class="bill-heading">BILL TO</div>
-                <div class="bill-name" id="outCustomer">Ali</div>
-                <div class="bill-text" id="outPhone">+971524040699</div>
-                <div class="bill-text" id="outEmail"></div>
-                <div class="bill-text" id="outAddress"></div>
-                <div class="bill-text" id="customerTRNOutput"></div>
+            <div class="summary">
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <strong id="outSubtotal">AED 550.00</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Discount</span>
+                    <strong id="outDiscount">AED 0.00</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Taxable Amount</span>
+                    <strong id="outTaxable">AED 550.00</strong>
+                </div>
+                <div class="summary-row">
+                    <span>VAT 5%</span>
+                    <strong id="outVAT">AED 27.50</strong>
+                </div>
+                <div class="summary-row total">
+                    <span>TOTAL</span>
+                    <span class="total-price" id="outTotal">AED 577.50</span>
+                </div>
             </div>
 
-            <div class="bill-box">
-                <div class="bill-heading">VEHICLE</div>
-                <div class="bill-name" id="outCar">TOYOTA RAV4 2017</div>
+            <div class="payment-box">
+                Payment Method: <strong id="outPayment" style="color:#000;">Card</strong>
             </div>
-        </div>
 
-        <table class="invoice-table">
-            <thead>
-                <tr>
-                    <th>Description</th>
-                    <th style="text-align:center;">Qty</th>
-                    <th style="text-align:right;">Amount (AED)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="battery-brand-title" id="outBatteryBrand">Energizer</div>
-                        <div style="font-size:11px; color:#94a3b8;" id="outBatteryModel">55d23L</div>
-                        <div class="warranty-badge-yellow" id="outWarranty">Warranty: 18 Month</div>
-                    </td>
-                    <td style="text-align:center;">1</td>
-                    <td style="text-align:right;" id="outAmount">550.00</td>
-                </tr>
-                <tr>
-                    <td>
-                        <div style="font-weight:700; color:#e2e8f0;">Installation / Service</div>
-                    </td>
-                    <td style="text-align:center;">1</td>
-                    <td style="text-align:right; color:#64748b;">Included</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="summary">
-            <div class="summary-row">
-                <span>Subtotal</span>
-                <strong id="outSubtotal">AED 550.00</strong>
-            </div>
-            <div class="summary-row">
-                <span>Discount</span>
-                <strong id="outDiscount">AED 0.00</strong>
-            </div>
-            <div class="summary-row">
-                <span>Taxable Amount</span>
-                <strong id="outTaxable">AED 550.00</strong>
-            </div>
-            <div class="summary-row">
-                <span>VAT 5%</span>
-                <strong id="outVAT">AED 27.50</strong>
-            </div>
-            <div class="summary-row total">
-                <span>TOTAL</span>
-                <span class="total-price" id="outTotal">AED 577.50</span>
+            <div class="warranty-box">
+                <strong class="head">Warranty & Terms</strong>
+                <p><strong class="warranty-highlight">Warranty Period:</strong> <span id="warrantyPeriodText">18 Months</span></p>
+                <p>Battery warranty is valid only for the stated warranty period.</p>
+                <p><strong class="warranty-highlight">Warranty Claim Policy:</strong> During the warranty period, the battery is eligible for <strong style="color:#000; text-decoration:underline;">replacement only once</strong> under a valid warranty claim. After one warranty replacement, no further replacement claim will be provided under the original warranty.</p>
+                <p>Warranty covers manufacturing defects under normal usage. Warranty does not cover physical damage, incorrect installation, deep discharge, misuse, neglect, accident, water damage, or electrical faults/problems in the vehicle.</p>
+                <p>Please retain this invoice as proof of purchase and warranty. Warranty claims require presentation of this original invoice.</p>
             </div>
         </div>
 
-        <div class="payment-box">
-            Payment Method: <strong id="outPayment" style="color:#fff;">Card</strong>
-        </div>
-
-        <div class="warranty-box">
-            <strong class="head">Warranty & Terms</strong>
-            <p><strong class="warranty-highlight">Warranty Period:</strong> <span id="warrantyPeriodText">18 Months</span></p>
-            <p>Battery warranty is valid only for the stated warranty period.</p>
-            <p><strong class="warranty-highlight">Warranty Claim Policy:</strong> During the warranty period, the battery is eligible for <strong style="color:#fff; text-decoration:underline;">replacement only once</strong> under a valid warranty claim. After one warranty replacement, no further replacement claim will be provided under the original warranty.</p>
-            <p>Warranty covers manufacturing defects under normal usage. Warranty does not cover physical damage, incorrect installation, deep discharge, misuse, neglect, accident, water damage, or electrical faults/problems in the vehicle.</p>
-            <p>Please retain this invoice as proof of purchase and warranty. Warranty claims require presentation of this original invoice.</p>
-        </div>
-
+        <!-- FOOTER AREA (DARK) -->
         <div class="footer-area">
             <div class="thank-you-title">Thank you for choosing 800PowerBat.</div>
             <div class="thank-you-sub">24/7 Mobile Car Battery Replacement | Jump Start | Battery Diagnostics</div>
@@ -1220,7 +1232,7 @@ function deductBatteryFromStock(){
     const index = stock.findIndex(function(item){
         return normalizeText(item.brand) === normalizeText(brand) && normalizeText(item.model) === normalizeText(model);
     });
-    if(index === -1) return true; // allow even if demo stock not explicitly listed
+    if(index === -1) return true;
     const item = stock[index];
     const quantity = Number(item.quantity) || 0;
     if(quantity > 0){
