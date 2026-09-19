@@ -625,12 +625,6 @@ if(isLoggedIn !== "true"){
    ROLE PROTECTION
    ========================================= */
 
-/*
-    Only Admin can manage Battery Stock.
-    Technician will not see the Battery Stock
-    button.
-*/
-
 if(userRole !== "admin"){
 
     const batteryStockButton =
@@ -710,42 +704,85 @@ function logout(){
 
 function updateDashboard(){
 
-    /*
-        Customers
-    */
+    /* -----------------------------------------
+       CUSTOMERS
+       ----------------------------------------- */
 
     let customers =
         JSON.parse(
-            localStorage.getItem(
-                "800PowerBatCustomers"
-            )
+            localStorage.getItem("customers")
         ) || [];
+
+    if(!Array.isArray(customers)){
+        customers = [];
+    }
 
     document.getElementById(
         "totalCustomers"
     ).innerText = customers.length;
 
 
-    /*
-        Invoices
-    */
+    /* -----------------------------------------
+       INVOICES
+       ----------------------------------------- */
 
-    let invoices =
+    let allInvoices =
         JSON.parse(
-            localStorage.getItem(
-                "800PowerBatInvoices"
-            )
+            localStorage.getItem("invoices")
         ) || [];
 
+    if(!Array.isArray(allInvoices)){
+        allInvoices = [];
+    }
+
+
+    /*
+       ADMIN:
+       All invoices.
+
+       TECHNICIAN:
+       Only invoices created by that technician.
+    */
+
+    let invoices = allInvoices;
+
+
+    if(userRole === "technician"){
+
+        invoices =
+            allInvoices.filter(invoice => {
+
+                const invoiceTechnician =
+                    invoice.technician ||
+                    invoice.technicianName ||
+                    invoice.createdBy ||
+                    "";
+
+                return String(
+                    invoiceTechnician
+                ).trim().toLowerCase()
+                ===
+                String(
+                    technicianName
+                ).trim().toLowerCase();
+
+            });
+
+    }
+
+
+    /* -----------------------------------------
+       TOTAL INVOICES
+       ----------------------------------------- */
 
     document.getElementById(
         "totalInvoices"
     ).innerText = invoices.length;
 
 
-    /*
-        Paid / Pending
-    */
+    /* -----------------------------------------
+       PAID / PENDING
+       ----------------------------------------- */
 
     let paid = 0;
     let pending = 0;
@@ -753,7 +790,7 @@ function updateDashboard(){
 
     invoices.forEach(invoice => {
 
-        let amount =
+        const amount =
             Number(
                 invoice.total ||
                 invoice.amount ||
@@ -761,13 +798,29 @@ function updateDashboard(){
             );
 
 
-        let status =
+        const payment =
+            String(
+                invoice.payment || ""
+            ).trim().toUpperCase();
+
+
+        const status =
             String(
                 invoice.status || ""
-            ).toLowerCase();
+            ).trim().toLowerCase();
 
+
+        /*
+           Current invoice.html saves:
+
+           payment: "PAID"
+
+           Therefore PAID invoices are counted
+           under Total Paid.
+        */
 
         if(
+            payment === "PAID" ||
             status === "paid" ||
             status === "complete"
         ){
@@ -783,11 +836,19 @@ function updateDashboard(){
     });
 
 
+    /* -----------------------------------------
+       TOTAL PAID
+       ----------------------------------------- */
+
     document.getElementById(
         "totalPaid"
     ).innerText =
         "AED " + paid.toFixed(2);
 
+
+    /* -----------------------------------------
+       TOTAL PENDING
+       ----------------------------------------- */
 
     document.getElementById(
         "totalPending"
