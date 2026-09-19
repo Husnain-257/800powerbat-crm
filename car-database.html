@@ -135,6 +135,16 @@ button,.link-btn{
     line-height:1.5;
 }
 
+.connection-box{
+    background:#e9f8ee;
+    border-left:4px solid #20a05a;
+    padding:13px 15px;
+    border-radius:6px;
+    margin-top:12px;
+    font-size:13px;
+    line-height:1.5;
+}
+
 .stats{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -277,7 +287,10 @@ tr:hover td{
     }
 
     .card{padding:17px}
-    .catalog-box{grid-template-columns:1fr}
+
+    .catalog-box{
+        grid-template-columns:1fr;
+    }
 }
 </style>
 </head>
@@ -323,23 +336,29 @@ Worldwide car brands and model names are included. Select a brand and its availa
 
 <div class="field">
 <label>Car Brand</label>
+
 <select id="carBrand" onchange="loadModels()">
 <option value="">Select Car Brand</option>
 </select>
+
 </div>
 
 <div class="field">
 <label>Car Model</label>
+
 <select id="carModel">
 <option value="">Select Car Model</option>
 </select>
+
 </div>
 
 <div class="field">
 <label>Model Year</label>
+
 <select id="modelYear">
 <option value="">Select Model Year</option>
 </select>
+
 </div>
 
 </div>
@@ -362,6 +381,11 @@ Load / Update Worldwide Database
 Dashboard
 </a>
 
+</div>
+
+<div class="connection-box">
+<strong>Invoice Connection:</strong>
+All worldwide brands and models are automatically saved for the 800PowerBat Invoice page. You do not need to manually add every car.
 </div>
 
 </div>
@@ -404,6 +428,7 @@ oninput="displayCars()"
 <table>
 
 <thead>
+
 <tr>
 <th>#</th>
 <th>Car Brand</th>
@@ -411,6 +436,7 @@ oninput="displayCars()"
 <th>Model Year</th>
 <th>Actions</th>
 </tr>
+
 </thead>
 
 <tbody id="carTable"></tbody>
@@ -427,12 +453,23 @@ oninput="displayCars()"
 <script>
 
 /* =========================================================
-800POWERBAT WORLDWIDE CAR DATABASE
+800POWERBAT CAR DATABASE
+COMMON STORAGE KEYS
 ========================================================= */
+
+const CAR_RECORDS_KEY =
+"800PowerBatCars";
+
+const CAR_CATALOG_KEY =
+"800PowerBatCarCatalog";
+
+const INVOICE_CATALOG_KEY =
+"800PowerBatInvoiceCatalog";
+
 
 let cars =
 JSON.parse(
-localStorage.getItem("800PowerBatCars")
+localStorage.getItem(CAR_RECORDS_KEY)
 ) || [];
 
 let editIndex = -1;
@@ -447,23 +484,23 @@ const carCatalog = {
 "Toyota":[
 "4Runner","86","Alphard","Aqua","Avalon","Avanza","Aygo",
 "bZ3","bZ4X","C-HR","Camry","Celsior","Century","Corolla",
-"Corolla Cross","Crown","FJ Cruiser","Fortuner","GR86","GR Corolla",
-"GR Supra","GR Yaris","Granvia","Hiace","Highlander","Hilux",
-"Land Cruiser","Land Cruiser 70","Land Cruiser 100","Land Cruiser 200",
-"Land Cruiser 300","Land Cruiser Prado","Mark II","Mirai","Noah",
-"Passo","Picnic","Previa","Prius","Prius C","Prius Prime","Raize",
-"RAV4","Roomy","Rush","Sequoia","Sienna","Sienta","Supra",
-"Tacoma","Tundra","Vellfire","Venza","Vios","Vitz","Voxy",
-"Yaris","Yaris Cross"
+"Corolla Cross","Crown","FJ Cruiser","Fortuner","GR86",
+"GR Corolla","GR Supra","GR Yaris","Granvia","Hiace","Highlander",
+"Hilux","Land Cruiser","Land Cruiser 70","Land Cruiser 100",
+"Land Cruiser 200","Land Cruiser 300","Land Cruiser Prado",
+"Mark II","Mirai","Noah","Passo","Picnic","Previa","Prius",
+"Prius C","Prius Prime","Raize","RAV4","Roomy","Rush",
+"Sequoia","Sienna","Sienta","Supra","Tacoma","Tundra",
+"Vellfire","Venza","Vios","Vitz","Voxy","Yaris","Yaris Cross"
 ],
 
 "Nissan":[
 "350Z","370Z","Almera","Altima","Armada","Ariya","Bluebird",
 "Caravan","Cube","Frontier","GT-R","Juke","Kicks","Leaf",
 "Maxima","Micra","Murano","Navara","Note","Pathfinder","Patrol",
-"Patrol Super Safari","Qashqai","Rogue","Sentra","Serena","Silvia",
-"Skyline","Sunny","Teana","Terrano","Tiida","Titan","Urvan",
-"Versa","X-Terra","X-Trail","Z"
+"Patrol Super Safari","Qashqai","Rogue","Sentra","Serena",
+"Silvia","Skyline","Sunny","Teana","Terrano","Tiida","Titan",
+"Urvan","Versa","X-Terra","X-Trail","Z"
 ],
 
 "Honda":[
@@ -474,8 +511,8 @@ const carCatalog = {
 ],
 
 "Lexus":[
-"CT","ES","GS","GX","HS","IS","LC","LFA","LM","LS",
-"LX","NX","RC","RX","RZ","SC","UX"
+"CT","ES","GS","GX","HS","IS","LC","LFA","LM","LS","LX","NX",
+"RC","RX","RZ","SC","UX"
 ],
 
 "Acura":[
@@ -484,15 +521,15 @@ const carCatalog = {
 ],
 
 "Infiniti":[
-"EX","FX","G","I","J","JX","M","Q30","Q40","Q50","Q60",
-"Q70","QX30","QX4","QX50","QX55","QX56","QX60","QX70","QX80"
+"EX","FX","G","I","J","JX","M","Q30","Q40","Q50","Q60","Q70",
+"QX30","QX4","QX50","QX55","QX56","QX60","QX70","QX80"
 ],
 
 "Mercedes-Benz":[
 "A-Class","B-Class","C-Class","CLA","CLE","CLK","CLS","E-Class",
-"EQA","EQB","EQC","EQE","EQS","G-Class","GLA","GLB","GLC","GLC Coupe",
-"GLK","GLE","GLE Coupe","GLS","M-Class","R-Class","S-Class",
-"SL","SLC","SLK","V-Class","Viano","Vito","Sprinter",
+"EQA","EQB","EQC","EQE","EQS","G-Class","GLA","GLB","GLC",
+"GLC Coupe","GLK","GLE","GLE Coupe","GLS","M-Class","R-Class",
+"S-Class","SL","SLC","SLK","V-Class","Viano","Vito","Sprinter",
 "AMG GT","AMG GT 4-Door","Maybach S-Class","Maybach GLS"
 ],
 
@@ -582,8 +619,9 @@ const carCatalog = {
 ],
 
 "Jeep":[
-"Avenger","Cherokee","Commander","Compass","Gladiator","Grand Cherokee",
-"Grand Wagoneer","Liberty","Patriot","Renegade","Wagoneer","Wrangler"
+"Avenger","Cherokee","Commander","Compass","Gladiator",
+"Grand Cherokee","Grand Wagoneer","Liberty","Patriot",
+"Renegade","Wagoneer","Wrangler"
 ],
 
 "Tesla":[
@@ -627,11 +665,6 @@ const carCatalog = {
 "Isuzu":[
 "Amigo","Ascender","D-Max","MU-7","MU-X","Rodeo","Trooper",
 "VehiCROSS","Wizard"
-],
-
-"Acura":[
-"CL","EL","ILX","Integra","Legend","MDX","NSX","RDX","RL",
-"RLX","RSX","TL","TLX","TSX","ZDX"
 ],
 
 "Ferrari":[
@@ -756,8 +789,8 @@ const carCatalog = {
 ],
 
 "Jetour":[
-"Dashing","X50","X70","X70 Plus","X70 Pro","X90","X90 Plus","T2",
-"Traveller"
+"Dashing","X50","X70","X70 Plus","X70 Pro","X90","X90 Plus",
+"T2","Traveller"
 ],
 
 "BAIC":[
@@ -766,8 +799,8 @@ const carCatalog = {
 ],
 
 "GAC":[
-"Empow","Emkoo","GN6","GN8","GS3","GS4","GS5","GS8","Aion S",
-"Aion Y","Aion V","Aion LX"
+"Empow","Emkoo","GN6","GN8","GS3","GS4","GS5","GS8",
+"Aion S","Aion Y","Aion V","Aion LX"
 ],
 
 "GWM":[
@@ -776,8 +809,8 @@ const carCatalog = {
 ],
 
 "Great Wall":[
-"Hover H3","Hover H5","Hover H6","M4","Poer","Wingle 5","Wingle 6",
-"Wingle 7"
+"Hover H3","Hover H5","Hover H6","M4","Poer","Wingle 5",
+"Wingle 6","Wingle 7"
 ],
 
 "JAC":[
@@ -790,9 +823,9 @@ const carCatalog = {
 ],
 
 "FAW":[
-"Bestune B30","Bestune B50","Bestune B70","Bestune T55","Bestune T77",
-"Bestune T99","Hongqi H5","Hongqi H7","Hongqi H9","Hongqi HS5",
-"Jiefang"
+"Bestune B30","Bestune B50","Bestune B70","Bestune T55",
+"Bestune T77","Bestune T99","Hongqi H5","Hongqi H7",
+"Hongqi H9","Hongqi HS5","Jiefang"
 ],
 
 "Hongqi":[
@@ -801,13 +834,8 @@ const carCatalog = {
 
 "Dongfeng":[
 "Aeolus AX3","Aeolus AX5","Aeolus AX7","Fengon 500","Fengon 580",
-"Fengon 600","Forthing T5","Forthing T5 EVO","M-Hero 1","M-Hero 917",
-"Nammi 01","Voyah Free","Voyah Dream"
-],
-
-"JAC":[
-"JS2","JS3","JS4","JS6","JS7","JS8","S2","S3","S4","S7",
-"T6","T8","T9"
+"Fengon 600","Forthing T5","Forthing T5 EVO","M-Hero 1",
+"M-Hero 917","Nammi 01","Voyah Free","Voyah Dream"
 ],
 
 "NIO":[
@@ -863,14 +891,6 @@ const carCatalog = {
 "RX","TXL","VX","LX"
 ],
 
-"Chery Exeed":[
-"RX","TXL","VX","LX"
-],
-
-"BAO":[
-"Bao 3","Bao 5","Bao 8"
-],
-
 "Seres":[
 "3","5","7","SF5","M5","M7","M9"
 ],
@@ -896,21 +916,18 @@ const carCatalog = {
 "310","510","530","560","730","KiWi EV","Yep"
 ],
 
-"Chery Jetour":[
-"X50","X70","X90","Dashing","T2"
-],
-
 "Proton":[
 "Exora","Iriz","Persona","Saga","S70","X50","X70"
 ],
 
 "Perodua":[
-"Axia","Aruz","Ativa","Bezza","Alza","Kancil","Kelisa","Kembara",
-"Myvi","Viva"
+"Axia","Aruz","Ativa","Bezza","Alza","Kancil","Kelisa",
+"Kembara","Myvi","Viva"
 ],
 
 "Tata":[
-"Altroz","Harrier","Nexon","Punch","Safari","Sumo","Tiago","Tigor"
+"Altroz","Harrier","Nexon","Punch","Safari","Sumo","Tiago",
+"Tigor"
 ],
 
 "Mahindra":[
@@ -920,8 +937,8 @@ const carCatalog = {
 
 "Maruti Suzuki":[
 "Alto","Baleno","Brezza","Celerio","Ciaz","Dzire","Eeco","Ertiga",
-"Fronx","Grand Vitara","Ignis","Jimny","S-Presso","Swift","Wagon R",
-"XL6"
+"Fronx","Grand Vitara","Ignis","Jimny","S-Presso","Swift",
+"Wagon R","XL6"
 ],
 
 "Daewoo":[
@@ -969,8 +986,7 @@ const carCatalog = {
 ],
 
 "Pontiac":[
-"Firebird","GTO","Grand Prix","Solstice","Sunfire","Trans Am",
-"Vibe"
+"Firebird","GTO","Grand Prix","Solstice","Sunfire","Trans Am","Vibe"
 ],
 
 "Oldsmobile":[
@@ -985,31 +1001,18 @@ const carCatalog = {
 "H1","H2","H3","EV"
 ],
 
-"Buick":[
-"Enclave","Encore","Encore GX","Envision","LaCrosse","LeSabre",
-"Lucerne","Regal","Riviera"
-],
-
 "Mercury":[
-"Cougar","Grand Marquis","Mariner","Milan","Monterey","Mountaineer",
-"Sable"
+"Cougar","Grand Marquis","Mariner","Milan","Monterey",
+"Mountaineer","Sable"
 ],
 
 "Lincoln":[
-"Aviator","Continental","Corsair","LS","MKC","MKS","MKT","MKX",
-"MKZ","Nautilus","Navigator","Town Car"
+"Aviator","Continental","Corsair","LS","MKC","MKS","MKT",
+"MKX","MKZ","Nautilus","Navigator","Town Car"
 ],
 
 "Ram":[
 "1500","2500","3500","4500","5500","ProMaster","ProMaster City"
-],
-
-"Genesis":[
-"G70","G80","G90","GV60","GV70","GV80","GV80 Coupe"
-],
-
-"Isuzu":[
-"D-Max","MU-X","Trooper","Rodeo","Amigo","Ascender","VehiCROSS"
 ],
 
 "UAZ":[
@@ -1024,24 +1027,8 @@ const carCatalog = {
 "Volga","Sobol","Gazelle","GAZelle Next"
 ],
 
-"AvtoVAZ":[
-"Niva","Granta","Vesta","Largus","XRAY"
-],
-
-"Urus":[
-"Urus"
-],
-
-"BYD Fangchengbao":[
-"Bao 3","Bao 5","Bao 8"
-],
-
 "VinFast":[
 "VF5","VF6","VF7","VF8","VF9","Lux A2.0","Lux SA2.0"
-],
-
-"Proton":[
-"Saga","Persona","Iriz","Exora","X50","X70","S70"
 ],
 
 "Holden":[
@@ -1097,26 +1084,48 @@ for(let y=1975;y<=2026;y++){
 
 
 /* =========================================================
-NORMALIZE
+HELPERS
 ========================================================= */
 
 function normalize(value){
-    return String(value||"").trim().toLowerCase();
+
+    return String(value || "")
+        .trim()
+        .toLowerCase();
+
+}
+
+
+function escapeHTML(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
 }
 
 
 /* =========================================================
-ESCAPE
+SAVE WORLDWIDE CATALOG
 ========================================================= */
 
-function escapeHTML(value){
+function saveCatalogForCRM(){
 
-    return String(value||"")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    const catalogJSON =
+        JSON.stringify(carCatalog);
+
+    localStorage.setItem(
+        CAR_CATALOG_KEY,
+        catalogJSON
+    );
+
+    localStorage.setItem(
+        INVOICE_CATALOG_KEY,
+        catalogJSON
+    );
 
 }
 
@@ -1127,23 +1136,29 @@ LOAD BRANDS
 
 function loadBrands(){
 
-    const select=document.getElementById("carBrand");
+    const select =
+        document.getElementById("carBrand");
 
-    select.innerHTML=
-    '<option value="">Select Car Brand</option>';
+    select.innerHTML =
+        '<option value="">Select Car Brand</option>';
 
     Object.keys(carCatalog)
-    .sort()
-    .forEach(function(brand){
+        .sort(function(a,b){
 
-        const option=document.createElement("option");
+            return a.localeCompare(b);
 
-        option.value=brand;
-        option.textContent=brand;
+        })
+        .forEach(function(brand){
 
-        select.appendChild(option);
+            const option =
+                document.createElement("option");
 
-    });
+            option.value=brand;
+            option.textContent=brand;
+
+            select.appendChild(option);
+
+        });
 
 }
 
@@ -1154,30 +1169,40 @@ LOAD MODELS
 
 function loadModels(){
 
-    const brand=
-    document.getElementById("carBrand").value;
+    const brand =
+        document.getElementById("carBrand").value;
 
-    const modelSelect=
-    document.getElementById("carModel");
+    const modelSelect =
+        document.getElementById("carModel");
 
-    modelSelect.innerHTML=
-    '<option value="">Select Car Model</option>';
+    modelSelect.innerHTML =
+        '<option value="">Select Car Model</option>';
 
-    if(!brand)return;
+    if(!brand){
+        return;
+    }
 
-    carCatalog[brand]
-    .slice()
-    .sort()
-    .forEach(function(model){
+    const models =
+        carCatalog[brand] || [];
 
-        const option=document.createElement("option");
+    models
+        .slice()
+        .sort(function(a,b){
 
-        option.value=model;
-        option.textContent=model;
+            return a.localeCompare(b);
 
-        modelSelect.appendChild(option);
+        })
+        .forEach(function(model){
 
-    });
+            const option =
+                document.createElement("option");
+
+            option.value=model;
+            option.textContent=model;
+
+            modelSelect.appendChild(option);
+
+        });
 
 }
 
@@ -1188,25 +1213,26 @@ LOAD YEARS
 
 function loadYears(){
 
-    const select=
-    document.getElementById("modelYear");
+    const select =
+        document.getElementById("modelYear");
 
-    select.innerHTML=
-    '<option value="">Select Model Year</option>';
+    select.innerHTML =
+        '<option value="">Select Model Year</option>';
 
-    YEARS.slice()
-    .reverse()
-    .forEach(function(year){
+    YEARS
+        .slice()
+        .reverse()
+        .forEach(function(year){
 
-        const option=
-        document.createElement("option");
+            const option =
+                document.createElement("option");
 
-        option.value=year;
-        option.textContent=year;
+            option.value=year;
+            option.textContent=year;
 
-        select.appendChild(option);
+            select.appendChild(option);
 
-    });
+        });
 
 }
 
@@ -1220,9 +1246,9 @@ function carExists(brand,model,year){
     return cars.some(function(item){
 
         return(
-            normalize(item.brand)===normalize(brand)&&
-            normalize(item.model)===normalize(model)&&
-            Number(item.year)===Number(year)
+            normalize(item.brand) === normalize(brand) &&
+            normalize(item.model) === normalize(model) &&
+            Number(item.year) === Number(year)
         );
 
     });
@@ -1231,119 +1257,172 @@ function carExists(brand,model,year){
 
 
 /* =========================================================
-SAVE CAR
+SAVE CAR RECORD
 ========================================================= */
 
 function saveCar(){
 
-    const brand=
-    document.getElementById("carBrand").value.trim();
+    const brand =
+        document.getElementById("carBrand").value.trim();
 
-    const model=
-    document.getElementById("carModel").value.trim();
+    const model =
+        document.getElementById("carModel").value.trim();
 
-    const year=
-    document.getElementById("modelYear").value.trim();
+    const year =
+        document.getElementById("modelYear").value.trim();
+
 
     if(!brand){
+
         alert("Please select Car Brand.");
+
         return;
+
     }
 
     if(!model){
+
         alert("Please select Car Model.");
+
         return;
+
     }
 
     if(!year){
+
         alert("Please select Model Year.");
+
         return;
+
     }
 
-    const yearNumber=Number(year);
+
+    const yearNumber =
+        Number(year);
+
 
     if(
-        yearNumber<1975||
-        yearNumber>2026
+        yearNumber < 1975 ||
+        yearNumber > 2026
     ){
-        alert("Please select a year between 1975 and 2026.");
+
+        alert(
+            "Please select a year between 1975 and 2026."
+        );
+
         return;
+
     }
 
 
-    if(editIndex!==-1){
+    if(editIndex !== -1){
 
-        const duplicate=
-        cars.some(function(item,index){
+        const duplicate =
+            cars.some(function(item,index){
 
-            if(index===editIndex)return false;
+                if(index === editIndex){
+                    return false;
+                }
 
-            return(
-                normalize(item.brand)===normalize(brand)&&
-                normalize(item.model)===normalize(model)&&
-                Number(item.year)===yearNumber
-            );
+                return(
+                    normalize(item.brand) === normalize(brand) &&
+                    normalize(item.model) === normalize(model) &&
+                    Number(item.year) === yearNumber
+                );
 
-        });
+            });
+
 
         if(duplicate){
-            alert("This car already exists.");
+
+            alert(
+                "This car already exists."
+            );
+
             return;
+
         }
 
-        cars[editIndex]={
+
+        cars[editIndex] = {
+
             brand:brand,
             model:model,
             year:yearNumber
+
         };
+
 
         editIndex=-1;
 
+
     }else{
 
-        if(carExists(brand,model,yearNumber)){
-            alert("This car already exists in the database.");
+
+        if(
+            carExists(
+                brand,
+                model,
+                yearNumber
+            )
+        ){
+
+            alert(
+                "This car already exists in the database."
+            );
+
             return;
+
         }
 
+
         cars.push({
+
             brand:brand,
             model:model,
             year:yearNumber
+
         });
 
     }
 
+
     localStorage.setItem(
-        "800PowerBatCars",
+        CAR_RECORDS_KEY,
         JSON.stringify(cars)
     );
 
+
     clearForm();
+
     displayCars();
+
     updateStats();
 
 }
 
 
 /* =========================================================
-LOAD WORLDWIDE DATABASE
+LOAD / UPDATE WORLDWIDE DATABASE
+THIS ALSO CONNECTS INVOICE
 ========================================================= */
 
 function loadWorldwideDatabase(){
 
-    localStorage.setItem(
-        "800PowerBatCarCatalog",
-        JSON.stringify(carCatalog)
-    );
+    saveCatalogForCRM();
 
     loadBrands();
+
+    loadYears();
+
     displayCatalog();
+
     updateStats();
 
+
     alert(
-        Object.keys(carCatalog).length+
-        " worldwide car brands and their models are ready."
+        "Worldwide Car Database updated successfully.\n\n" +
+        "All brands and models are now connected to Invoice."
     );
 
 }
@@ -1355,49 +1434,62 @@ DISPLAY CATALOG
 
 function displayCatalog(){
 
-    const box=
-    document.getElementById("catalog");
+    const box =
+        document.getElementById("catalog");
 
-    const search=
-    normalize(
-        document.getElementById("catalogSearch").value
-    );
+    const search =
+        normalize(
+            document.getElementById("catalogSearch").value
+        );
+
 
     box.innerHTML="";
 
+
     Object.keys(carCatalog)
-    .sort()
-    .forEach(function(brand){
+        .sort(function(a,b){
 
-        const models=
-        carCatalog[brand].filter(function(model){
+            return a.localeCompare(b);
 
-            return(
-                !search||
-                normalize(brand).includes(search)||
-                normalize(model).includes(search)
-            );
+        })
+        .forEach(function(brand){
+
+            const models =
+                carCatalog[brand].filter(function(model){
+
+                    return(
+                        !search ||
+                        normalize(brand).includes(search) ||
+                        normalize(model).includes(search)
+                    );
+
+                });
+
+
+            if(models.length === 0){
+                return;
+            }
+
+
+            const div =
+                document.createElement("div");
+
+            div.className="brand-box";
+
+
+            div.innerHTML =
+                "<strong>" +
+                escapeHTML(brand) +
+                "</strong>" +
+
+                "<span>" +
+                models.length +
+                " models</span>";
+
+
+            box.appendChild(div);
 
         });
-
-        if(models.length===0)return;
-
-        const div=
-        document.createElement("div");
-
-        div.className="brand-box";
-
-        div.innerHTML=
-        "<strong>"+
-        escapeHTML(brand)+
-        "</strong>"+
-        "<span>"+
-        models.length+
-        " models</span>";
-
-        box.appendChild(div);
-
-    });
 
 }
 
@@ -1408,85 +1500,97 @@ DISPLAY SAVED CAR RECORDS
 
 function displayCars(){
 
-    const table=
-    document.getElementById("carTable");
+    const table =
+        document.getElementById("carTable");
 
-    const search=
-    normalize(
-        document.getElementById("search").value
-    );
+    const search =
+        normalize(
+            document.getElementById("search").value
+        );
+
 
     table.innerHTML="";
 
-    const filtered=
-    cars.filter(function(item){
 
-        return(
-            normalize(item.brand).includes(search)||
-            normalize(item.model).includes(search)||
-            String(item.year||"").includes(search)
-        );
+    const filtered =
+        cars.filter(function(item){
 
-    });
+            return(
+                normalize(item.brand).includes(search) ||
+                normalize(item.model).includes(search) ||
+                String(item.year || "").includes(search)
+            );
 
-    if(filtered.length===0){
+        });
 
-        table.innerHTML=`
+
+    if(filtered.length === 0){
+
+        table.innerHTML = `
         <tr>
-        <td colspan="5" class="empty">
-        No saved car records found.
-        </td>
+            <td colspan="5" class="empty">
+                No saved car records found.
+            </td>
         </tr>
         `;
 
         return;
+
     }
+
 
     filtered.forEach(function(item){
 
-        const realIndex=cars.indexOf(item);
+        const realIndex =
+            cars.indexOf(item);
 
-        const row=document.createElement("tr");
 
-        row.innerHTML=`
+        const row =
+            document.createElement("tr");
 
-        <td>${realIndex+1}</td>
+
+        row.innerHTML = `
 
         <td>
-        <strong>
-        ${escapeHTML(item.brand)}
-        </strong>
+            ${realIndex + 1}
         </td>
 
         <td>
-        ${escapeHTML(item.model)}
+            <strong>
+                ${escapeHTML(item.brand)}
+            </strong>
         </td>
 
         <td>
-        <span class="badge">
-        ${escapeHTML(item.year)}
-        </span>
+            ${escapeHTML(item.model)}
+        </td>
+
+        <td>
+            <span class="badge">
+                ${escapeHTML(item.year)}
+            </span>
         </td>
 
         <td>
 
-        <button
-        class="edit-btn"
-        onclick="editCar(${realIndex})"
-        >
-        Edit
-        </button>
+            <button
+                class="edit-btn"
+                onclick="editCar(${realIndex})"
+            >
+                Edit
+            </button>
 
-        <button
-        class="delete-btn"
-        onclick="deleteCar(${realIndex})"
-        >
-        Delete
-        </button>
+            <button
+                class="delete-btn"
+                onclick="deleteCar(${realIndex})"
+            >
+                Delete
+            </button>
 
         </td>
 
         `;
+
 
         table.appendChild(row);
 
@@ -1501,23 +1605,38 @@ EDIT
 
 function editCar(index){
 
-    const car=cars[index];
+    const car =
+        cars[index];
 
-    if(!car)return;
+    if(!car){
+        return;
+    }
 
-    document.getElementById("carBrand").value=car.brand;
+
+    document.getElementById("carBrand").value =
+        car.brand;
+
 
     loadModels();
 
-    document.getElementById("carModel").value=car.model;
 
-    document.getElementById("modelYear").value=car.year;
+    document.getElementById("carModel").value =
+        car.model;
+
+
+    document.getElementById("modelYear").value =
+        car.year;
+
 
     editIndex=index;
 
+
     window.scrollTo({
+
         top:0,
+
         behavior:"smooth"
+
     });
 
 }
@@ -1529,28 +1648,42 @@ DELETE
 
 function deleteCar(index){
 
-    const car=cars[index];
+    const car =
+        cars[index];
 
-    if(!car)return;
+    if(!car){
+        return;
+    }
 
-    if(!confirm(
-        "Delete "+
-        car.brand+
-        " "+
-        car.model+
-        " "+
-        car.year+
-        "?"
-    ))return;
+
+    if(
+        !confirm(
+            "Delete " +
+            car.brand +
+            " " +
+            car.model +
+            " " +
+            car.year +
+            "?"
+        )
+    ){
+
+        return;
+
+    }
+
 
     cars.splice(index,1);
 
+
     localStorage.setItem(
-        "800PowerBatCars",
+        CAR_RECORDS_KEY,
         JSON.stringify(cars)
     );
 
+
     displayCars();
+
     updateStats();
 
 }
@@ -1564,10 +1697,13 @@ function clearForm(){
 
     document.getElementById("carBrand").value="";
 
-    document.getElementById("carModel").innerHTML=
-    '<option value="">Select Car Model</option>';
+
+    document.getElementById("carModel").innerHTML =
+        '<option value="">Select Car Model</option>';
+
 
     document.getElementById("modelYear").value="";
+
 
     editIndex=-1;
 
@@ -1580,29 +1716,39 @@ STATS
 
 function updateStats(){
 
-    document.getElementById("totalCars").innerText=
-    cars.length;
+    document.getElementById("totalCars").innerText =
+        cars.length;
 
-    const brands=new Set();
-    const models=new Set();
+
+    const brands =
+        new Set();
+
+    const models =
+        new Set();
+
 
     cars.forEach(function(item){
 
-        brands.add(normalize(item.brand));
+        brands.add(
+            normalize(item.brand)
+        );
+
 
         models.add(
-            normalize(item.brand)+
-            "||"+
+            normalize(item.brand) +
+            "||" +
             normalize(item.model)
         );
 
     });
 
-    document.getElementById("totalBrands").innerText=
-    brands.size;
 
-    document.getElementById("totalModels").innerText=
-    models.size;
+    document.getElementById("totalBrands").innerText =
+        brands.size;
+
+
+    document.getElementById("totalModels").innerText =
+        models.size;
 
 }
 
@@ -1610,6 +1756,8 @@ function updateStats(){
 /* =========================================================
 START
 ========================================================= */
+
+saveCatalogForCRM();
 
 loadBrands();
 
@@ -1621,13 +1769,32 @@ displayCatalog();
 
 updateStats();
 
-localStorage.setItem(
-    "800PowerBatCarCatalog",
-    JSON.stringify(carCatalog)
+
+/*
+AUTO-SYNC:
+If Invoice page is already open in another tab,
+notify it that the catalog has been updated.
+*/
+
+window.addEventListener(
+    "storage",
+    function(event){
+
+        if(
+            event.key === CAR_CATALOG_KEY ||
+            event.key === INVOICE_CATALOG_KEY
+        ){
+
+            console.log(
+                "800PowerBat Car Catalog updated."
+            );
+
+        }
+
+    }
 );
 
 </script>
 
 </body>
 </html>
-```0
