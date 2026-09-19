@@ -134,11 +134,9 @@ body{
 
 <div class="login-box">
 
-    <!--
-    Agar aapke logo ka naam different hai
-    to neeche src="..." mein apni logo file ka naam likhein.
-    -->
-    <img src="logo.png" class="logo" alt="800PowerBat Logo"
+    <img src="logo.png"
+         class="logo"
+         alt="800PowerBat Logo"
          onerror="this.style.display='none';">
 
     <h1 class="company-name">
@@ -151,6 +149,7 @@ body{
 
     <div class="input-group">
         <label for="username">Username</label>
+
         <input
             type="text"
             id="username"
@@ -161,6 +160,7 @@ body{
 
     <div class="input-group">
         <label for="password">Password</label>
+
         <input
             type="password"
             id="password"
@@ -185,13 +185,19 @@ body{
 
 <script>
 
-/* STEP 1 TEST ACCOUNT
-   Abhi sirf testing ke liye hai.
-   Step 2 mein proper technician accounts banayenge.
-*/
+/* =========================================
+   TESTING TECHNICIAN ACCOUNT
+   ========================================= */
 
-const TEST_USERNAME = "husnain";
+const TEST_USERNAME = "maaz";
 const TEST_PASSWORD = "1234";
+
+const TECHNICIAN_NAME = "Maaz";
+
+
+/* =========================================
+   LOGIN FUNCTION
+   ========================================= */
 
 function login(){
 
@@ -204,33 +210,45 @@ function login(){
     const errorMessage =
         document.getElementById("errorMessage");
 
+
+    /* Clear previous error */
+
+    errorMessage.style.display = "none";
+
+
+    /* Check username & password */
+
     if(
         username === TEST_USERNAME &&
         password === TEST_PASSWORD
     ){
 
-        /*
-        Technician ka naam save ho raha hai.
-        Baad mein isi naam ko invoice par automatically
-        show karwayenge.
-        */
+        /* Login status */
 
         localStorage.setItem(
             "800PowerBatLoggedIn",
             "true"
         );
 
+
+        /* Save username */
+
         localStorage.setItem(
             "800PowerBatUsername",
-            "husnain"
+            TEST_USERNAME
         );
+
+
+        /* Save technician name */
 
         localStorage.setItem(
             "800PowerBatTechnicianName",
-            "Husnain Ali"
+            TECHNICIAN_NAME
         );
 
-        /* CRM page ka naam */
+
+        /* Open CRM */
+
         window.location.href = "index.html";
 
     }else{
@@ -240,21 +258,23 @@ function login(){
     }
 }
 
-/* Enter key se login */
-document.addEventListener("keydown", function(event){
 
-    if(event.key === "Enter"){
-        login();
+/* =========================================
+   ENTER KEY LOGIN
+   ========================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Enter"){
+
+            login();
+
+        }
+
     }
-
-});
-
-/* Agar already logged in hai */
-if(
-    localStorage.getItem("800PowerBatLoggedIn") === "true"
-){
-    // Login page par rehne ke liye kuch nahi karna.
-}
+);
 
 </script>
 
