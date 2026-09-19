@@ -132,6 +132,94 @@ button:hover{
 
 <script>
 
+/* ================================
+   LOGIN SECURITY
+================================ */
+
+const isLoggedIn =
+    localStorage.getItem("800PowerBatLoggedIn");
+
+const userRole =
+    localStorage.getItem("800PowerBatUserRole");
+
+if(isLoggedIn !== "true"){
+    window.location.replace("login.html");
+}
+
+/*
+   Customers page is available to:
+   ADMIN
+   TECHNICIAN
+*/
+
+if(userRole !== "admin" && userRole !== "technician"){
+
+    document.body.innerHTML = `
+        <div style="
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+            background:#101820;
+            font-family:Arial,Helvetica,sans-serif;
+        ">
+            <div style="
+                width:100%;
+                max-width:420px;
+                background:white;
+                border-radius:16px;
+                padding:35px 25px;
+                text-align:center;
+                box-shadow:0 15px 40px rgba(0,0,0,.35);
+            ">
+                <div style="font-size:50px;margin-bottom:15px;">
+                    🔒
+                </div>
+
+                <h2 style="
+                    margin:0 0 10px;
+                    color:#101820;
+                ">
+                    Access Denied
+                </h2>
+
+                <p style="
+                    margin:0 0 25px;
+                    color:#667085;
+                    line-height:1.5;
+                ">
+                    You do not have permission to access
+                    Customer Management.
+                </p>
+
+                <button
+                    onclick="window.location.href='index.html'"
+                    style="
+                        border:0;
+                        background:#f5b400;
+                        color:#101820;
+                        padding:12px 20px;
+                        border-radius:8px;
+                        font-weight:800;
+                        cursor:pointer;
+                        font-size:14px;
+                    "
+                >
+                    ← Back to Dashboard
+                </button>
+            </div>
+        </div>
+    `;
+
+    throw new Error("Unauthorized Customers access.");
+}
+
+
+/* ================================
+   SAVE CUSTOMER
+================================ */
+
 function saveCustomer(){
 
 let name=document.getElementById("name").value;
@@ -145,7 +233,8 @@ if(name==="" || phone===""){
     return;
 }
 
-let customers=JSON.parse(localStorage.getItem("customers")) || [];
+let customers=
+    JSON.parse(localStorage.getItem("customers")) || [];
 
 customers.push({
     name:name,
@@ -153,10 +242,19 @@ customers.push({
     car:car,
     model:model,
     battery:battery,
-    date:new Date().toLocaleString()
+    date:new Date().toLocaleString(),
+
+    /* Technician/Admin who added customer */
+    addedBy:
+        localStorage.getItem("800PowerBatTechnicianName") ||
+        localStorage.getItem("800PowerBatUsername") ||
+        "Unknown"
 });
 
-localStorage.setItem("customers",JSON.stringify(customers));
+localStorage.setItem(
+    "customers",
+    JSON.stringify(customers)
+);
 
 alert("Customer saved successfully!");
 
