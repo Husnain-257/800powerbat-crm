@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Invoice | 800PowerBat</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#eef1f4;
+    color:#17202a;
+}
+
+.header{
+    background:#101820;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+.header h1{
+    margin:0;
+    color:#f5b400;
+    font-size:28px;
+}
+
+.header p{
+    margin:6px 0 0;
+}
+
+.container{
+    max-width:850px;
+    margin:25px auto;
+    padding:15px;
+}
+
+.form-box,
+.invoice{
+    background:white;
+    border-radius:14px;
+    padding:22px;
+    box-shadow:0 4px 18px rgba(0,0,0,.08);
+}
+
+.form-box h2{
+    margin-top:0;
+}
+
+input,
+select{
+    width:100%;
+    padding:13px;
+    margin:6px 0 14px;
+    border:1px solid #d5d9dd;
+    border-radius:8px;
+    font-size:15px;
+}
+
+label{
+    font-weight:bold;
+    font-size:14px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+button{
+    border:0;
+    border-radius:9px;
+    padding:14px 18px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.generate{
+    width:100%;
+    background:#101820;
+    color:white;
+}
+
+.generate:hover{
+    background:#f5b400;
+    color:#101820;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.print{
+    background:#f5b400;
+    color:#101820;
+}
+
+.back{
+    background:#101820;
+    color:white;
+}
+
+.invoice{
+    margin-top:25px;
+    display:none;
+}
+
+.invoice-top{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    border-bottom:2px solid #f5b400;
+    padding-bottom:18px;
+}
+
+.company h1{
+    margin:0;
+    font-size:30px;
+    color:#101820;
+}
+
+.company strong{
+    color:#f5b400;
+}
+
+.invoice-title{
+    text-align:right;
+}
+
+.invoice-title h2{
+    margin:0;
+    font-size:28px;
+}
+
+.info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+    margin:22px 0;
+}
+
+.info-box h3{
+    margin:0 0 8px;
+    font-size:15px;
+    color:#666;
+}
+
+.info-box p{
+    margin:5px 0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th{
+    background:#101820;
+    color:white;
+    padding:12px;
+    text-align:left;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+}
+
+.total-box{
+    margin-left:auto;
+    margin-top:20px;
+    max-width:330px;
+}
+
+.total-row{
+    display:flex;
+    justify-content:space-between;
+    padding:8px 0;
+}
+
+.grand{
+    border-top:2px solid #101820;
+    font-size:20px;
+    font-weight:bold;
+    padding-top:12px;
+}
+
+.status{
+    display:inline-block;
+    padding:7px 14px;
+    border-radius:20px;
+    font-weight:bold;
+    background:#e8f7ed;
+    color:#188044;
+}
+
+.footer{
+    margin-top:30px;
+    padding-top:15px;
+    border-top:1px solid #ddd;
+    text-align:center;
+    font-size:13px;
+    color:#666;
+}
+
+@media(max-width:600px){
+
+    .grid,
+    .info{
+        grid-template-columns:1fr;
+    }
+
+    .invoice-top{
+        flex-direction:column;
+    }
+
+    .invoice-title{
+        text-align:left;
+    }
+
+    .actions{
+        flex-direction:column;
+    }
+
+    .company h1{
+        font-size:25px;
+    }
+}
+
+@media print{
+
+    body{
+        background:white;
+    }
+
+    .header,
+    .form-box,
+    .actions{
+        display:none !important;
+    }
+
+    .container{
+        margin:0;
+        padding:0;
+        max-width:none;
+    }
+
+    .invoice{
+        display:block !important;
+        box-shadow:none;
+        margin:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>800PowerBat</h1>
+    <p>Professional Car Battery & Roadside Assistance</p>
+</div>
+
+<div class="container">
+
+<!-- FORM -->
+
+<div class="form-box">
+
+<h2>🧾 Create New Invoice</h2>
+
+<div class="grid">
+
+<div>
+<label>Customer Name</label>
+<input type="text" id="customer" placeholder="Customer name">
+</div>
+
+<div>
+<label>Phone Number</label>
+<input type="text" id="phone" placeholder="+971">
+</div>
+
+<div>
+<label>Car Brand</label>
+<input type="text" id="carBrand" placeholder="BMW, Toyota, Mercedes...">
+</div>
+
+<div>
+<label>Car Model</label>
+<input type="text" id="carModel" placeholder="Car model">
+</div>
+
+<div>
+<label>Battery Brand</label>
+<select id="batteryBrand">
+<option>Fiamm</option>
+<option>Energizer</option>
+<option>Bosch</option>
+<option>Varta</option>
+<option>AC Delco</option>
+<option>Amaron</option>
+<option>SF Sonic</option>
+<option>Exide</option>
+<option>Kays</option>
+<option>Bekon</option>
+</select>
+</div>
+
+<div>
+<label>Battery Model / Size</label>
+<input type="text" id="batteryModel" placeholder="Example: 80Ah AGM">
+</div>
+
+<div>
+<label>Battery Price (AED)</label>
+<input type="number" id="batteryPrice" placeholder="0" oninput="calculate()">
+</div>
+
+<div>
+<label>Installation / Service (AED)</label>
+<input type="number" id="servicePrice" placeholder="0" oninput="calculate()">
+</div>
+
+<div>
+<label>Discount (AED)</label>
+<input type="number" id="discount" value="0" oninput="calculate()">
+</div>
+
+<div>
+<label>Payment Status</label>
+<select id="payment">
+<option>PAID</option>
+<option>PENDING</option>
+</select>
+</div>
+
+</div>
+
+<br>
+
+<button class="generate" onclick="generateInvoice()">
+Generate Invoice
+</button>
+
+</div>
+
+
+<!-- INVOICE -->
+
+<div class="invoice" id="invoice">
+
+<div class="invoice-top">
+
+<div class="company">
+<h1>800<span>PowerBat</span></h1>
+<p>24/7 Mobile Car Battery Service</p>
+<p>Dubai, UAE</p>
+<p>📞 +971 52 404 0699</p>
+</div>
+
+<div class="invoice-title">
+<h2>INVOICE</h2>
+<p>Invoice No: <strong id="invoiceNo"></strong></p>
+<p>Date: <strong id="invoiceDate"></strong></p>
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-box">
+
+<h3>BILL TO</h3>
+
+<p><strong id="outCustomer"></strong></p>
+<p id="outPhone"></p>
+
+</div>
+
+<div class="info-box">
+
+<h3>VEHICLE</h3>
+
+<p><strong id="outCar"></strong></p>
+<p id="outBattery"></p>
+
+</div>
+
+</div>
+
+
+<table>
+
+<thead>
+<tr>
+<th>Description</th>
+<th>Qty</th>
+<th>Amount (AED)</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>
+<strong id="outBatteryBrand"></strong><br>
+<span id="outBatteryModel"></span>
+</td>
+<td>1</td>
+<td id="outBatteryPrice"></td>
+</tr>
+
+<tr>
+<td>Installation / Service</td>
+<td>1</td>
+<td id="outService"></td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<div class="total-box">
+
+<div class="total-row">
+<span>Subtotal</span>
+<strong id="outSubtotal"></strong>
+</div>
+
+<div class="total-row">
+<span>Discount</span>
+<strong id="outDiscount"></strong>
+</div>
+
+<div class="total-row grand">
+<span>TOTAL</span>
+<strong>AED <span id="outTotal"></span></strong>
+</div>
+
+<div class="total-row">
+<span>Payment</span>
+<strong class="status" id="outPayment"></strong>
+</div>
+
+</div>
+
+
+<div class="footer">
+
+<strong>Thank you for choosing 800PowerBat.</strong>
+
+<br><br>
+
+24/7 Mobile Car Battery Replacement • Jump Start • Battery Diagnosis • Roadside Assistance
+
+<br>
+
+Dubai, UAE | +971 52 404 0699
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button class="print" onclick="window.print()">
+🖨️ Print / Save PDF
+</button>
+
+<button class="back" onclick="location.href='index.html'">
+← Dashboard
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+function calculate(){
+
+let battery =
+parseFloat(document.getElementById("batteryPrice").value) || 0;
+
+let service =
+parseFloat(document.getElementById("servicePrice").value) || 0;
+
+let discount =
+parseFloat(document.getElementById("discount").value) || 0;
+
+let subtotal = battery + service;
+
+let total = subtotal - discount;
+
+if(total < 0){
+    total = 0;
+}
+
+return {
+    battery:battery,
+    service:service,
+    discount:discount,
+    subtotal:subtotal,
+    total:total
+};
+
+}
+
+
+function generateInvoice(){
+
+let customer =
+document.getElementById("customer").value.trim();
+
+let phone =
+document.getElementById("phone").value.trim();
+
+if(customer === ""){
+    alert("Please enter customer name.");
+    return;
+}
+
+let data = calculate();
+
+let invoiceNumber =
+"800-" + Date.now().toString().slice(-6);
+
+let date =
+new Date().toLocaleDateString("en-AE");
+
+
+document.getElementById("invoiceNo").textContent =
+invoiceNumber;
+
+document.getElementById("invoiceDate").textContent =
+date;
+
+
+document.getElementById("outCustomer").textContent =
+customer;
+
+document.getElementById("outPhone").textContent =
+phone;
+
+document.getElementById("outCar").textContent =
+document.getElementById("carBrand").value +
+" " +
+document.getElementById("carModel").value;
+
+document.getElementById("outBattery").textContent =
+"Battery: " +
+document.getElementById("batteryModel").value;
+
+
+document.getElementById("outBatteryBrand").textContent =
+document.getElementById("batteryBrand").value;
+
+document.getElementById("outBatteryModel").textContent =
+document.getElementById("batteryModel").value;
+
+document.getElementById("outBatteryPrice").textContent =
+data.battery.toFixed(2);
+
+document.getElementById("outService").textContent =
+data.service.toFixed(2);
+
+document.getElementById("outSubtotal").textContent =
+"AED " + data.subtotal.toFixed(2);
+
+document.getElementById("outDiscount").textContent =
+"AED " + data.discount.toFixed(2);
+
+document.getElementById("outTotal").textContent =
+data.total.toFixed(2);
+
+document.getElementById("outPayment").textContent =
+document.getElementById("payment").value;
+
+
+document.getElementById("invoice").style.display =
+"block";
+
+window.scrollTo({
+    top:document.getElementById("invoice").offsetTop,
+    behavior:"smooth"
+});
+
+}
+
+</script>
+
+</body>
+</html>
