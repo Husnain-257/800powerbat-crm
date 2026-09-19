@@ -7,9 +7,7 @@
 <title>800PowerBat - Invoice</title>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 body{
     margin:0;
@@ -27,10 +25,6 @@ body{
     box-shadow:0 4px 25px rgba(0,0,0,.8);
     border-radius:6px;
 }
-
-/* =========================
-   TOP HEADER
-========================= */
 
 .topbar{
     display:flex;
@@ -76,10 +70,6 @@ body{
     font-size:13px;
     color:#8b949e;
 }
-
-/* =========================
-   FORM SECTIONS
-========================= */
 
 .form-section{
     margin-top:13px;
@@ -139,10 +129,6 @@ body{
     grid-column:1/-1;
 }
 
-/* =========================
-   VEHICLE NOTE
-========================= */
-
 .car-note{
     margin-top:8px;
     background:#1a1500;
@@ -152,10 +138,6 @@ body{
     line-height:1.5;
     color:#e2e8f0;
 }
-
-/* =========================
-   BATTERY INFO
-========================= */
 
 .battery-info{
     margin-top:9px;
@@ -205,10 +187,6 @@ body{
     accent-color:#f5b400;
 }
 
-/* =========================
-   BUTTONS
-========================= */
-
 .buttons{
     display:flex;
     gap:8px;
@@ -239,10 +217,6 @@ button{
     color:#ffffff;
     border:1px solid #333333;
 }
-
-/* =========================
-   INVOICE PREVIEW
-========================= */
 
 .invoice-preview{
     display:none;
@@ -292,8 +266,6 @@ button{
     line-height:1.4;
 }
 
-/* LOGO */
-
 .center-logo-box{
     flex:1;
     display:flex;
@@ -336,10 +308,6 @@ button{
     margin:11px 0 0 0;
 }
 
-/* =========================
-   MIDDLE WHITE SECTION
-========================= */
-
 .middle-white-section{
     background:#ffffff;
     color:#000000;
@@ -376,10 +344,6 @@ button{
     margin-top:3px;
     line-height:1.4;
 }
-
-/* =========================
-   DESCRIPTION TABLE
-========================= */
 
 .invoice-table{
     width:100%;
@@ -443,10 +407,6 @@ button{
     font-weight:700;
     margin-top:4px;
 }
-
-/* =========================
-   SUMMARY
-========================= */
 
 .summary{
     width:280px;
@@ -520,10 +480,6 @@ button{
     font-weight:800;
 }
 
-/* =========================
-   FOOTER
-========================= */
-
 .footer-area{
     margin-top:auto;
     background:#000000;
@@ -589,7 +545,7 @@ button{
 }
 
 .tagline-script{
-    font-family:'Georgia', serif;
+    font-family:'Georgia',serif;
     font-style:italic;
     color:#f5b400;
     font-size:14px;
@@ -603,10 +559,6 @@ button{
     font-weight:800;
     margin-top:2px;
 }
-
-/* =========================
-   HISTORY
-========================= */
 
 .history{
     margin-top:20px;
@@ -637,10 +589,6 @@ button{
     font-weight:700;
 }
 
-/* =========================
-   MOBILE
-========================= */
-
 @media(max-width:700px){
 
     body{
@@ -667,12 +615,7 @@ button{
     .summary{
         width:100%;
     }
-
 }
-
-/* =========================
-   PRINT A4 SINGLE PAGE
-========================= */
 
 @media print{
 
@@ -731,10 +674,6 @@ button{
 
 <div class="page">
 
-<!-- =========================
-     TOP HEADER
-========================= -->
-
 <div class="topbar">
 
 <div class="company">
@@ -765,10 +704,6 @@ Date: —
 
 </div>
 
-<!-- =========================
-     CUSTOMER DETAILS
-========================= -->
-
 <div class="form-section">
 
 <div class="section-title">
@@ -778,82 +713,32 @@ Customer Details
 <div class="grid">
 
 <div class="field">
-
-<label>
-Customer Name
-</label>
-
-<input
-type="text"
-id="customerName"
-placeholder="Ali"
->
-
+<label>Customer Name</label>
+<input type="text" id="customerName" placeholder="Ali">
 </div>
 
 <div class="field">
-
-<label>
-Customer Phone
-</label>
-
-<input
-type="text"
-id="customerPhone"
-placeholder="+971524040699"
->
-
+<label>Customer Phone</label>
+<input type="text" id="customerPhone" placeholder="+971524040699">
 </div>
 
 <div class="field">
-
-<label>
-Customer Email
-</label>
-
-<input
-type="email"
-id="customerEmail"
-placeholder="Email address"
->
-
+<label>Customer Email</label>
+<input type="email" id="customerEmail" placeholder="Email address">
 </div>
 
 <div class="field">
-
-<label>
-Customer TRN
-</label>
-
-<input
-type="text"
-id="customerTRN"
-placeholder="Optional"
->
-
+<label>Customer TRN</label>
+<input type="text" id="customerTRN" placeholder="Optional">
 </div>
 
 <div class="field full">
-
-<label>
-Customer Address
-</label>
-
-<input
-type="text"
-id="customerAddress"
-placeholder="Customer address"
->
-
+<label>Customer Address</label>
+<input type="text" id="customerAddress" placeholder="Customer address">
 </div>
 
 </div>
-
 </div>
-
-<!-- =========================
-     VEHICLE DETAILS
-========================= -->
 
 <div class="form-section">
 
@@ -863,219 +748,68 @@ Vehicle Details
 
 <div class="grid">
 
-<!-- MANUAL CAR BRAND -->
-
 <div class="field">
 
-<label>
-Car Brand
-</label>
+<label>Car Brand</label>
 
 <select id="carBrand">
 
-<option value="">
-Select Car Brand
-</option>
-
-<option value="Toyota">
-Toyota
-</option>
-
-<option value="Nissan">
-Nissan
-</option>
-
-<option value="Honda">
-Honda
-</option>
-
-<option value="Lexus">
-Lexus
-</option>
-
-<option value="Mitsubishi">
-Mitsubishi
-</option>
-
-<option value="Mazda">
-Mazda
-</option>
-
-<option value="Suzuki">
-Suzuki
-</option>
-
-<option value="Subaru">
-Subaru
-</option>
-
-<option value="Isuzu">
-Isuzu
-</option>
-
-<option value="Hyundai">
-Hyundai
-</option>
-
-<option value="Kia">
-Kia
-</option>
-
-<option value="Genesis">
-Genesis
-</option>
-
-<option value="BMW">
-BMW
-</option>
-
-<option value="Mercedes-Benz">
-Mercedes-Benz
-</option>
-
-<option value="Audi">
-Audi
-</option>
-
-<option value="Volkswagen">
-Volkswagen
-</option>
-
-<option value="Porsche">
-Porsche
-</option>
-
-<option value="Land Rover">
-Land Rover
-</option>
-
-<option value="Range Rover">
-Range Rover
-</option>
-
-<option value="Jaguar">
-Jaguar
-</option>
-
-<option value="Rolls-Royce">
-Rolls-Royce
-</option>
-
-<option value="Bentley">
-Bentley
-</option>
-
-<option value="Ferrari">
-Ferrari
-</option>
-
-<option value="Lamborghini">
-Lamborghini
-</option>
-
-<option value="McLaren">
-McLaren
-</option>
-
-<option value="Aston Martin">
-Aston Martin
-</option>
-
-<option value="Ford">
-Ford
-</option>
-
-<option value="Chevrolet">
-Chevrolet
-</option>
-
-<option value="GMC">
-GMC
-</option>
-
-<option value="Cadillac">
-Cadillac
-</option>
-
-<option value="Jeep">
-Jeep
-</option>
-
-<option value="Dodge">
-Dodge
-</option>
-
-<option value="Chrysler">
-Chrysler
-</option>
-
-<option value="Tesla">
-Tesla
-</option>
-
-<option value="BYD">
-BYD
-</option>
-
-<option value="MG">
-MG
-</option>
-
-<option value="Geely">
-Geely
-</option>
-
-<option value="Changan">
-Changan
-</option>
-
-<option value="Haval">
-Haval
-</option>
-
-<option value="BAIC">
-BAIC
-</option>
-
-<option value="GAC">
-GAC
-</option>
-
-<option value="Jetour">
-Jetour
-</option>
-
-<option value="Chery">
-Chery
-</option>
-
-<option value="Hongqi">
-Hongqi
-</option>
-
-<option value="Li Auto">
-Li Auto
-</option>
-
-<option value="NIO">
-NIO
-</option>
-
-<option value="Other">
-Other
-</option>
+<option value="">Select Car Brand</option>
+<option value="Toyota">Toyota</option>
+<option value="Nissan">Nissan</option>
+<option value="Honda">Honda</option>
+<option value="Lexus">Lexus</option>
+<option value="Mitsubishi">Mitsubishi</option>
+<option value="Mazda">Mazda</option>
+<option value="Suzuki">Suzuki</option>
+<option value="Subaru">Subaru</option>
+<option value="Isuzu">Isuzu</option>
+<option value="Hyundai">Hyundai</option>
+<option value="Kia">Kia</option>
+<option value="Genesis">Genesis</option>
+<option value="BMW">BMW</option>
+<option value="Mercedes-Benz">Mercedes-Benz</option>
+<option value="Audi">Audi</option>
+<option value="Volkswagen">Volkswagen</option>
+<option value="Porsche">Porsche</option>
+<option value="Land Rover">Land Rover</option>
+<option value="Range Rover">Range Rover</option>
+<option value="Jaguar">Jaguar</option>
+<option value="Rolls-Royce">Rolls-Royce</option>
+<option value="Bentley">Bentley</option>
+<option value="Ferrari">Ferrari</option>
+<option value="Lamborghini">Lamborghini</option>
+<option value="McLaren">McLaren</option>
+<option value="Aston Martin">Aston Martin</option>
+<option value="Ford">Ford</option>
+<option value="Chevrolet">Chevrolet</option>
+<option value="GMC">GMC</option>
+<option value="Cadillac">Cadillac</option>
+<option value="Jeep">Jeep</option>
+<option value="Dodge">Dodge</option>
+<option value="Chrysler">Chrysler</option>
+<option value="Tesla">Tesla</option>
+<option value="BYD">BYD</option>
+<option value="MG">MG</option>
+<option value="Geely">Geely</option>
+<option value="Changan">Changan</option>
+<option value="Haval">Haval</option>
+<option value="BAIC">BAIC</option>
+<option value="GAC">GAC</option>
+<option value="Jetour">Jetour</option>
+<option value="Chery">Chery</option>
+<option value="Hongqi">Hongqi</option>
+<option value="Li Auto">Li Auto</option>
+<option value="NIO">NIO</option>
+<option value="Other">Other</option>
 
 </select>
 
 </div>
 
-<!-- MANUAL CAR MODEL -->
-
 <div class="field">
 
-<label>
-Car Model
-</label>
+<label>Car Model</label>
 
 <input
 type="text"
@@ -1085,72 +819,19 @@ placeholder="Enter Car Model"
 
 </div>
 
-<!-- MANUAL MODEL YEAR -->
-
 <div class="field">
 
-<label>
-Model Year
-</label>
+<label>Model Year</label>
 
 <select id="modelYear">
 
-<option value="">
-Select Model Year
-</option>
+<option value="">Select Model Year</option>
 
-<option value="2026">2026</option>
-<option value="2025">2025</option>
-<option value="2024">2024</option>
-<option value="2023">2023</option>
-<option value="2022">2022</option>
-<option value="2021">2021</option>
-<option value="2020">2020</option>
-<option value="2019">2019</option>
-<option value="2018">2018</option>
-<option value="2017">2017</option>
-<option value="2016">2016</option>
-<option value="2015">2015</option>
-<option value="2014">2014</option>
-<option value="2013">2013</option>
-<option value="2012">2012</option>
-<option value="2011">2011</option>
-<option value="2010">2010</option>
-<option value="2009">2009</option>
-<option value="2008">2008</option>
-<option value="2007">2007</option>
-<option value="2006">2006</option>
-<option value="2005">2005</option>
-<option value="2004">2004</option>
-<option value="2003">2003</option>
-<option value="2002">2002</option>
-<option value="2001">2001</option>
-<option value="2000">2000</option>
-<option value="1999">1999</option>
-<option value="1998">1998</option>
-<option value="1997">1997</option>
-<option value="1996">1996</option>
-<option value="1995">1995</option>
-<option value="1994">1994</option>
-<option value="1993">1993</option>
-<option value="1992">1992</option>
-<option value="1991">1991</option>
-<option value="1990">1990</option>
-<option value="1989">1989</option>
-<option value="1988">1988</option>
-<option value="1987">1987</option>
-<option value="1986">1986</option>
-<option value="1985">1985</option>
-<option value="1984">1984</option>
-<option value="1983">1983</option>
-<option value="1982">1982</option>
-<option value="1981">1981</option>
-<option value="1980">1980</option>
-<option value="1979">1979</option>
-<option value="1978">1978</option>
-<option value="1977">1977</option>
-<option value="1976">1976</option>
-<option value="1975">1975</option>
+<script>
+for(let year=2026;year>=1975;year--){
+    document.write(`<option value="${year}">${year}</option>`);
+}
+</script>
 
 </select>
 
@@ -1162,17 +843,11 @@ Select Model Year
 
 Car Brand and Model can now be entered manually.
 
-<strong>
-800PowerBat Vehicle Details
-</strong>.
+<strong>800PowerBat Vehicle Details</strong>.
 
 </div>
 
 </div>
-
-<!-- =========================
-     BATTERY DETAILS
-========================= -->
 
 <div class="form-section">
 
@@ -1184,14 +859,9 @@ Battery Details
 
 <div class="field">
 
-<label>
-Battery Brand
-</label>
+<label>Battery Brand</label>
 
-<select
-id="batteryBrand"
-onchange="loadBatteryModels()"
->
+<select id="batteryBrand" onchange="loadBatteryModels()">
 
 <option value="">
 Select Battery Brand
@@ -1203,14 +873,9 @@ Select Battery Brand
 
 <div class="field">
 
-<label>
-Battery Model
-</label>
+<label>Battery Model</label>
 
-<select
-id="batteryModel"
-onchange="loadBatteryInfo()"
->
+<select id="batteryModel" onchange="loadBatteryInfo()">
 
 <option value="">
 Select Battery Model
@@ -1222,9 +887,7 @@ Select Battery Model
 
 <div class="field">
 
-<label>
-Selling Price (AED)
-</label>
+<label>Selling Price (AED)</label>
 
 <input
 type="number"
@@ -1232,6 +895,22 @@ id="sellingPrice"
 min="0"
 step="0.01"
 placeholder="550.00"
+>
+
+</div>
+
+<!-- MANUAL WARRANTY -->
+
+<div class="field">
+
+<label>Warranty Period (Months)</label>
+
+<input
+type="number"
+id="warrantyPeriod"
+min="1"
+step="1"
+placeholder="18"
 >
 
 </div>
@@ -1244,68 +923,45 @@ placeholder="550.00"
 
 <div class="info-box">
 
-<small>
-Battery Type
-</small>
+<small>Battery Type</small>
 
-<strong id="batteryTypeInfo">
-—
-</strong>
+<strong id="batteryTypeInfo">—</strong>
 
 </div>
 
 <div class="info-box">
 
-<small>
-Ah
-</small>
+<small>Ah</small>
 
-<strong id="batteryAhInfo">
-—
-</strong>
+<strong id="batteryAhInfo">—</strong>
 
 </div>
 
 <div class="info-box">
 
-<small>
-Size
-</small>
+<small>Size</small>
 
-<strong id="batterySizeInfo">
-—
-</strong>
+<strong id="batterySizeInfo">—</strong>
 
 </div>
 
 <div class="info-box">
 
-<small>
-Warranty
-</small>
+<small>Warranty</small>
 
-<strong id="batteryWarrantyInfo">
-—
-</strong>
+<strong id="batteryWarrantyInfo">—</strong>
 
 </div>
 
 </div>
 
-<div
-class="stock-warning"
-id="stockWarning"
-></div>
+<div class="stock-warning" id="stockWarning"></div>
 
 </div>
 
 <div class="vat-row">
 
-<input
-type="checkbox"
-id="applyVAT"
-checked
->
+<input type="checkbox" id="applyVAT" checked>
 
 <label for="applyVAT">
 Apply 5% VAT
@@ -1314,10 +970,6 @@ Apply 5% VAT
 </div>
 
 </div>
-
-<!-- =========================
-     PAYMENT DETAILS
-========================= -->
 
 <div class="form-section">
 
@@ -1329,27 +981,14 @@ Payment Details
 
 <div class="field">
 
-<label>
-Payment Method
-</label>
+<label>Payment Method</label>
 
 <select id="paymentMethod">
 
-<option value="">
-Select Payment Method
-</option>
-
-<option value="Cash">
-Cash
-</option>
-
-<option value="Card" selected>
-Card
-</option>
-
-<option value="Payment Link">
-Payment Link
-</option>
+<option value="">Select Payment Method</option>
+<option value="Cash">Cash</option>
+<option value="Card" selected>Card</option>
+<option value="Payment Link">Payment Link</option>
 
 </select>
 
@@ -1357,9 +996,7 @@ Payment Link
 
 <div class="field">
 
-<label>
-Company TRN
-</label>
+<label>Company TRN</label>
 
 <input
 type="text"
@@ -1373,43 +1010,23 @@ placeholder="Optional"
 
 </div>
 
-<!-- =========================
-     BUTTONS
-========================= -->
-
 <div class="buttons">
 
-<button
-class="btn-generate"
-onclick="generateInvoice()"
->
+<button class="btn-generate" onclick="generateInvoice()">
 Generate Invoice
 </button>
 
-<button
-class="btn-print"
-onclick="printInvoice()"
->
+<button class="btn-print" onclick="printInvoice()">
 Print Invoice
 </button>
 
-<button
-class="btn-back"
-onclick="goBack()"
->
+<button class="btn-back" onclick="goBack()">
 Back
 </button>
 
 </div>
 
-<!-- =========================
-     INVOICE PREVIEW
-========================= -->
-
-<div
-class="invoice-preview"
-id="invoicePreview"
->
+<div class="invoice-preview" id="invoicePreview">
 
 <div class="preview-header-area">
 
@@ -1419,9 +1036,7 @@ id="invoicePreview"
 
 <div class="preview-company">
 
-<h2>
-800PowerBat
-</h2>
+<h2>800PowerBat</h2>
 
 <p class="subtitle">
 MOBILE CAR BATTERY SERVICE
@@ -1435,10 +1050,8 @@ MOBILE CAR BATTERY SERVICE
 
 ⚡ 24/7 Mobile Car Battery Service
 <br>
-
 📍 Dubai, UAE
 <br>
-
 📞 +971 52 404 0699
 
 </p>
@@ -1467,10 +1080,7 @@ TAX INVOICE
 
 Invoice No:
 
-<strong
-id="previewInvoiceNumber"
-style="color:#fff;"
->
+<strong id="previewInvoiceNumber" style="color:#fff;">
 800-420756
 </strong>
 
@@ -1478,10 +1088,7 @@ style="color:#fff;"
 
 Date:
 
-<strong
-id="previewInvoiceDate"
-style="color:#fff;"
->
+<strong id="previewInvoiceDate" style="color:#fff;">
 19/09/2026
 </strong>
 
@@ -1503,10 +1110,6 @@ Company TRN:
 
 </div>
 
-<!-- =========================
-     WHITE SECTION
-========================= -->
-
 <div class="middle-white-section">
 
 <div class="bill-section">
@@ -1517,34 +1120,19 @@ Company TRN:
 BILL TO
 </div>
 
-<div
-class="bill-name"
-id="outCustomer"
->
+<div class="bill-name" id="outCustomer">
 Ali
 </div>
 
-<div
-class="bill-text"
-id="outPhone"
->
+<div class="bill-text" id="outPhone">
 +971524040699
 </div>
 
-<div
-class="bill-text"
-id="outEmail"
-></div>
+<div class="bill-text" id="outEmail"></div>
 
-<div
-class="bill-text"
-id="outAddress"
-></div>
+<div class="bill-text" id="outAddress"></div>
 
-<div
-class="bill-text"
-id="customerTRNOutput"
-></div>
+<div class="bill-text" id="customerTRNOutput"></div>
 
 </div>
 
@@ -1554,10 +1142,7 @@ id="customerTRNOutput"
 VEHICLE
 </div>
 
-<div
-class="bill-name"
-id="outCar"
->
+<div class="bill-name" id="outCar">
 TOYOTA RAV4 2017
 </div>
 
@@ -1565,17 +1150,13 @@ TOYOTA RAV4 2017
 
 </div>
 
-<!-- DESCRIPTION -->
-
 <table class="invoice-table">
 
 <thead>
 
 <tr>
 
-<th>
-Description
-</th>
+<th>Description</th>
 
 <th style="text-align:center;">
 Qty
@@ -1595,25 +1176,16 @@ Amount (AED)
 
 <td>
 
-<div
-class="battery-brand-title"
-id="outBatteryBrand"
->
+<div class="battery-brand-title" id="outBatteryBrand">
 Energizer
 </div>
 
-<div
-class="battery-model-text"
-id="outBatteryModel"
->
+<div class="battery-model-text" id="outBatteryModel">
 55d23L
 </div>
 
-<div
-class="warranty-badge-yellow"
-id="outWarranty"
->
-Warranty: 18 Month
+<div class="warranty-badge-yellow" id="outWarranty">
+Warranty: 18 Months
 </div>
 
 </td>
@@ -1622,10 +1194,7 @@ Warranty: 18 Month
 1
 </td>
 
-<td
-style="text-align:right;"
-id="outAmount"
->
+<td style="text-align:right;" id="outAmount">
 550.00
 </td>
 
@@ -1635,13 +1204,11 @@ id="outAmount"
 
 <td>
 
-<div
-style="
+<div style="
 font-weight:800;
 color:#000000;
 font-size:13px;
-"
->
+">
 Installation / Service
 </div>
 
@@ -1651,12 +1218,10 @@ Installation / Service
 1
 </td>
 
-<td
-style="
+<td style="
 text-align:right;
 color:#64748b;
-"
->
+">
 Included
 </td>
 
@@ -1666,15 +1231,11 @@ Included
 
 </table>
 
-<!-- SUMMARY -->
-
 <div class="summary">
 
 <div class="summary-row">
 
-<span>
-Subtotal
-</span>
+<span>Subtotal</span>
 
 <strong id="outSubtotal">
 AED 550.00
@@ -1684,9 +1245,7 @@ AED 550.00
 
 <div class="summary-row">
 
-<span>
-Discount
-</span>
+<span>Discount</span>
 
 <strong id="outDiscount">
 AED 0.00
@@ -1696,9 +1255,7 @@ AED 0.00
 
 <div class="summary-row">
 
-<span>
-Taxable Amount
-</span>
+<span>Taxable Amount</span>
 
 <strong id="outTaxable">
 AED 550.00
@@ -1708,9 +1265,7 @@ AED 550.00
 
 <div class="summary-row">
 
-<span>
-VAT 5%
-</span>
+<span>VAT 5%</span>
 
 <strong id="outVAT">
 AED 27.50
@@ -1720,14 +1275,9 @@ AED 27.50
 
 <div class="summary-row total">
 
-<span>
-TOTAL
-</span>
+<span>TOTAL</span>
 
-<span
-class="total-price"
-id="outTotal"
->
+<span class="total-price" id="outTotal">
 AED 577.50
 </span>
 
@@ -1735,22 +1285,15 @@ AED 577.50
 
 </div>
 
-<!-- PAYMENT -->
-
 <div class="payment-box">
 
 Payment Method:
 
-<strong
-id="outPayment"
-style="color:#000;"
->
+<strong id="outPayment" style="color:#000;">
 Card
 </strong>
 
 </div>
-
-<!-- TERMS -->
 
 <div class="terms-box">
 
@@ -1768,12 +1311,10 @@ Original Warranty Card Mandatory:
 
 Presentation of the
 
-<strong
-style="
+<strong style="
 color:#000;
 text-decoration:underline;
-"
->
+">
 original physical warranty card
 </strong>
 
@@ -1836,10 +1377,6 @@ vehicle electrical issues, or accidents are not covered.
 
 </div>
 
-<!-- =========================
-     FOOTER
-========================= -->
-
 <div class="footer-area">
 
 <div class="thank-you-title">
@@ -1860,9 +1397,7 @@ Dubai, UAE | +971 52 404 0699
 
 <div class="icon-box-item">
 
-<div class="icon-circle">
-🔋
-</div>
+<div class="icon-circle">🔋</div>
 
 <div class="icon-text-label">
 Battery Replacement
@@ -1872,9 +1407,7 @@ Battery Replacement
 
 <div class="icon-box-item">
 
-<div class="icon-circle">
-⚡
-</div>
+<div class="icon-circle">⚡</div>
 
 <div class="icon-text-label">
 Jump Start
@@ -1884,9 +1417,7 @@ Jump Start
 
 <div class="icon-box-item">
 
-<div class="icon-circle">
-⚙️
-</div>
+<div class="icon-circle">⚙️</div>
 
 <div class="icon-text-label">
 Battery Diagnosis
@@ -1912,15 +1443,9 @@ FAST | RELIABLE | PROFESSIONAL
 
 </div>
 
-<!-- =========================
-     HISTORY
-========================= -->
-
 <div class="history">
 
-<h3>
-Recent Invoice History
-</h3>
+<h3>Recent Invoice History</h3>
 
 <div id="historyList">
 No invoice history yet.
@@ -1932,41 +1457,20 @@ No invoice history yet.
 
 <script>
 
-/* =========================
-   STORAGE
-========================= */
-
 const BATTERY_STORAGE_KEY = "800PowerBatStock";
 
 let invoiceGenerated = false;
 
-/* =========================
-   HELPERS
-========================= */
-
 function normalizeText(value){
-
-return String(value || "")
-.trim()
-.toLowerCase();
-
+    return String(value || "").trim().toLowerCase();
 }
 
 function formatMoney(value){
-
-return "AED " +
-Number(value || 0).toFixed(2);
-
+    return "AED " + Number(value || 0).toFixed(2);
 }
 
 function generateInvoiceNumber(){
-
-return "800-" +
-Math.floor(
-100000 +
-Math.random()*900000
-);
-
+    return "800-" + Math.floor(100000 + Math.random()*900000);
 }
 
 /* =========================
@@ -1975,76 +1479,65 @@ Math.random()*900000
 
 function readBatteryStock(){
 
-try{
+    try{
 
-const saved =
-localStorage.getItem(BATTERY_STORAGE_KEY);
+        const saved =
+        localStorage.getItem(BATTERY_STORAGE_KEY);
 
-if(!saved){
+        if(!saved){
 
-return [
+            return [{
+                brand:"Energizer",
+                model:"55d23L",
+                batteryType:"SMF",
+                ah:"60",
+                size:"D23",
+                warranty:"18 Months",
+                quantity:10,
+                sellingPrice:550
+            }];
 
-{
-brand:"Energizer",
-model:"55d23L",
-batteryType:"SMF",
-ah:"60",
-size:"D23",
-warranty:"18 Months",
-quantity:10,
-sellingPrice:550
-}
+        }
 
-];
+        const data = JSON.parse(saved);
 
-}
+        return Array.isArray(data) ? data : [];
 
-const data =
-JSON.parse(saved);
+    }catch(error){
 
-return Array.isArray(data)
-? data
-: [];
+        return [];
 
-}catch(error){
-
-return [];
-
-}
-
+    }
 }
 
 function saveBatteryStock(stock){
 
-localStorage.setItem(
-BATTERY_STORAGE_KEY,
-JSON.stringify(stock)
-);
+    localStorage.setItem(
+        BATTERY_STORAGE_KEY,
+        JSON.stringify(stock)
+    );
 
 }
 
 function updateBatteryStatus(item){
 
-const quantity =
-Number(item.quantity) || 0;
+    const quantity = Number(item.quantity) || 0;
+    const minimum = Number(item.minimumStock) || 0;
 
-const minimum =
-Number(item.minimumStock) || 0;
+    if(quantity <= 0){
 
-if(quantity <= 0){
+        item.quantity = 0;
+        item.status = "Out of Stock";
 
-item.quantity=0;
-item.status="Out of Stock";
+    }else if(quantity <= minimum){
 
-}else if(quantity <= minimum){
+        item.status = "Low Stock";
 
-item.status="Low Stock";
+    }else{
 
-}else{
+        item.status = "In Stock";
 
-item.status="In Stock";
-
-}
+    }
 
 }
 
@@ -2054,55 +1547,49 @@ item.status="In Stock";
 
 function loadBatteryBrands(){
 
-const brandSelect =
-document.getElementById("batteryBrand");
+    const brandSelect =
+    document.getElementById("batteryBrand");
 
-const stock =
-readBatteryStock();
+    const stock = readBatteryStock();
 
-const brands=[];
+    const brands=[];
 
-stock.forEach(function(item){
+    stock.forEach(function(item){
 
-const brand =
-String(item.brand || "").trim();
+        const brand =
+        String(item.brand || "").trim();
 
-if(
-brand &&
-!brands.some(function(existing){
+        if(
+            brand &&
+            !brands.some(function(existing){
+                return normalizeText(existing) ===
+                normalizeText(brand);
+            })
+        ){
 
-return normalizeText(existing) ===
-normalizeText(brand);
+            brands.push(brand);
 
-})
-){
+        }
 
-brands.push(brand);
+    });
 
-}
+    brandSelect.innerHTML =
+    '<option value="">Select Battery Brand</option>';
 
-});
+    brands.sort(function(a,b){
+        return a.localeCompare(b);
+    })
+    .forEach(function(brand){
 
-brandSelect.innerHTML =
-'<option value="">Select Battery Brand</option>';
+        const option =
+        document.createElement("option");
 
-brands
-.sort(function(a,b){
+        option.value=brand;
+        option.textContent=brand;
 
-return a.localeCompare(b);
+        brandSelect.appendChild(option);
 
-})
-.forEach(function(brand){
-
-const option =
-document.createElement("option");
-
-option.value=brand;
-option.textContent=brand;
-
-brandSelect.appendChild(option);
-
-});
+    });
 
 }
 
@@ -2112,64 +1599,61 @@ brandSelect.appendChild(option);
 
 function loadBatteryModels(){
 
-const brand =
-document.getElementById("batteryBrand").value;
+    const brand =
+    document.getElementById("batteryBrand").value;
 
-const modelSelect =
-document.getElementById("batteryModel");
+    const modelSelect =
+    document.getElementById("batteryModel");
 
-modelSelect.innerHTML =
-'<option value="">Select Battery Model</option>';
+    modelSelect.innerHTML =
+    '<option value="">Select Battery Model</option>';
 
-document.getElementById("batteryTypeInfo")
-.textContent="—";
+    document.getElementById("batteryTypeInfo")
+    .textContent="—";
 
-document.getElementById("batteryAhInfo")
-.textContent="—";
+    document.getElementById("batteryAhInfo")
+    .textContent="—";
 
-document.getElementById("batterySizeInfo")
-.textContent="—";
+    document.getElementById("batterySizeInfo")
+    .textContent="—";
 
-document.getElementById("batteryWarrantyInfo")
-.textContent="—";
+    document.getElementById("batteryWarrantyInfo")
+    .textContent="—";
 
-document.getElementById("stockWarning")
-.textContent="";
+    document.getElementById("stockWarning")
+    .textContent="";
 
-if(!brand)
-return;
+    if(!brand) return;
 
-const stock =
-readBatteryStock();
+    const stock = readBatteryStock();
 
-const filtered =
-stock.filter(function(item){
+    const filtered =
+    stock.filter(function(item){
 
-return normalizeText(item.brand) ===
-normalizeText(brand);
+        return normalizeText(item.brand) ===
+        normalizeText(brand);
 
-});
+    });
 
-filtered.forEach(function(item){
+    filtered.forEach(function(item){
 
-const option =
-document.createElement("option");
+        const option =
+        document.createElement("option");
 
-option.value =
-item.model || "";
+        option.value=item.model || "";
 
-option.textContent =
-(item.model || "Unknown Model") +
-" — " +
-(Number(item.quantity) || 0) +
-" in stock";
+        option.textContent =
+        (item.model || "Unknown Model") +
+        " — " +
+        (Number(item.quantity) || 0) +
+        " in stock";
 
-if(Number(item.quantity) <= 0)
-option.disabled=true;
+        if(Number(item.quantity) <= 0)
+        option.disabled=true;
 
-modelSelect.appendChild(option);
+        modelSelect.appendChild(option);
 
-});
+    });
 
 }
 
@@ -2179,23 +1663,22 @@ modelSelect.appendChild(option);
 
 function findBattery(){
 
-const brand =
-document.getElementById("batteryBrand").value;
+    const brand =
+    document.getElementById("batteryBrand").value;
 
-const model =
-document.getElementById("batteryModel").value;
+    const model =
+    document.getElementById("batteryModel").value;
 
-const stock =
-readBatteryStock();
+    const stock = readBatteryStock();
 
-return stock.find(function(item){
+    return stock.find(function(item){
 
-return normalizeText(item.brand) ===
-normalizeText(brand) &&
-normalizeText(item.model) ===
-normalizeText(model);
+        return normalizeText(item.brand) ===
+        normalizeText(brand) &&
+        normalizeText(item.model) ===
+        normalizeText(model);
 
-});
+    });
 
 }
 
@@ -2205,81 +1688,80 @@ normalizeText(model);
 
 function loadBatteryInfo(){
 
-const battery =
-findBattery();
+    const battery = findBattery();
 
-const warning =
-document.getElementById("stockWarning");
+    const warning =
+    document.getElementById("stockWarning");
 
-if(!battery){
+    if(!battery){
 
-document.getElementById("batteryTypeInfo")
-.textContent="—";
+        document.getElementById("batteryTypeInfo")
+        .textContent="—";
 
-document.getElementById("batteryAhInfo")
-.textContent="—";
+        document.getElementById("batteryAhInfo")
+        .textContent="—";
 
-document.getElementById("batterySizeInfo")
-.textContent="—";
+        document.getElementById("batterySizeInfo")
+        .textContent="—";
 
-document.getElementById("batteryWarrantyInfo")
-.textContent="—";
+        document.getElementById("batteryWarrantyInfo")
+        .textContent="—";
 
-warning.textContent="";
+        warning.textContent="";
 
-return;
+        return;
 
-}
+    }
 
-document.getElementById("batteryTypeInfo")
-.textContent =
-battery.batteryType || "—";
+    document.getElementById("batteryTypeInfo")
+    .textContent =
+    battery.batteryType || "—";
 
-document.getElementById("batteryAhInfo")
-.textContent =
-battery.ah || "—";
+    document.getElementById("batteryAhInfo")
+    .textContent =
+    battery.ah || "—";
 
-document.getElementById("batterySizeInfo")
-.textContent =
-battery.size || "—";
+    document.getElementById("batterySizeInfo")
+    .textContent =
+    battery.size || "—";
 
-document.getElementById("batteryWarrantyInfo")
-.textContent =
-battery.warranty || "—";
+    document.getElementById("batteryWarrantyInfo")
+    .textContent =
+    battery.warranty || "—";
 
-if(battery.sellingPrice){
+    if(battery.sellingPrice){
 
-document.getElementById("sellingPrice")
-.value =
-battery.sellingPrice;
+        document.getElementById("sellingPrice")
+        .value =
+        battery.sellingPrice;
 
-}
+    }
 
-const quantity =
-Number(battery.quantity) || 0;
+    const quantity =
+    Number(battery.quantity) || 0;
 
-if(quantity <= 0){
+    if(quantity <= 0){
 
-warning.textContent =
-"This battery is out of stock.";
+        warning.textContent =
+        "This battery is out of stock.";
 
-}else if(
-quantity <= Number(battery.minimumStock || 0)
-){
+    }else if(
+        quantity <= Number(battery.minimumStock || 0)
+    ){
 
-warning.textContent =
-"Low stock: only " +
-quantity +
-" unit(s) remaining.";
+        warning.textContent =
+        "Low stock: only " +
+        quantity +
+        " unit(s) remaining.";
 
-}else{
+    }else{
 
-warning.textContent =
-"Available stock: " +
-quantity +
-" unit(s).";
+        warning.textContent =
+        "Available stock: " +
+        quantity +
+        " unit(s).";
 
-}
+    }
 
 }
 
@@ -2289,48 +1771,45 @@ quantity +
 
 function deductBatteryFromStock(){
 
-const brand =
-document.getElementById("batteryBrand").value;
+    const brand =
+    document.getElementById("batteryBrand").value;
 
-const model =
-document.getElementById("batteryModel").value;
+    const model =
+    document.getElementById("batteryModel").value;
 
-let stock =
-readBatteryStock();
+    let stock = readBatteryStock();
 
-const index =
-stock.findIndex(function(item){
+    const index =
+    stock.findIndex(function(item){
 
-return normalizeText(item.brand) ===
-normalizeText(brand) &&
-normalizeText(item.model) ===
-normalizeText(model);
+        return normalizeText(item.brand) ===
+        normalizeText(brand) &&
+        normalizeText(item.model) ===
+        normalizeText(model);
 
-});
+    });
 
-if(index === -1)
-return true;
+    if(index === -1)
+    return true;
 
-const item =
-stock[index];
+    const item = stock[index];
 
-const quantity =
-Number(item.quantity) || 0;
+    const quantity =
+    Number(item.quantity) || 0;
 
-if(quantity > 0){
+    if(quantity > 0){
 
-item.quantity =
-quantity-1;
+        item.quantity = quantity - 1;
 
-updateBatteryStatus(item);
+        updateBatteryStatus(item);
 
-stock[index]=item;
+        stock[index] = item;
 
-saveBatteryStock(stock);
+        saveBatteryStock(stock);
 
-}
+    }
 
-return true;
+    return true;
 
 }
 
@@ -2340,217 +1819,213 @@ return true;
 
 function generateInvoice(){
 
-const customerName =
-document.getElementById("customerName")
-.value.trim() || "Ali";
+    const customerName =
+    document.getElementById("customerName")
+    .value.trim() || "Ali";
 
-const customerPhone =
-document.getElementById("customerPhone")
-.value.trim() ||
-"+971524040699";
+    const customerPhone =
+    document.getElementById("customerPhone")
+    .value.trim() ||
+    "+971524040699";
 
-const customerEmail =
-document.getElementById("customerEmail")
-.value.trim();
+    const customerEmail =
+    document.getElementById("customerEmail")
+    .value.trim();
 
-const customerAddress =
-document.getElementById("customerAddress")
-.value.trim();
+    const customerAddress =
+    document.getElementById("customerAddress")
+    .value.trim();
 
-const customerTRN =
-document.getElementById("customerTRN")
-.value.trim();
+    const customerTRN =
+    document.getElementById("customerTRN")
+    .value.trim();
 
-const companyTRN =
-document.getElementById("companyTRN")
-.value.trim();
+    const companyTRN =
+    document.getElementById("companyTRN")
+    .value.trim();
 
-/* MANUAL VEHICLE */
+    /* MANUAL VEHICLE */
 
-const carBrand =
-document.getElementById("carBrand")
-.value || "TOYOTA";
+    const carBrand =
+    document.getElementById("carBrand")
+    .value || "TOYOTA";
 
-const carModel =
-document.getElementById("carModel")
-.value.trim() || "RAV4";
+    const carModel =
+    document.getElementById("carModel")
+    .value.trim() || "RAV4";
 
-const modelYear =
-document.getElementById("modelYear")
-.value || "2017";
+    const modelYear =
+    document.getElementById("modelYear")
+    .value || "2017";
 
-/* BATTERY */
+    /* BATTERY */
 
-const batteryBrand =
-document.getElementById("batteryBrand")
-.value || "Energizer";
+    const batteryBrand =
+    document.getElementById("batteryBrand")
+    .value || "Energizer";
 
-const batteryModel =
-document.getElementById("batteryModel")
-.value || "55d23L";
+    const batteryModel =
+    document.getElementById("batteryModel")
+    .value || "55d23L";
 
-const sellingPrice =
-Number(
-document.getElementById("sellingPrice")
-.value
-) || 550;
+    const sellingPrice =
+    Number(
+        document.getElementById("sellingPrice").value
+    ) || 550;
 
-const paymentMethod =
-document.getElementById("paymentMethod")
-.value || "Card";
+    /* MANUAL WARRANTY */
 
-const applyVAT =
-document.getElementById("applyVAT")
-.checked;
+    let warrantyPeriod =
+    Number(
+        document.getElementById("warrantyPeriod").value
+    );
 
-deductBatteryFromStock();
+    if(!warrantyPeriod || warrantyPeriod < 1){
+        warrantyPeriod = 18;
+    }
 
-const subtotal =
-sellingPrice;
+    const warrantyStr =
+    warrantyPeriod + " Months";
 
-const vat =
-applyVAT
-? subtotal*0.05
-: 0;
+    const paymentMethod =
+    document.getElementById("paymentMethod")
+    .value || "Card";
 
-const total =
-subtotal+vat;
+    const applyVAT =
+    document.getElementById("applyVAT").checked;
 
-const invoiceNumber =
-generateInvoiceNumber();
+    deductBatteryFromStock();
 
-const invoiceDate =
-new Date().toLocaleDateString("en-GB");
+    const subtotal = sellingPrice;
 
-/* TOP */
+    const vat =
+    applyVAT ? subtotal * 0.05 : 0;
 
-document.getElementById("invoiceNumberTop")
-.textContent =
-"Invoice # " +
-invoiceNumber;
+    const total =
+    subtotal + vat;
 
-document.getElementById("invoiceDateTop")
-.textContent =
-"Date: " +
-invoiceDate;
+    const invoiceNumber =
+    generateInvoiceNumber();
 
-/* PREVIEW */
+    const invoiceDate =
+    new Date().toLocaleDateString("en-GB");
 
-document.getElementById("previewInvoiceNumber")
-.textContent =
-invoiceNumber;
+    /* TOP */
 
-document.getElementById("previewInvoiceDate")
-.textContent =
-invoiceDate;
+    document.getElementById("invoiceNumberTop")
+    .textContent =
+    "Invoice # " + invoiceNumber;
 
-/* CUSTOMER */
+    document.getElementById("invoiceDateTop")
+    .textContent =
+    "Date: " + invoiceDate;
 
-document.getElementById("outCustomer")
-.textContent =
-customerName;
+    /* PREVIEW */
 
-document.getElementById("outPhone")
-.textContent =
-customerPhone;
+    document.getElementById("previewInvoiceNumber")
+    .textContent =
+    invoiceNumber;
 
-document.getElementById("outEmail")
-.textContent =
-customerEmail;
+    document.getElementById("previewInvoiceDate")
+    .textContent =
+    invoiceDate;
 
-document.getElementById("outAddress")
-.textContent =
-customerAddress;
+    /* CUSTOMER */
 
-document.getElementById("customerTRNOutput")
-.textContent =
-customerTRN
-? "TRN: "+customerTRN
-: "";
+    document.getElementById("outCustomer")
+    .textContent =
+    customerName;
 
-/* VEHICLE */
+    document.getElementById("outPhone")
+    .textContent =
+    customerPhone;
 
-document.getElementById("outCar")
-.textContent =
-(
-carBrand+
-" "+
-carModel+
-" "+
-modelYear
-).toUpperCase();
+    document.getElementById("outEmail")
+    .textContent =
+    customerEmail;
 
-/* BATTERY */
+    document.getElementById("outAddress")
+    .textContent =
+    customerAddress;
 
-document.getElementById("outBatteryBrand")
-.textContent =
-batteryBrand;
+    document.getElementById("customerTRNOutput")
+    .textContent =
+    customerTRN
+    ? "TRN: " + customerTRN
+    : "";
 
-document.getElementById("outBatteryModel")
-.textContent =
-batteryModel;
+    /* VEHICLE */
 
-const battery =
-findBattery();
+    document.getElementById("outCar")
+    .textContent =
+    (
+        carBrand + " " +
+        carModel + " " +
+        modelYear
+    ).toUpperCase();
 
-const warrantyStr =
-battery
-? battery.warranty || "18 Month"
-: "18 Month";
+    /* BATTERY */
 
-document.getElementById("outWarranty")
-.textContent =
-"Warranty: "+
-warrantyStr;
+    document.getElementById("outBatteryBrand")
+    .textContent =
+    batteryBrand;
 
-document.getElementById("warrantyPeriodText")
-.textContent =
-warrantyStr;
+    document.getElementById("outBatteryModel")
+    .textContent =
+    batteryModel;
 
-/* PRICE */
+    document.getElementById("outWarranty")
+    .textContent =
+    "Warranty: " + warrantyStr;
 
-document.getElementById("outAmount")
-.textContent =
-sellingPrice.toFixed(2);
+    document.getElementById("warrantyPeriodText")
+    .textContent =
+    warrantyStr;
 
-document.getElementById("outSubtotal")
-.textContent =
-formatMoney(subtotal);
+    /* PRICE */
 
-document.getElementById("outDiscount")
-.textContent =
-"AED 0.00";
+    document.getElementById("outAmount")
+    .textContent =
+    sellingPrice.toFixed(2);
 
-document.getElementById("outTaxable")
-.textContent =
-formatMoney(subtotal);
+    document.getElementById("outSubtotal")
+    .textContent =
+    formatMoney(subtotal);
 
-document.getElementById("outVAT")
-.textContent =
-formatMoney(vat);
+    document.getElementById("outDiscount")
+    .textContent =
+    "AED 0.00";
 
-document.getElementById("outTotal")
-.textContent =
-formatMoney(total);
+    document.getElementById("outTaxable")
+    .textContent =
+    formatMoney(subtotal);
 
-/* PAYMENT */
+    document.getElementById("outVAT")
+    .textContent =
+    formatMoney(vat);
 
-document.getElementById("outPayment")
-.textContent =
-paymentMethod;
+    document.getElementById("outTotal")
+    .textContent =
+    formatMoney(total);
 
-document.getElementById("companyTRNOutput")
-.textContent =
-companyTRN || "—";
+    /* PAYMENT */
 
-/* SHOW */
+    document.getElementById("outPayment")
+    .textContent =
+    paymentMethod;
 
-document.getElementById("invoicePreview")
-.style.display="flex";
+    document.getElementById("companyTRNOutput")
+    .textContent =
+    companyTRN || "—";
 
-invoiceGenerated=true;
+    /* SHOW */
 
-renderHistory();
+    document.getElementById("invoicePreview")
+    .style.display="flex";
+
+    invoiceGenerated=true;
+
+    renderHistory();
 
 }
 
@@ -2560,10 +2035,10 @@ renderHistory();
 
 function printInvoice(){
 
-if(!invoiceGenerated)
-generateInvoice();
+    if(!invoiceGenerated)
+    generateInvoice();
 
-window.print();
+    window.print();
 
 }
 
@@ -2573,17 +2048,17 @@ window.print();
 
 function renderHistory(){
 
-const container =
-document.getElementById("historyList");
+    const container =
+    document.getElementById("historyList");
 
-container.innerHTML =
-"<div class='history-item'>" +
+    container.innerHTML =
+    "<div class='history-item'>" +
 
-"<strong>800-420756</strong> | " +
+    "<strong>800-420756</strong> | " +
 
-"Ali — TOYOTA RAV4 2017 — AED 577.50" +
+    "Ali — TOYOTA RAV4 2017 — AED 577.50" +
 
-"</div>";
+    "</div>";
 
 }
 
@@ -2593,11 +2068,11 @@ container.innerHTML =
 
 function goBack(){
 
-if(document.referrer)
-history.back();
+    if(document.referrer)
+    history.back();
 
-else
-window.location.href="index.html";
+    else
+    window.location.href="index.html";
 
 }
 
@@ -2609,9 +2084,9 @@ document.addEventListener(
 "DOMContentLoaded",
 function(){
 
-loadBatteryBrands();
+    loadBatteryBrands();
 
-renderHistory();
+    renderHistory();
 
 }
 );
