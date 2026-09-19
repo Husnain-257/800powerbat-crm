@@ -7,9 +7,7 @@
 <title>800PowerBat Invoice</title>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 body{
     margin:0;
@@ -223,7 +221,6 @@ A4 INVOICE
     position:relative;
     overflow:hidden;
     box-shadow:0 15px 50px rgba(0,0,0,.30);
-
     -webkit-print-color-adjust:exact;
     print-color-adjust:exact;
 }
@@ -725,7 +722,6 @@ A4 INVOICE
 /* PRINT */
 
 @media print{
-
     html,
     body{
         width:210mm;
@@ -753,7 +749,6 @@ A4 INVOICE
         box-shadow:none!important;
         overflow:hidden!important;
         background:#0b1220!important;
-
         -webkit-print-color-adjust:exact;
         print-color-adjust:exact;
     }
@@ -891,14 +886,52 @@ FORM
 <input id="customerTRN" placeholder="Customer TRN if provided">
 </div>
 
+
+<!-- CAR BRAND FROM CAR DATABASE -->
+
 <div class="field">
 <label>Car Brand</label>
-<input id="carBrand" placeholder="BMW">
+
+<select id="carBrand" onchange="loadCarModels()">
+
+<option value="">
+Select Car Brand
+</option>
+
+</select>
+
 </div>
+
+
+<!-- CAR MODEL FROM CAR DATABASE -->
 
 <div class="field">
 <label>Car Model</label>
-<input id="carModel" placeholder="X5">
+
+<select id="carModel" onchange="loadCarYears()">
+
+<option value="">
+Select Car Model
+</option>
+
+</select>
+
+</div>
+
+
+<!-- MODEL YEAR FROM CAR DATABASE -->
+
+<div class="field">
+<label>Model Year</label>
+
+<select id="modelYear">
+
+<option value="">
+Select Model Year
+</option>
+
+</select>
+
 </div>
 
 
@@ -1338,6 +1371,13 @@ id="outCar"
 Vehicle
 </div>
 
+<div
+class="bill-text"
+id="outCarYear"
+>
+—
+</div>
+
 </div>
 
 </div>
@@ -1741,56 +1781,47 @@ FAST | RELIABLE | PROFESSIONAL
 <script>
 
 /* =========================================================
-BATTERY STOCK DATABASE
+CAR DATABASE
 ========================================================= */
 
-let batteries =
+let cars =
 JSON.parse(
-    localStorage.getItem("800PowerBatStock")
+    localStorage.getItem("800PowerBatCars")
 ) || [];
 
 
 /* =========================================================
-LOAD BRANDS
+LOAD CAR BRANDS
 ========================================================= */
 
-function loadBatteryBrands(){
+function loadCarBrands(){
 
     const brandSelect =
-    document.getElementById("batteryBrand");
+    document.getElementById("carBrand");
 
     brandSelect.innerHTML =
-    '<option value="">Select Battery Brand</option>';
-
+    '<option value="">Select Car Brand</option>';
 
     const brands = [];
 
-
-    batteries.forEach(function(item){
+    cars.forEach(function(item){
 
         const brand =
         String(item.brand || "").trim();
 
-
         if(
             brand &&
             !brands.some(function(existing){
-
                 return existing.toLowerCase()
                 === brand.toLowerCase();
-
             })
         ){
-
             brands.push(brand);
-
         }
 
     });
 
-
     brands.sort();
-
 
     brands.forEach(function(brand){
 
@@ -1798,7 +1829,6 @@ function loadBatteryBrands(){
         document.createElement("option");
 
         option.value = brand;
-
         option.textContent = brand;
 
         brandSelect.appendChild(option);
@@ -1809,7 +1839,209 @@ function loadBatteryBrands(){
 
 
 /* =========================================================
-LOAD MODELS
+LOAD CAR MODELS
+========================================================= */
+
+function loadCarModels(){
+
+    const brand =
+    document.getElementById("carBrand").value;
+
+    const modelSelect =
+    document.getElementById("carModel");
+
+    const yearSelect =
+    document.getElementById("modelYear");
+
+    modelSelect.innerHTML =
+    '<option value="">Select Car Model</option>';
+
+    yearSelect.innerHTML =
+    '<option value="">Select Model Year</option>';
+
+    if(!brand){
+        return;
+    }
+
+    const models = [];
+
+    cars.forEach(function(item){
+
+        if(
+            String(item.brand || "").toLowerCase()
+            ===
+            brand.toLowerCase()
+        ){
+
+            const model =
+            String(item.model || "").trim();
+
+            if(
+                model &&
+                !models.some(function(existing){
+                    return existing.toLowerCase()
+                    === model.toLowerCase();
+                })
+            ){
+                models.push(model);
+            }
+
+        }
+
+    });
+
+    models.sort();
+
+    models.forEach(function(model){
+
+        const option =
+        document.createElement("option");
+
+        option.value = model;
+        option.textContent = model;
+
+        modelSelect.appendChild(option);
+
+    });
+
+}
+
+
+/* =========================================================
+LOAD MODEL YEARS
+========================================================= */
+
+function loadCarYears(){
+
+    const brand =
+    document.getElementById("carBrand").value;
+
+    const model =
+    document.getElementById("carModel").value;
+
+    const yearSelect =
+    document.getElementById("modelYear");
+
+    yearSelect.innerHTML =
+    '<option value="">Select Model Year</option>';
+
+    if(!brand || !model){
+        return;
+    }
+
+    const years = [];
+
+    cars.forEach(function(item){
+
+        if(
+
+            String(item.brand || "").toLowerCase()
+            ===
+            brand.toLowerCase()
+
+            &&
+
+            String(item.model || "").toLowerCase()
+            ===
+            model.toLowerCase()
+
+        ){
+
+            const year =
+            Number(item.year);
+
+            if(
+                year &&
+                !years.includes(year)
+            ){
+                years.push(year);
+            }
+
+        }
+
+    });
+
+    years.sort(function(a,b){
+        return b-a;
+    });
+
+    years.forEach(function(year){
+
+        const option =
+        document.createElement("option");
+
+        option.value = year;
+        option.textContent = year;
+
+        yearSelect.appendChild(option);
+
+    });
+
+}
+
+
+/* =========================================================
+BATTERY STOCK DATABASE
+========================================================= */
+
+let batteries =
+JSON.parse(
+    localStorage.getItem("800PowerBatStock")
+) || [];
+
+
+/* =========================================================
+LOAD BATTERY BRANDS
+========================================================= */
+
+function loadBatteryBrands(){
+
+    const brandSelect =
+    document.getElementById("batteryBrand");
+
+    brandSelect.innerHTML =
+    '<option value="">Select Battery Brand</option>';
+
+    const brands = [];
+
+    batteries.forEach(function(item){
+
+        const brand =
+        String(item.brand || "").trim();
+
+        if(
+            brand &&
+            !brands.some(function(existing){
+                return existing.toLowerCase()
+                === brand.toLowerCase();
+            })
+        ){
+
+            brands.push(brand);
+
+        }
+
+    });
+
+    brands.sort();
+
+    brands.forEach(function(brand){
+
+        const option =
+        document.createElement("option");
+
+        option.value = brand;
+        option.textContent = brand;
+
+        brandSelect.appendChild(option);
+
+    });
+
+}
+
+
+/* =========================================================
+LOAD BATTERY MODELS
 ========================================================= */
 
 function loadBatteryModels(){
@@ -1817,22 +2049,17 @@ function loadBatteryModels(){
     const selectedBrand =
     document.getElementById("batteryBrand").value;
 
-
     const modelSelect =
     document.getElementById("batteryModel");
-
 
     modelSelect.innerHTML =
     '<option value="">Select Battery Model</option>';
 
-
     resetBatteryDetails();
-
 
     if(!selectedBrand){
         return;
     }
-
 
     const selectedBatteries =
     batteries.filter(function(item){
@@ -1846,21 +2073,13 @@ function loadBatteryModels(){
 
     });
 
-
-    selectedBatteries.forEach(function(item,index){
+    selectedBatteries.forEach(function(item){
 
         const option =
         document.createElement("option");
 
-
-        /*
-        Use array index to identify exact
-        battery record.
-        */
-
         option.value =
         batteries.indexOf(item);
-
 
         option.textContent =
         item.model +
@@ -1872,13 +2091,9 @@ function loadBatteryModels(){
             " available"
         );
 
-
         if(Number(item.quantity || 0) <= 0){
-
             option.disabled = true;
-
         }
-
 
         modelSelect.appendChild(option);
 
@@ -1896,71 +2111,48 @@ function loadBatteryDetails(){
     const selectedIndex =
     document.getElementById("batteryModel").value;
 
-
     if(selectedIndex === ""){
-
         resetBatteryDetails();
-
         return;
-
     }
-
 
     const item =
     batteries[Number(selectedIndex)];
 
-
     if(!item){
-
         resetBatteryDetails();
-
         return;
-
     }
-
 
     document.getElementById("selectedType").innerText =
     item.batteryType || "—";
 
-
     document.getElementById("selectedAh").innerText =
     item.ah || "—";
-
 
     document.getElementById("selectedSize").innerText =
     item.size || "—";
 
-
     document.getElementById("selectedStock").innerText =
     Number(item.quantity || 0);
-
 
     document.getElementById("selectedPurchase").innerText =
     "AED " +
     Number(item.purchasePrice || 0).toFixed(2);
 
-
     document.getElementById("selectedWarranty").innerText =
     item.warranty || "—";
-
-
-    /*
-    Automatically use the warranty stored
-    in Battery Stock.
-    */
 
     if(item.warranty){
 
         const warrantySelect =
         document.getElementById("warranty");
 
-
         let found = false;
 
-
         for(
-            let i = 0;
-            i < warrantySelect.options.length;
+            let i=0;
+            i<warrantySelect.options.length;
             i++
         ){
 
@@ -1970,17 +2162,13 @@ function loadBatteryDetails(){
                 item.warranty
             ){
 
-                warrantySelect.selectedIndex =
-                i;
-
+                warrantySelect.selectedIndex = i;
                 found = true;
-
                 break;
 
             }
 
         }
-
 
         if(!found){
 
@@ -2013,23 +2201,12 @@ RESET BATTERY DETAILS
 
 function resetBatteryDetails(){
 
-    document.getElementById("selectedType").innerText =
-    "—";
-
-    document.getElementById("selectedAh").innerText =
-    "—";
-
-    document.getElementById("selectedSize").innerText =
-    "—";
-
-    document.getElementById("selectedStock").innerText =
-    "—";
-
-    document.getElementById("selectedPurchase").innerText =
-    "—";
-
-    document.getElementById("selectedWarranty").innerText =
-    "—";
+    document.getElementById("selectedType").innerText = "—";
+    document.getElementById("selectedAh").innerText = "—";
+    document.getElementById("selectedSize").innerText = "—";
+    document.getElementById("selectedStock").innerText = "—";
+    document.getElementById("selectedPurchase").innerText = "—";
+    document.getElementById("selectedWarranty").innerText = "—";
 
 }
 
@@ -2063,14 +2240,11 @@ function deductBatteryFromStock(
         )
     ) || [];
 
-
     const wantedBrand =
     normalizeText(brand);
 
-
     const wantedModel =
     normalizeText(model);
-
 
     const index =
     stock.findIndex(function(item){
@@ -2089,7 +2263,6 @@ function deductBatteryFromStock(
 
     });
 
-
     if(index === -1){
 
         return {
@@ -2099,10 +2272,8 @@ function deductBatteryFromStock(
 
     }
 
-
     const currentQuantity =
     Number(stock[index].quantity) || 0;
-
 
     if(currentQuantity <= 0){
 
@@ -2113,14 +2284,11 @@ function deductBatteryFromStock(
 
     }
 
-
     const newQuantity =
     currentQuantity - 1;
 
-
     stock[index].quantity =
     newQuantity;
-
 
     if(newQuantity === 0){
 
@@ -2144,19 +2312,14 @@ function deductBatteryFromStock(
 
     }
 
-
     localStorage.setItem(
         "800PowerBatStock",
         JSON.stringify(stock)
     );
 
-
     return {
-
         success:true,
-
         remaining:newQuantity
-
     };
 
 }
@@ -2176,10 +2339,8 @@ function showStockMessage(
         "stockMessage"
     );
 
-
     box.innerText =
     message;
-
 
     box.className =
     "stock-message " +
@@ -2190,7 +2351,6 @@ function showStockMessage(
         ? "stock-error"
         : "stock-warning"
     );
-
 
     box.style.display =
     "block";
@@ -2204,7 +2364,6 @@ GENERATE INVOICE
 
 let invoiceGenerated = false;
 
-
 function generateInvoice(){
 
     const brandSelect =
@@ -2212,16 +2371,62 @@ function generateInvoice(){
         "batteryBrand"
     );
 
-
     const modelSelect =
     document.getElementById(
         "batteryModel"
     );
 
-
     const selectedIndex =
     modelSelect.value;
 
+    /* CAR VALIDATION */
+
+    const carBrand =
+    document.getElementById(
+        "carBrand"
+    ).value.trim();
+
+    const carModel =
+    document.getElementById(
+        "carModel"
+    ).value.trim();
+
+    const modelYear =
+    document.getElementById(
+        "modelYear"
+    ).value.trim();
+
+    if(!carBrand){
+
+        alert(
+            "Please select a Car Brand."
+        );
+
+        return;
+
+    }
+
+    if(!carModel){
+
+        alert(
+            "Please select a Car Model."
+        );
+
+        return;
+
+    }
+
+    if(!modelYear){
+
+        alert(
+            "Please select a Model Year."
+        );
+
+        return;
+
+    }
+
+    /* BATTERY VALIDATION */
 
     if(!brandSelect.value){
 
@@ -2233,7 +2438,6 @@ function generateInvoice(){
 
     }
 
-
     if(selectedIndex === ""){
 
         alert(
@@ -2244,7 +2448,6 @@ function generateInvoice(){
 
     }
 
-
     const stock =
     JSON.parse(
         localStorage.getItem(
@@ -2252,12 +2455,10 @@ function generateInvoice(){
         )
     ) || [];
 
-
     const battery =
     stock[
         Number(selectedIndex)
     ];
-
 
     if(!battery){
 
@@ -2268,7 +2469,6 @@ function generateInvoice(){
         return;
 
     }
-
 
     if(
         Number(battery.quantity || 0)
@@ -2283,46 +2483,26 @@ function generateInvoice(){
 
     }
 
-
     const customer =
     document.getElementById(
         "customer"
     ).value.trim();
-
 
     const phone =
     document.getElementById(
         "phone"
     ).value.trim();
 
-
     const customerTRN =
     document.getElementById(
         "customerTRN"
     ).value.trim();
 
-
-    const carBrand =
-    document.getElementById(
-        "carBrand"
-    ).value.trim();
-
-
-    const carModel =
-    document.getElementById(
-        "carModel"
-    ).value.trim();
-
-
     const batteryBrand =
     battery.brand;
 
-
     const batteryModel =
     battery.model;
-
-
-    /* SALE PRICE IS MANUAL */
 
     const batteryPrice =
     parseFloat(
@@ -2331,14 +2511,12 @@ function generateInvoice(){
         ).value
     ) || 0;
 
-
     const service =
     parseFloat(
         document.getElementById(
             "servicePrice"
         ).value
     ) || 0;
-
 
     const discount =
     parseFloat(
@@ -2347,42 +2525,35 @@ function generateInvoice(){
         ).value
     ) || 0;
 
-
     const warranty =
     document.getElementById(
         "warranty"
     ).value;
-
 
     const payment =
     document.getElementById(
         "payment"
     ).value;
 
-
     const paymentMethod =
     document.getElementById(
         "paymentMethod"
     ).value;
-
 
     const companyTRN =
     document.getElementById(
         "companyTRN"
     ).value.trim();
 
-
     const vatEnabled =
     document.getElementById(
         "vatEnabled"
     ).checked;
 
-
     /* CALCULATION */
 
     const subtotal =
     batteryPrice + service;
-
 
     const taxable =
     Math.max(
@@ -2390,16 +2561,13 @@ function generateInvoice(){
         subtotal - discount
     );
 
-
     const vat =
     vatEnabled
     ? taxable * 0.05
     : 0;
 
-
     const total =
     taxable + vat;
-
 
     /* INVOICE NUMBER */
 
@@ -2410,18 +2578,15 @@ function generateInvoice(){
         Math.random() * 900000
     );
 
-
     /* DATE */
 
     const today =
     new Date();
 
-
     const date =
     today.toLocaleDateString(
         "en-GB"
     );
-
 
     /* DEDUCT STOCK */
 
@@ -2431,7 +2596,6 @@ function generateInvoice(){
         batteryModel
     );
 
-
     if(stockResult.success){
 
         showStockMessage(
@@ -2440,8 +2604,7 @@ function generateInvoice(){
             batteryBrand +
             " " +
             batteryModel +
-            " sold. " +
-            "Remaining stock: " +
+            " sold. Remaining stock: " +
             stockResult.remaining,
 
             "success"
@@ -2452,15 +2615,13 @@ function generateInvoice(){
 
         showStockMessage(
 
-            "⚠ Stock could not be deducted. " +
-            "Please check Battery Stock.",
+            "⚠ Stock could not be deducted. Please check Battery Stock.",
 
             "warning"
 
         );
 
     }
-
 
     /* OUTPUT */
 
@@ -2469,24 +2630,20 @@ function generateInvoice(){
     ).innerText =
     invoiceNumber;
 
-
     document.getElementById(
         "invoiceDate"
     ).innerText =
     date;
-
 
     document.getElementById(
         "outCustomer"
     ).innerText =
     customer || "Customer";
 
-
     document.getElementById(
         "outPhone"
     ).innerText =
     phone || "—";
-
 
     document.getElementById(
         "outCar"
@@ -2495,21 +2652,23 @@ function generateInvoice(){
         carBrand +
         " " +
         carModel
-    ).trim()
-    || "Vehicle";
+    ).trim();
 
+    document.getElementById(
+        "outCarYear"
+    ).innerText =
+    "Model Year: " +
+    modelYear;
 
     document.getElementById(
         "outBatteryBrand"
     ).innerText =
     batteryBrand;
 
-
     document.getElementById(
         "outBatteryModel"
     ).innerText =
     batteryModel;
-
 
     document.getElementById(
         "outBatteryDetails"
@@ -2537,54 +2696,45 @@ function generateInvoice(){
         : ""
     );
 
-
     document.getElementById(
         "outBatteryPrice"
     ).innerText =
     batteryPrice.toFixed(2);
-
 
     document.getElementById(
         "outService"
     ).innerText =
     service.toFixed(2);
 
-
     document.getElementById(
         "outSubtotal"
     ).innerText =
     subtotal.toFixed(2);
-
 
     document.getElementById(
         "outDiscount"
     ).innerText =
     discount.toFixed(2);
 
-
     document.getElementById(
         "outTotal"
     ).innerText =
     total.toFixed(2);
-
 
     document.getElementById(
         "outWarranty"
     ).innerText =
     warranty;
 
-
     document.getElementById(
         "outItemWarranty"
     ).innerText =
     warranty;
 
-
     document.getElementById(
         "outPaymentMethod"
     ).innerText =
     paymentMethod;
-
 
     /* PAYMENT */
 
@@ -2593,16 +2743,13 @@ function generateInvoice(){
         "outPayment"
     );
 
-
     paymentElement.innerText =
     payment;
-
 
     paymentElement.className =
     payment === "PAID"
     ? "paid"
     : "pending";
-
 
     /* CUSTOMER TRN */
 
@@ -2611,14 +2758,12 @@ function generateInvoice(){
         "customerTRNOutput"
     );
 
-
     if(customerTRN){
 
         customerTRNOutput.innerHTML =
         "Customer TRN: <strong>" +
         escapeHTML(customerTRN) +
         "</strong>";
-
 
         customerTRNOutput.style.display =
         "block";
@@ -2630,7 +2775,6 @@ function generateInvoice(){
 
     }
 
-
     /* VAT */
 
     const vatRow =
@@ -2638,50 +2782,41 @@ function generateInvoice(){
         "vatRow"
     );
 
-
     const taxableRow =
     document.getElementById(
         "taxableRow"
     );
-
 
     const invoiceHeading =
     document.getElementById(
         "invoiceHeading"
     );
 
-
     const companyTRNOutput =
     document.getElementById(
         "companyTRNOutput"
     );
-
 
     if(vatEnabled){
 
         taxableRow.style.display =
         "flex";
 
-
         vatRow.style.display =
         "flex";
-
 
         document.getElementById(
             "outTaxable"
         ).innerText =
         taxable.toFixed(2);
 
-
         document.getElementById(
             "outVAT"
         ).innerText =
         vat.toFixed(2);
 
-
         invoiceHeading.innerText =
         "TAX INVOICE";
-
 
         companyTRNOutput.innerText =
         companyTRN
@@ -2693,14 +2828,11 @@ function generateInvoice(){
         taxableRow.style.display =
         "none";
 
-
         vatRow.style.display =
         "none";
 
-
         invoiceHeading.innerText =
         "INVOICE";
-
 
         companyTRNOutput.innerText =
         companyTRN
@@ -2709,14 +2841,12 @@ function generateInvoice(){
 
     }
 
-
     /* SHOW INVOICE */
 
     document.getElementById(
         "invoicePreview"
     ).style.display =
     "block";
-
 
     /* SAVE HISTORY */
 
@@ -2726,7 +2856,6 @@ function generateInvoice(){
             "invoices"
         )
     ) || [];
-
 
     invoices.push({
 
@@ -2740,11 +2869,19 @@ function generateInvoice(){
 
         customerTRN:customerTRN,
 
+        carBrand:carBrand,
+
+        carModel:carModel,
+
+        modelYear:Number(modelYear),
+
         car:
         (
             carBrand +
             " " +
-            carModel
+            carModel +
+            " " +
+            modelYear
         ).trim(),
 
         batteryBrand:batteryBrand,
@@ -2802,21 +2939,15 @@ function generateInvoice(){
 
     });
 
-
     localStorage.setItem(
         "invoices",
         JSON.stringify(invoices)
     );
 
-
     invoiceGenerated =
     true;
 
-
-    /*
-    Reload stock data in dropdowns
-    after sale.
-    */
+    /* RELOAD BATTERY STOCK */
 
     batteries =
     JSON.parse(
@@ -2825,23 +2956,14 @@ function generateInvoice(){
         )
     ) || [];
 
-
     loadBatteryBrands();
-
 
     document.getElementById(
         "batteryBrand"
     ).value =
     batteryBrand;
 
-
     loadBatteryModels();
-
-
-    /*
-    Find the same model again
-    after stock update.
-    */
 
     const updatedIndex =
     batteries.findIndex(function(item){
@@ -2862,7 +2984,6 @@ function generateInvoice(){
 
     });
 
-
     if(updatedIndex !== -1){
 
         document.getElementById(
@@ -2874,6 +2995,35 @@ function generateInvoice(){
 
     }
 
+    /* RELOAD CAR DATABASE */
+
+    cars =
+    JSON.parse(
+        localStorage.getItem(
+            "800PowerBatCars"
+        )
+    ) || [];
+
+    loadCarBrands();
+
+    document.getElementById(
+        "carBrand"
+    ).value =
+    carBrand;
+
+    loadCarModels();
+
+    document.getElementById(
+        "carModel"
+    ).value =
+    carModel;
+
+    loadCarYears();
+
+    document.getElementById(
+        "modelYear"
+    ).value =
+    modelYear;
 
     document.getElementById(
         "invoicePreview"
@@ -2895,13 +3045,11 @@ function printInvoice(){
         "invoicePreview"
     );
 
-
     if(
         preview.style.display !== "block"
     ){
 
         generateInvoice();
-
 
         setTimeout(function(){
 
@@ -2934,21 +3082,19 @@ function escapeHTML(text){
     return String(text)
 
     .replace(/&/g,"&amp;")
-
     .replace(/</g,"&lt;")
-
     .replace(/>/g,"&gt;")
-
     .replace(/"/g,"&quot;")
-
     .replace(/'/g,"&#039;");
 
 }
 
 
 /* =========================================================
-LOAD ON PAGE START
+PAGE START
 ========================================================= */
+
+loadCarBrands();
 
 loadBatteryBrands();
 
