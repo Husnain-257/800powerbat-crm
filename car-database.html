@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>800PowerBat - Car Database</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f3f5f7;
+    color:#17202a;
+}
+
+/* HEADER */
+
+.header{
+    background:#101820;
+    color:#fff;
+    padding:18px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:4px solid #f5b400;
+}
+
+.logo{
+    font-size:26px;
+    font-weight:900;
+}
+
+.logo span{
+    color:#f5b400;
+}
+
+.header small{
+    color:#cbd2da;
+}
+
+/* CONTAINER */
+
+.container{
+    max-width:1100px;
+    margin:25px auto;
+    padding:0 15px;
+}
+
+/* CARD */
+
+.card{
+    background:#fff;
+    border-radius:12px;
+    padding:22px;
+    margin-bottom:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.card h2{
+    margin:0 0 18px;
+    font-size:21px;
+}
+
+.card h2 span{
+    color:#f5b400;
+}
+
+/* FORM */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+}
+
+.field label{
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #d6dbe0;
+    border-radius:7px;
+    font-size:14px;
+    outline:none;
+}
+
+input:focus{
+    border-color:#f5b400;
+}
+
+/* BUTTONS */
+
+.buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
+}
+
+button,
+.link-btn{
+    border:0;
+    padding:12px 18px;
+    border-radius:7px;
+    font-weight:bold;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-block;
+}
+
+.save-btn{
+    background:#f5b400;
+    color:#101820;
+}
+
+.clear-btn{
+    background:#e9edf1;
+    color:#17202a;
+}
+
+.dashboard-btn{
+    background:#101820;
+    color:#fff;
+}
+
+/* SEARCH */
+
+.search{
+    margin-bottom:18px;
+}
+
+.search input{
+    max-width:450px;
+}
+
+/* TABLE */
+
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+thead{
+    background:#101820;
+    color:#fff;
+}
+
+th{
+    padding:13px 10px;
+    text-align:left;
+    font-size:13px;
+}
+
+td{
+    padding:12px 10px;
+    border-bottom:1px solid #e4e7ea;
+    font-size:13px;
+}
+
+tr:hover td{
+    background:#fffaf0;
+}
+
+.badge{
+    display:inline-block;
+    background:#fff4c9;
+    color:#765900;
+    padding:5px 9px;
+    border-radius:20px;
+    font-weight:bold;
+    font-size:11px;
+}
+
+.edit-btn{
+    background:#101820;
+    color:#fff;
+    padding:7px 11px;
+    border-radius:5px;
+    border:0;
+    cursor:pointer;
+    font-size:11px;
+}
+
+.delete-btn{
+    background:#d93025;
+    color:#fff;
+    padding:7px 11px;
+    border-radius:5px;
+    border:0;
+    cursor:pointer;
+    font-size:11px;
+    margin-left:4px;
+}
+
+/* DASHBOARD */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:#101820;
+    color:#fff;
+    border-radius:10px;
+    padding:18px;
+}
+
+.stat small{
+    color:#bfc7d0;
+    display:block;
+    margin-bottom:7px;
+}
+
+.stat strong{
+    color:#f5b400;
+    font-size:25px;
+}
+
+/* EMPTY */
+
+.empty{
+    text-align:center;
+    padding:30px;
+    color:#777;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    .header{
+        padding:15px;
+        flex-direction:column;
+        align-items:flex-start;
+        gap:5px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .container{
+        margin:15px auto;
+    }
+
+    .card{
+        padding:17px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+<div class="logo">
+800<span>PowerBat</span>
+</div>
+
+<small>
+Car Database
+</small>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- STATISTICS -->
+
+<div class="stats">
+
+<div class="stat">
+
+<small>
+Total Car Records
+</small>
+
+<strong id="totalCars">
+0
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<small>
+Car Brands
+</small>
+
+<strong id="totalBrands">
+0
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<small>
+Different Models
+</small>
+
+<strong id="totalModels">
+0
+</strong>
+
+</div>
+
+</div>
+
+
+<!-- ADD CAR -->
+
+<div class="card">
+
+<h2>
+Add <span>Car</span>
+</h2>
+
+
+<div class="form-grid">
+
+
+<div class="field">
+
+<label>
+Car Brand
+</label>
+
+<input
+id="carBrand"
+type="text"
+placeholder="e.g. BMW"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Car Model
+</label>
+
+<input
+id="carModel"
+type="text"
+placeholder="e.g. X5"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Model Year
+</label>
+
+<input
+id="modelYear"
+type="number"
+placeholder="e.g. 2024"
+min="1900"
+max="2100"
+>
+
+</div>
+
+
+</div>
+
+
+<div class="buttons">
+
+<button
+class="save-btn"
+onclick="saveCar()"
+>
+Add Car
+</button>
+
+
+<button
+class="clear-btn"
+onclick="clearForm()"
+>
+Clear
+</button>
+
+
+<a
+href="index.html"
+class="link-btn dashboard-btn"
+>
+Dashboard
+</a>
+
+</div>
+
+</div>
+
+
+<!-- CAR LIST -->
+
+<div class="card">
+
+<h2>
+Car <span>Database</span>
+</h2>
+
+
+<div class="search">
+
+<input
+id="search"
+type="text"
+placeholder="Search brand, model or year..."
+oninput="displayCars()"
+>
+
+</div>
+
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+#
+</th>
+
+<th>
+Car Brand
+</th>
+
+<th>
+Car Model
+</th>
+
+<th>
+Model Year
+</th>
+
+<th>
+Actions
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="carTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+/* =====================================================
+CAR DATABASE
+===================================================== */
+
+let cars =
+JSON.parse(
+    localStorage.getItem("800PowerBatCars")
+) || [];
+
+
+let editIndex = -1;
+
+
+/* =====================================================
+SAVE CAR
+===================================================== */
+
+function saveCar(){
+
+    const brand =
+    document.getElementById("carBrand")
+    .value
+    .trim();
+
+
+    const model =
+    document.getElementById("carModel")
+    .value
+    .trim();
+
+
+    const year =
+    document.getElementById("modelYear")
+    .value
+    .trim();
+
+
+    if(!brand){
+
+        alert("Please enter Car Brand.");
+
+        return;
+
+    }
+
+
+    if(!model){
+
+        alert("Please enter Car Model.");
+
+        return;
+
+    }
+
+
+    if(!year){
+
+        alert("Please enter Model Year.");
+
+        return;
+
+    }
+
+
+    const yearNumber =
+    Number(year);
+
+
+    if(
+        yearNumber < 1900 ||
+        yearNumber > 2100
+    ){
+
+        alert(
+            "Please enter a valid model year."
+        );
+
+        return;
+
+    }
+
+
+    const carData = {
+
+        brand:brand,
+
+        model:model,
+
+        year:yearNumber
+
+    };
+
+
+    /* EDIT */
+
+    if(editIndex !== -1){
+
+        cars[editIndex] =
+        carData;
+
+        editIndex = -1;
+
+    }
+
+    /* ADD */
+
+    else{
+
+        /*
+        Prevent exact duplicate
+        */
+
+        const duplicate =
+        cars.some(function(item){
+
+            return (
+
+                item.brand.toLowerCase()
+                === brand.toLowerCase()
+
+                &&
+
+                item.model.toLowerCase()
+                === model.toLowerCase()
+
+                &&
+
+                Number(item.year)
+                === yearNumber
+
+            );
+
+        });
+
+
+        if(duplicate){
+
+            alert(
+                "This car already exists in the database."
+            );
+
+            return;
+
+        }
+
+
+        cars.push(carData);
+
+    }
+
+
+    localStorage.setItem(
+        "800PowerBatCars",
+        JSON.stringify(cars)
+    );
+
+
+    clearForm();
+
+    displayCars();
+
+    updateStats();
+
+}
+
+
+/* =====================================================
+DISPLAY CARS
+===================================================== */
+
+function displayCars(){
+
+    const table =
+    document.getElementById(
+        "carTable"
+    );
+
+
+    const search =
+    document.getElementById(
+        "search"
+    )
+    .value
+    .toLowerCase()
+    .trim();
+
+
+    table.innerHTML = "";
+
+
+    const filtered =
+    cars.filter(function(item){
+
+        return (
+
+            String(item.brand || "")
+            .toLowerCase()
+            .includes(search)
+
+            ||
+
+            String(item.model || "")
+            .toLowerCase()
+            .includes(search)
+
+            ||
+
+            String(item.year || "")
+            .includes(search)
+
+        );
+
+    });
+
+
+    if(filtered.length === 0){
+
+        table.innerHTML = `
+
+        <tr>
+
+        <td
+        colspan="5"
+        class="empty"
+        >
+        No cars found.
+        </td>
+
+        </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    filtered.forEach(function(item){
+
+        const realIndex =
+        cars.indexOf(item);
+
+
+        const row =
+        document.createElement("tr");
+
+
+        row.innerHTML = `
+
+        <td>
+        ${realIndex + 1}
+        </td>
+
+        <td>
+        <strong>
+        ${escapeHTML(item.brand)}
+        </strong>
+        </td>
+
+        <td>
+        ${escapeHTML(item.model)}
+        </td>
+
+        <td>
+
+        <span class="badge">
+        ${item.year}
+        </span>
+
+        </td>
+
+        <td>
+
+        <button
+        class="edit-btn"
+        onclick="editCar(${realIndex})"
+        >
+        Edit
+        </button>
+
+        <button
+        class="delete-btn"
+        onclick="deleteCar(${realIndex})"
+        >
+        Delete
+        </button>
+
+        </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+    });
+
+}
+
+
+/* =====================================================
+EDIT CAR
+===================================================== */
+
+function editCar(index){
+
+    const car =
+    cars[index];
+
+
+    if(!car){
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "carBrand"
+    ).value =
+    car.brand;
+
+
+    document.getElementById(
+        "carModel"
+    ).value =
+    car.model;
+
+
+    document.getElementById(
+        "modelYear"
+    ).value =
+    car.year;
+
+
+    editIndex =
+    index;
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+DELETE CAR
+===================================================== */
+
+function deleteCar(index){
+
+    const car =
+    cars[index];
+
+
+    if(!car){
+
+        return;
+
+    }
+
+
+    const confirmDelete =
+    confirm(
+
+        "Delete " +
+        car.brand +
+        " " +
+        car.model +
+        " " +
+        car.year +
+        " from Car Database?"
+
+    );
+
+
+    if(!confirmDelete){
+
+        return;
+
+    }
+
+
+    cars.splice(
+        index,
+        1
+    );
+
+
+    localStorage.setItem(
+        "800PowerBatCars",
+        JSON.stringify(cars)
+    );
+
+
+    displayCars();
+
+    updateStats();
+
+}
+
+
+/* =====================================================
+CLEAR FORM
+===================================================== */
+
+function clearForm(){
+
+    document.getElementById(
+        "carBrand"
+    ).value = "";
+
+
+    document.getElementById(
+        "carModel"
+    ).value = "";
+
+
+    document.getElementById(
+        "modelYear"
+    ).value = "";
+
+
+    editIndex = -1;
+
+}
+
+
+/* =====================================================
+UPDATE STATISTICS
+===================================================== */
+
+function updateStats(){
+
+    document.getElementById(
+        "totalCars"
+    ).innerText =
+    cars.length;
+
+
+    const brands =
+    new Set();
+
+
+    const models =
+    new Set();
+
+
+    cars.forEach(function(item){
+
+        brands.add(
+            String(item.brand)
+            .toLowerCase()
+        );
+
+
+        models.add(
+            String(item.brand)
+            .toLowerCase()
+            +
+            "||" +
+            String(item.model)
+            .toLowerCase()
+        );
+
+    });
+
+
+    document.getElementById(
+        "totalBrands"
+    ).innerText =
+    brands.size;
+
+
+    document.getElementById(
+        "totalModels"
+    ).innerText =
+    models.size;
+
+}
+
+
+/* =====================================================
+ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value || "")
+
+    .replace(/&/g,"&amp;")
+
+    .replace(/</g,"&lt;")
+
+    .replace(/>/g,"&gt;")
+
+    .replace(/"/g,"&quot;")
+
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+START
+===================================================== */
+
+displayCars();
+
+updateStats();
+
+</script>
+
+</body>
+</html>
