@@ -1,5 +1,6 @@
 <!-- Is code mein Owner Reports ke liye
      Sale Price + Cost Price + Profit data add kiya gaya hai.
+     Customer ID linking bhi add ki gayi hai.
      Existing invoice design aur functionality same rakhi gayi hai. -->
 
 <!DOCTYPE html>
@@ -1656,6 +1657,13 @@ const INVOICE_STORAGE_KEY = "invoices";
 
 let invoiceGenerated = false;
 
+/* =========================
+   NEW:
+   CURRENT SELECTED CUSTOMER ID
+========================= */
+
+let selectedCustomerId = "";
+
 
 /* =========================
    LOGIN PROTECTION
@@ -1792,6 +1800,13 @@ function loadSavedCustomer(){
     const selectedIndex =
     select.value;
 
+    /* NEW:
+       Reset ID when manual mode is selected.
+    */
+
+    selectedCustomerId = "";
+
+
     if(
         selectedIndex === ""
     ){
@@ -1809,6 +1824,19 @@ function loadSavedCustomer(){
     if(!customer){
         return;
     }
+
+
+    /* NEW:
+       Save the exact customer ID.
+       Existing customers without an ID
+       get a stable fallback based on index.
+    */
+
+    selectedCustomerId =
+    customer.id != null &&
+    String(customer.id).trim() !== ""
+    ? String(customer.id)
+    : "customer-" + String(selectedIndex);
 
 
     document.getElementById(
@@ -2004,23 +2032,60 @@ function generateInvoiceNumber(){
 
 
 /* =========================
+   NEW:
+   GET CUSTOMER ID DIRECTLY
+   FROM CURRENT SAVED CUSTOMER
+========================= */
+
+function getCurrentCustomerId(){
+
+    const select =
+    document.getElementById(
+        "savedCustomer"
+    );
+
+    if(
+        !select ||
+        select.value === ""
+    ){
+
+        return selectedCustomerId || "";
+
+    }
+
+    const customers =
+    getCustomers();
+
+    const index =
+    Number(select.value);
+
+    const customer =
+    customers[index];
+
+    if(!customer){
+
+        return selectedCustomerId || "";
+
+    }
+
+    if(
+        customer.id != null &&
+        String(customer.id).trim() !== ""
+    ){
+
+        return String(customer.id);
+
+    }
+
+    return "customer-" + String(index);
+
+}
+
+
+/* =========================
    BATTERY COST PRICE
    OWNER REPORTS
 ========================= */
-
-/*
-   Battery Stock mein cost ka naam
-   agar in mein se koi bhi ho to
-   automatically read hoga:
-
-   costPrice
-   purchasePrice
-   buyPrice
-   cost
-   buyingPrice
-   purchase_cost
-   purchase_price
-*/
 
 function getBatteryCostPrice(battery){
 
@@ -2686,31 +2751,25 @@ function generateInvoice(){
     ).checked;
 
 
+    /*
+       NEW:
+       Always resolve customer ID
+       directly from currently selected
+       saved customer.
+    */
+
+    const currentCustomerId =
+    getCurrentCustomerId();
+
+
     let price=0;
 
-    /*
-       NEW:
-       Cost price for Owner Reports
-    */
-
     let costPrice=0;
-
-    /*
-       NEW:
-       Battery object is captured
-       BEFORE stock quantity is deducted.
-    */
 
     let selectedBattery=null;
 
 
     if(type === "battery"){
-
-        /*
-           Get selected battery first.
-           This is important because after
-           deduction the stock quantity changes.
-        */
 
         selectedBattery =
         findBattery();
@@ -2724,20 +2783,11 @@ function generateInvoice(){
         ) || 550;
 
 
-        /*
-           Get purchase/cost price
-           from Battery Stock.
-        */
-
         costPrice =
         getBatteryCostPrice(
             selectedBattery
         );
 
-
-        /*
-           Deduct one battery from stock.
-        */
 
         deductBatteryFromStock();
 
@@ -2749,15 +2799,6 @@ function generateInvoice(){
                 "servicePrice"
             ).value
         ) || 0;
-
-
-        /*
-           No separate service cost currently
-           exists in this invoice system.
-
-           Therefore service cost is 0 until
-           service-cost tracking is added.
-        */
 
         costPrice=0;
 
@@ -2774,18 +2815,6 @@ function generateInvoice(){
     const total =
     subtotal+vat;
 
-
-    /*
-       IMPORTANT:
-       Profit is calculated before VAT.
-
-       Example:
-       Sale = 550
-       Cost = 350
-       Profit = 200
-
-       VAT is not counted as profit.
-    */
 
     const profit =
     subtotal - costPrice;
@@ -2909,11 +2938,6 @@ function generateInvoice(){
         ).value ||
         "55d23L";
 
-
-        /*
-           Use the same battery that was
-           selected before stock deduction.
-        */
 
         batterySizeValue =
         selectedBattery
@@ -3093,6 +3117,23 @@ function generateInvoice(){
 
         date: invoiceDate,
 
+
+        /*
+           NEW:
+           Customer ID link
+        */
+
+        customerId:
+        currentCustomerId || "",
+
+        /*
+           Compatibility aliases
+        */
+
+        customerID:
+        currentCustomerId || "",
+
+
         customer: customerName,
 
         phone: customerPhone,
@@ -3146,51 +3187,20 @@ function generateInvoice(){
            OWNER REPORT DATA
         ========================= */
 
-        /*
-           Sale price before VAT
-        */
-
         salePrice:
         Number(subtotal),
-
-
-        /*
-           Selling price alias
-           for compatibility
-        */
 
         sellingPrice:
         Number(subtotal),
 
-
-        /*
-           Actual battery purchase/cost price
-        */
-
         costPrice:
         Number(costPrice),
-
-
-        /*
-           Purchase price alias
-        */
 
         purchasePrice:
         Number(costPrice),
 
-
-        /*
-           Profit = Sale - Cost
-        */
-
         profit:
         Number(profit),
-
-
-        /*
-           Tells Owner Reports whether
-           an actual cost was recorded.
-        */
 
         costRecorded:
         Number(costPrice) > 0,
@@ -3266,6 +3276,17 @@ function loadSelectedInvoice(){
 
 
         /* =========================
+           NEW:
+           RESTORE CUSTOMER ID
+        ========================= */
+
+        selectedCustomerId =
+        invoice.customerId ||
+        invoice.customerID ||
+        "";
+
+
+        /* =========================
            CUSTOMER DETAILS
         ========================= */
 
@@ -3299,6 +3320,92 @@ function loadSelectedInvoice(){
             "companyTRN"
         ).value =
         invoice.companyTRN || "";
+
+
+        /* =========================
+           TRY TO SELECT SAVED CUSTOMER
+           BY ID
+        ========================= */
+
+        const savedCustomerSelect =
+        document.getElementById(
+            "savedCustomer"
+        );
+
+        const customers =
+        getCustomers();
+
+        if(
+            savedCustomerSelect &&
+            customers.length
+        ){
+
+            let customerIndex=-1;
+
+            customerIndex =
+            customers.findIndex(function(customer){
+
+                if(
+                    invoice.customerId &&
+                    customer.id != null
+                ){
+
+                    return String(customer.id) ===
+                    String(invoice.customerId);
+
+                }
+
+                return false;
+
+            });
+
+
+            /*
+               If ID is not available,
+               match by phone/name.
+            */
+
+            if(customerIndex === -1){
+
+                customerIndex =
+                customers.findIndex(function(customer){
+
+                    const phoneMatch =
+                    customer.phone &&
+                    invoice.phone &&
+                    normalizeText(customer.phone) ===
+                    normalizeText(invoice.phone);
+
+                    const nameMatch =
+                    customer.name &&
+                    invoice.customer &&
+                    normalizeText(customer.name) ===
+                    normalizeText(invoice.customer);
+
+                    return phoneMatch || nameMatch;
+
+                });
+
+            }
+
+
+            if(customerIndex !== -1){
+
+                savedCustomerSelect.value =
+                String(customerIndex);
+
+                const matchedCustomer =
+                customers[customerIndex];
+
+                selectedCustomerId =
+                matchedCustomer.id != null &&
+                String(matchedCustomer.id).trim() !== ""
+                ? String(matchedCustomer.id)
+                : "customer-" + String(customerIndex);
+
+            }
+
+        }
 
 
         /* =========================
@@ -4076,4 +4183,4 @@ function(){
 </script>
 
 </body>
-</html>
+     </html>
