@@ -31,7 +31,7 @@ header h1{
 }
 
 .container{
-    max-width:700px;
+    max-width:900px;
     margin:auto;
     padding:20px;
 }
@@ -41,6 +41,7 @@ header h1{
     padding:20px;
     border-radius:14px;
     box-shadow:0 3px 12px rgba(0,0,0,.08);
+    margin-bottom:20px;
 }
 
 input, select{
@@ -65,6 +66,7 @@ button{
     color:white;
     font-size:16px;
     font-weight:bold;
+    cursor:pointer;
 }
 
 button:hover{
@@ -78,6 +80,159 @@ button:hover{
     text-align:center;
     color:#101820;
     text-decoration:none;
+    font-weight:bold;
+}
+
+/* CUSTOMER LIST */
+
+.section-title{
+    margin-top:0;
+    color:#101820;
+}
+
+.customer-card{
+    border:1px solid #e1e5e9;
+    border-radius:12px;
+    padding:16px;
+    margin-bottom:12px;
+    background:#fff;
+}
+
+.customer-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:flex-start;
+}
+
+.customer-name{
+    font-size:18px;
+    font-weight:bold;
+    color:#101820;
+}
+
+.customer-phone{
+    color:#667085;
+    margin-top:5px;
+}
+
+.customer-info{
+    margin-top:12px;
+    line-height:1.7;
+    color:#475467;
+}
+
+.customer-actions{
+    display:flex;
+    gap:8px;
+    margin-top:14px;
+}
+
+.customer-actions button{
+    width:auto;
+    flex:1;
+    padding:11px;
+    font-size:14px;
+}
+
+.history-btn{
+    background:#f5b400;
+    color:#101820;
+}
+
+.history-btn:hover{
+    background:#101820;
+    color:white;
+}
+
+/* HISTORY */
+
+.history-box{
+    display:none;
+    margin-top:20px;
+    background:#101820;
+    color:white;
+    padding:20px;
+    border-radius:14px;
+}
+
+.history-box h2{
+    color:#f5b400;
+    margin-top:0;
+}
+
+.history-summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin:15px 0;
+}
+
+.summary-card{
+    background:#18232d;
+    padding:14px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.summary-card strong{
+    display:block;
+    color:#f5b400;
+    font-size:20px;
+    margin-top:5px;
+}
+
+.history-item{
+    background:white;
+    color:#17202a;
+    border-radius:10px;
+    padding:14px;
+    margin-top:10px;
+}
+
+.history-item strong{
+    color:#101820;
+}
+
+.no-data{
+    text-align:center;
+    padding:20px;
+    color:#667085;
+    background:#f4f6f8;
+    border-radius:10px;
+}
+
+.close-history{
+    margin-top:15px;
+    background:#fff;
+    color:#101820;
+}
+
+.close-history:hover{
+    background:#f5b400;
+}
+
+@media(max-width:600px){
+
+    .container{
+        padding:14px;
+    }
+
+    .customer-top{
+        flex-direction:column;
+    }
+
+    .customer-actions{
+        flex-direction:column;
+    }
+
+    .customer-actions button{
+        width:100%;
+    }
+
+    .history-summary{
+        grid-template-columns:1fr;
+    }
 }
 </style>
 </head>
@@ -90,6 +245,10 @@ button:hover{
 </header>
 
 <div class="container">
+
+<!-- ================================
+     ADD CUSTOMER
+================================ -->
 
 <div class="box">
 
@@ -167,7 +326,84 @@ button:hover{
 
 </div>
 
+
+<!-- ================================
+     CUSTOMER SEARCH
+================================ -->
+
+<div class="box">
+
+<h2 class="section-title">
+    Customer & Vehicle History
+</h2>
+
+<input
+    type="text"
+    id="customerSearch"
+    placeholder="Search by name, phone, car or registration..."
+    oninput="renderCustomers()"
+>
+
+<div id="customerList"></div>
+
 </div>
+
+
+<!-- ================================
+     HISTORY
+================================ -->
+
+<div
+    class="history-box"
+    id="historyBox"
+>
+
+<h2 id="historyTitle">
+    Vehicle History
+</h2>
+
+<div
+    id="historyCustomerInfo"
+></div>
+
+<div class="history-summary">
+
+    <div class="summary-card">
+        Total Invoices
+        <strong id="historyInvoices">
+            0
+        </strong>
+    </div>
+
+    <div class="summary-card">
+        Total Paid
+        <strong id="historyPaid">
+            AED 0.00
+        </strong>
+    </div>
+
+    <div class="summary-card">
+        Outstanding
+        <strong id="historyPending">
+            AED 0.00
+        </strong>
+    </div>
+
+</div>
+
+<div id="historyList"></div>
+
+<button
+    class="close-history"
+    onclick="closeHistory()"
+>
+    Close Vehicle History
+</button>
+
+</div>
+
+</div>
+
 
 <script>
 
@@ -283,50 +519,33 @@ if(
 function saveCustomer(){
 
     const name =
-        document.getElementById(
-            "name"
-        ).value.trim();
-
+        document.getElementById("name")
+        .value.trim();
 
     const phone =
-        document.getElementById(
-            "phone"
-        ).value.trim();
-
+        document.getElementById("phone")
+        .value.trim();
 
     const email =
-        document.getElementById(
-            "email"
-        ).value.trim();
-
+        document.getElementById("email")
+        .value.trim();
 
     const address =
-        document.getElementById(
-            "address"
-        ).value.trim();
-
+        document.getElementById("address")
+        .value.trim();
 
     const car =
-        document.getElementById(
-            "car"
-        ).value.trim();
-
+        document.getElementById("car")
+        .value.trim();
 
     const model =
-        document.getElementById(
-            "model"
-        ).value.trim();
-
+        document.getElementById("model")
+        .value.trim();
 
     const battery =
-        document.getElementById(
-            "battery"
-        ).value;
+        document.getElementById("battery")
+        .value;
 
-
-    /* ================================
-       REQUIRED FIELDS
-    ================================= */
 
     if(
         name === "" ||
@@ -341,10 +560,6 @@ function saveCustomer(){
     }
 
 
-    /* ================================
-       GET EXISTING CUSTOMERS
-    ================================= */
-
     let customers =
         JSON.parse(
             localStorage.getItem(
@@ -354,15 +569,9 @@ function saveCustomer(){
 
 
     if(!Array.isArray(customers)){
-
         customers = [];
-
     }
 
-
-    /* ================================
-       CREATE CUSTOMER
-    ================================= */
 
     const customer = {
 
@@ -402,10 +611,6 @@ function saveCustomer(){
     };
 
 
-    /* ================================
-       SAVE
-    ================================= */
-
     customers.push(customer);
 
 
@@ -417,54 +622,762 @@ function saveCustomer(){
     );
 
 
-    /* ================================
-       SUCCESS
-    ================================= */
-
     alert(
         "Customer saved successfully!"
     );
 
 
-    /* ================================
-       CLEAR FORM
-    ================================= */
-
-    document.getElementById(
-        "name"
-    ).value = "";
-
-
-    document.getElementById(
-        "phone"
-    ).value = "";
+    document.getElementById("name").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("address").value = "";
+    document.getElementById("car").value = "";
+    document.getElementById("model").value = "";
+    document.getElementById("battery").value = "";
 
 
-    document.getElementById(
-        "email"
-    ).value = "";
-
-
-    document.getElementById(
-        "address"
-    ).value = "";
-
-
-    document.getElementById(
-        "car"
-    ).value = "";
-
-
-    document.getElementById(
-        "model"
-    ).value = "";
-
-
-    document.getElementById(
-        "battery"
-    ).value = "";
+    renderCustomers();
 
 }
+
+
+/* ================================
+   GET CUSTOMERS
+================================ */
+
+function getCustomers(){
+
+    let customers =
+        JSON.parse(
+            localStorage.getItem(
+                "customers"
+            )
+        ) || [];
+
+    return Array.isArray(customers)
+        ? customers
+        : [];
+}
+
+
+/* ================================
+   RENDER CUSTOMER LIST
+================================ */
+
+function renderCustomers(){
+
+    const list =
+        document.getElementById(
+            "customerList"
+        );
+
+    const search =
+        document.getElementById(
+            "customerSearch"
+        )
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    let customers =
+        getCustomers();
+
+
+    if(search){
+
+        customers =
+            customers.filter(customer => {
+
+                const text = [
+
+                    customer.name,
+                    customer.phone,
+                    customer.email,
+                    customer.car,
+                    customer.model,
+                    customer.address,
+                    customer.battery,
+                    customer.registrationNumber
+
+                ]
+                .join(" ")
+                .toLowerCase();
+
+                return text.includes(search);
+
+            });
+
+    }
+
+
+    if(customers.length === 0){
+
+        list.innerHTML = `
+            <div class="no-data">
+                No customers found.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    list.innerHTML =
+        customers.map(customer => {
+
+            const safeId =
+                String(customer.id || "")
+                .replace(/'/g,"\\'");
+
+
+            return `
+
+                <div class="customer-card">
+
+                    <div class="customer-top">
+
+                        <div>
+
+                            <div class="customer-name">
+                                ${escapeHTML(
+                                    customer.name || "Unknown Customer"
+                                )}
+                            </div>
+
+                            <div class="customer-phone">
+                                📱 ${escapeHTML(
+                                    customer.phone || "-"
+                                )}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="customer-info">
+
+                        🚗
+                        <strong>Vehicle:</strong>
+                        ${escapeHTML(
+                            customer.car || "-"
+                        )}
+                        ${escapeHTML(
+                            customer.model || ""
+                        )}
+
+                        <br>
+
+                        🔋
+                        <strong>Battery:</strong>
+                        ${escapeHTML(
+                            customer.battery || "-"
+                        )}
+
+                        <br>
+
+                        ✉️
+                        <strong>Email:</strong>
+                        ${escapeHTML(
+                            customer.email || "-"
+                        )}
+
+                    </div>
+
+
+                    <div class="customer-actions">
+
+                        <button
+                            class="history-btn"
+                            onclick="showVehicleHistory('${safeId}')"
+                        >
+                            🚗 View Vehicle History
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+/* ================================
+   VEHICLE HISTORY
+================================ */
+
+function showVehicleHistory(customerId){
+
+    const customers =
+        getCustomers();
+
+    const customer =
+        customers.find(
+            c => String(c.id) === String(customerId)
+        );
+
+
+    if(!customer){
+
+        alert(
+            "Customer not found."
+        );
+
+        return;
+    }
+
+
+    const invoices =
+        JSON.parse(
+            localStorage.getItem(
+                "invoices"
+            )
+        ) || [];
+
+
+    const customerInvoices =
+        Array.isArray(invoices)
+        ?
+        invoices.filter(invoice => {
+
+            return invoiceMatchesCustomer(
+                invoice,
+                customer
+            );
+
+        })
+        :
+        [];
+
+
+    let totalPaid = 0;
+    let totalPending = 0;
+
+
+    customerInvoices.forEach(invoice => {
+
+        const total =
+            Number(
+                invoice.total ??
+                invoice.amount ??
+                0
+            ) || 0;
+
+
+        const paid =
+            getPaidAmount(invoice,total);
+
+
+        const pending =
+            Math.max(
+                total - paid,
+                0
+            );
+
+
+        totalPaid += paid;
+        totalPending += pending;
+
+    });
+
+
+    document.getElementById(
+        "historyTitle"
+    ).textContent =
+        "Vehicle History — " +
+        (customer.name || "Customer");
+
+
+    document.getElementById(
+        "historyCustomerInfo"
+    ).innerHTML = `
+
+        <div style="
+            line-height:1.8;
+            color:#fff;
+        ">
+
+            👤 <strong>Customer:</strong>
+            ${escapeHTML(customer.name || "-")}
+
+            <br>
+
+            📱 <strong>Phone:</strong>
+            ${escapeHTML(customer.phone || "-")}
+
+            <br>
+
+            🚗 <strong>Vehicle:</strong>
+            ${escapeHTML(customer.car || "-")}
+            ${escapeHTML(customer.model || "")}
+
+            <br>
+
+            🔋 <strong>Current Battery:</strong>
+            ${escapeHTML(customer.battery || "-")}
+
+        </div>
+
+    `;
+
+
+    document.getElementById(
+        "historyInvoices"
+    ).textContent =
+        customerInvoices.length;
+
+
+    document.getElementById(
+        "historyPaid"
+    ).textContent =
+        "AED " +
+        totalPaid.toFixed(2);
+
+
+    document.getElementById(
+        "historyPending"
+    ).textContent =
+        "AED " +
+        totalPending.toFixed(2);
+
+
+    const historyList =
+        document.getElementById(
+            "historyList"
+        );
+
+
+    if(customerInvoices.length === 0){
+
+        historyList.innerHTML = `
+
+            <div class="history-item">
+
+                <strong>
+                    No previous invoice history found.
+                </strong>
+
+                <p>
+                    This customer has no matching
+                    invoices in the CRM yet.
+                </p>
+
+            </div>
+
+        `;
+
+    }else{
+
+        const sortedInvoices =
+            [...customerInvoices]
+            .sort((a,b) => {
+
+                const da =
+                    new Date(
+                        a.createdAt ||
+                        a.date ||
+                        0
+                    );
+
+                const db =
+                    new Date(
+                        b.createdAt ||
+                        b.date ||
+                        0
+                    );
+
+                return db - da;
+
+            });
+
+
+        historyList.innerHTML =
+            sortedInvoices.map(invoice => {
+
+                const total =
+                    Number(
+                        invoice.total ??
+                        invoice.amount ??
+                        0
+                    ) || 0;
+
+
+                const paid =
+                    getPaidAmount(
+                        invoice,
+                        total
+                    );
+
+
+                const pending =
+                    Math.max(
+                        total - paid,
+                        0
+                    );
+
+
+                const date =
+                    formatInvoiceDate(
+                        invoice
+                    );
+
+
+                const invoiceNumber =
+                    invoice.invoiceNumber ||
+                    invoice.number ||
+                    "Invoice";
+
+
+                const type =
+                    invoice.type ||
+                    "Service";
+
+
+                const battery =
+                    invoice.batteryBrand ||
+                    invoice.battery ||
+                    invoice.brand ||
+                    "-";
+
+
+                const technician =
+                    invoice.technicianName ||
+                    invoice.technician ||
+                    invoice.createdBy ||
+                    "-";
+
+
+                let paymentStatus =
+                    invoice.paymentStatus ||
+                    invoice.status ||
+                    "";
+
+
+                if(!paymentStatus){
+
+                    paymentStatus =
+                        invoice.payment === "PAID"
+                        ? "PAID"
+                        : "PENDING";
+
+                }
+
+
+                return `
+
+                    <div class="history-item">
+
+                        <strong>
+                            🧾 ${escapeHTML(
+                                invoiceNumber
+                            )}
+                        </strong>
+
+                        <br>
+
+                        📅
+                        <strong>Date:</strong>
+                        ${escapeHTML(date)}
+
+                        <br>
+
+                        🔧
+                        <strong>Type:</strong>
+                        ${escapeHTML(type)}
+
+                        <br>
+
+                        🔋
+                        <strong>Battery:</strong>
+                        ${escapeHTML(battery)}
+
+                        <br>
+
+                        👨‍🔧
+                        <strong>Technician:</strong>
+                        ${escapeHTML(technician)}
+
+                        <br>
+
+                        💰
+                        <strong>Total:</strong>
+                        AED ${total.toFixed(2)}
+
+                        <br>
+
+                        ✅
+                        <strong>Paid:</strong>
+                        AED ${paid.toFixed(2)}
+
+                        <br>
+
+                        ⏳
+                        <strong>Outstanding:</strong>
+                        AED ${pending.toFixed(2)}
+
+                        <br>
+
+                        💳
+                        <strong>Status:</strong>
+                        ${escapeHTML(
+                            String(paymentStatus).toUpperCase()
+                        )}
+
+                    </div>
+
+                `;
+
+            })
+            .join("");
+
+    }
+
+
+    const historyBox =
+        document.getElementById(
+            "historyBox"
+        );
+
+
+    historyBox.style.display =
+        "block";
+
+
+    historyBox.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+    });
+
+}
+
+
+/* ================================
+   MATCH INVOICE TO CUSTOMER
+================================ */
+
+function invoiceMatchesCustomer(
+    invoice,
+    customer
+){
+
+    const customerIdMatches = [
+
+        invoice.customerId,
+        invoice.customerID
+
+    ].some(value =>
+        value &&
+        String(value) === String(customer.id)
+    );
+
+
+    if(customerIdMatches){
+        return true;
+    }
+
+
+    const customerName =
+        String(customer.name || "")
+        .trim()
+        .toLowerCase();
+
+
+    const customerPhone =
+        normalizePhone(
+            customer.phone || ""
+        );
+
+
+    const invoiceName =
+        String(
+            invoice.customerName ||
+            invoice.customer ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    const invoicePhone =
+        normalizePhone(
+            invoice.phone ||
+            invoice.customerPhone ||
+            ""
+        );
+
+
+    if(
+        customerPhone &&
+        invoicePhone &&
+        customerPhone === invoicePhone
+    ){
+
+        return true;
+
+    }
+
+
+    if(
+        customerName &&
+        invoiceName &&
+        customerName === invoiceName
+    ){
+
+        return true;
+
+    }
+
+
+    return false;
+
+}
+
+
+/* ================================
+   PAID AMOUNT
+================================ */
+
+function getPaidAmount(
+    invoice,
+    total
+){
+
+    if(
+        invoice.paidAmount !== undefined &&
+        invoice.paidAmount !== null &&
+        invoice.paidAmount !== ""
+    ){
+
+        const paid =
+            Number(
+                invoice.paidAmount
+            ) || 0;
+
+        return Math.min(
+            Math.max(paid,0),
+            total
+        );
+
+    }
+
+
+    const status =
+        String(
+            invoice.paymentStatus ||
+            invoice.status ||
+            invoice.payment ||
+            ""
+        )
+        .toUpperCase();
+
+
+    if(
+        status === "PAID" ||
+        status === "COMPLETE" ||
+        status === "COMPLETED"
+    ){
+
+        return total;
+
+    }
+
+
+    return 0;
+
+}
+
+
+/* ================================
+   DATE
+================================ */
+
+function formatInvoiceDate(invoice){
+
+    const value =
+        invoice.createdAt ||
+        invoice.date ||
+        "";
+
+
+    if(!value){
+        return "-";
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if(
+        !isNaN(
+            date.getTime()
+        )
+    ){
+
+        return date.toLocaleString();
+
+    }
+
+
+    return String(value);
+
+}
+
+
+/* ================================
+   NORMALIZE PHONE
+================================ */
+
+function normalizePhone(phone){
+
+    return String(phone || "")
+        .replace(/\D/g,"")
+        .replace(/^00/,"");
+
+}
+
+
+/* ================================
+   ESCAPE HTML
+================================ */
+
+function escapeHTML(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* ================================
+   CLOSE HISTORY
+================================ */
+
+function closeHistory(){
+
+    document.getElementById(
+        "historyBox"
+    ).style.display = "none";
+
+}
+
+
+/* ================================
+   LOAD CUSTOMERS
+================================ */
+
+renderCustomers();
 
 </script>
 
