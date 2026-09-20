@@ -255,6 +255,13 @@ header{
     color:#101820;
 }
 
+/* OWNER REPORTS SPECIAL */
+
+.owner-reports .action-icon{
+    background:#101820;
+    color:#f5b400;
+}
+
 /* FOOTER */
 
 footer{
@@ -589,6 +596,39 @@ footer{
         </a>
 
 
+        <!-- OWNER REPORTS -->
+
+        <a
+            id="ownerReportsButton"
+            class="action owner-reports"
+            href="./owner-reports.html"
+        >
+
+            <div class="action-top">
+
+                <div class="action-icon">
+                    📊
+                </div>
+
+                <div>
+
+                    <h3>Owner Reports</h3>
+
+                    <p>
+                        View sales, cost and profit reports
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="action-bottom">
+                Open Owner Reports →
+            </div>
+
+        </a>
+
+
     </div>
 
 
@@ -637,6 +677,16 @@ if(userRole !== "admin"){
     if(batteryStockButton){
 
         batteryStockButton.style.display = "none";
+
+    }
+
+
+    const ownerReportsButton =
+        document.getElementById("ownerReportsButton");
+
+    if(ownerReportsButton){
+
+        ownerReportsButton.style.display = "none";
 
     }
 
