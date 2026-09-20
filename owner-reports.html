@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Owner Reports | 800PowerBat</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f6f8;
+    color:#17202a;
+}
+
+/* HEADER */
+header{
+    background:#101820;
+    color:#fff;
+    padding:18px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    box-shadow:0 3px 10px rgba(0,0,0,.15);
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.logo{
+    width:48px;
+    height:48px;
+    object-fit:contain;
+    background:#fff;
+    border-radius:8px;
+    padding:5px;
+}
+
+.header-title h1{
+    margin:0;
+    font-size:22px;
+}
+
+.header-title p{
+    margin:4px 0 0;
+    color:#f5b400;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.back-btn{
+    background:#f5b400;
+    color:#101820;
+    border:0;
+    padding:11px 17px;
+    border-radius:7px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* MAIN */
+.container{
+    max-width:1400px;
+    margin:auto;
+    padding:22px;
+}
+
+/* FILTER */
+.filter-box{
+    background:#fff;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+.filter-title{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.filter-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+    margin-bottom:18px;
+}
+
+.filter-btn{
+    border:1px solid #d5d9dc;
+    background:#fff;
+    color:#17202a;
+    padding:10px 17px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.filter-btn:hover,
+.filter-btn.active{
+    background:#f5b400;
+    border-color:#f5b400;
+    color:#101820;
+}
+
+.custom-dates{
+    display:none;
+    grid-template-columns:1fr 1fr auto;
+    gap:12px;
+    align-items:end;
+}
+
+.custom-dates.show{
+    display:grid;
+}
+
+.field label{
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+.field input{
+    width:100%;
+    padding:11px;
+    border:1px solid #d6dadd;
+    border-radius:7px;
+    font-size:14px;
+}
+
+.apply-btn{
+    background:#101820;
+    color:#fff;
+    border:0;
+    padding:11px 18px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* REPORT INFO */
+.report-info{
+    margin:0 0 15px;
+    font-size:14px;
+    color:#59636d;
+    font-weight:bold;
+}
+
+/* CARDS */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:14px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:#fff;
+    border-radius:12px;
+    padding:18px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    border-top:4px solid #f5b400;
+}
+
+.card-title{
+    font-size:13px;
+    color:#68727d;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.card-value{
+    font-size:24px;
+    font-weight:bold;
+    color:#101820;
+}
+
+.card-sub{
+    margin-top:7px;
+    font-size:11px;
+    color:#7a838c;
+}
+
+/* PROFIT */
+.profit-card{
+    border-top-color:#18a558;
+}
+
+.profit-card .card-value{
+    color:#16894a;
+}
+
+/* COST */
+.cost-card{
+    border-top-color:#e74c3c;
+}
+
+.cost-card .card-value{
+    color:#d83b2d;
+}
+
+/* PENDING */
+.pending-card{
+    border-top-color:#ff9800;
+}
+
+.pending-card .card-value{
+    color:#e67e00;
+}
+
+/* CHART */
+.chart-box{
+    background:#fff;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+.section-title{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:18px;
+}
+
+.chart{
+    height:230px;
+    display:flex;
+    align-items:flex-end;
+    gap:18px;
+    padding:15px 10px 0;
+    border-bottom:1px solid #dfe3e6;
+    overflow-x:auto;
+}
+
+.bar-group{
+    min-width:65px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+}
+
+.bar{
+    width:42px;
+    min-height:3px;
+    background:#f5b400;
+    border-radius:6px 6px 0 0;
+    position:relative;
+}
+
+.bar-value{
+    position:absolute;
+    top:-22px;
+    width:100px;
+    left:50%;
+    transform:translateX(-50%);
+    text-align:center;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.bar-label{
+    font-size:10px;
+    margin-top:7px;
+    white-space:nowrap;
+    color:#68727d;
+}
+
+/* TABLE */
+.table-box{
+    background:#fff;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+}
+
+th{
+    background:#101820;
+    color:#fff;
+    padding:12px 10px;
+    text-align:left;
+    font-size:12px;
+}
+
+td{
+    padding:12px 10px;
+    border-bottom:1px solid #e7e9eb;
+    font-size:13px;
+}
+
+tr:hover td{
+    background:#fafafa;
+}
+
+.profit-positive{
+    color:#16894a;
+    font-weight:bold;
+}
+
+.profit-unknown{
+    color:#e67e00;
+    font-weight:bold;
+}
+
+.paid{
+    color:#16894a;
+    font-weight:bold;
+}
+
+.pending{
+    color:#e67e00;
+    font-weight:bold;
+}
+
+.empty{
+    text-align:center;
+    padding:35px;
+    color:#7b858f;
+}
+
+/* NOTICE */
+.notice{
+    background:#fff8df;
+    border-left:4px solid #f5b400;
+    padding:13px 15px;
+    border-radius:7px;
+    margin-bottom:20px;
+    font-size:13px;
+    color:#5e501f;
+}
+
+/* MOBILE */
+@media(max-width:1100px){
+    .cards{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
+@media(max-width:700px){
+
+    header{
+        padding:14px;
+    }
+
+    .header-title h1{
+        font-size:18px;
+    }
+
+    .header-title p{
+        font-size:11px;
+    }
+
+    .logo{
+        width:42px;
+        height:42px;
+    }
+
+    .back-btn{
+        padding:9px 11px;
+        font-size:12px;
+    }
+
+    .container{
+        padding:14px;
+    }
+
+    .cards{
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
+    }
+
+    .card{
+        padding:14px;
+    }
+
+    .card-value{
+        font-size:19px;
+    }
+
+    .custom-dates{
+        grid-template-columns:1fr;
+    }
+
+    .chart{
+        gap:12px;
+    }
+}
+
+@media(max-width:420px){
+    .cards{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .card-title{
+        font-size:11px;
+    }
+
+    .card-value{
+        font-size:17px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-left">
+
+        <img
+            src="b23de0638fab445598757e7292cbbc1d.png"
+            class="logo"
+            alt="800PowerBat"
+        >
+
+        <div class="header-title">
+            <h1>Owner Reports</h1>
+            <p>800PowerBat • Business Performance</p>
+        </div>
+
+    </div>
+
+    <button class="back-btn" onclick="goBack()">
+        ← Dashboard
+    </button>
+
+</header>
+
+
+<div class="container">
+
+    <!-- FILTER -->
+    <div class="filter-box">
+
+        <div class="filter-title">
+            Report Period
+        </div>
+
+        <div class="filter-buttons">
+
+            <button
+                class="filter-btn active"
+                data-period="all"
+                onclick="setPeriod('all',this)">
+                All Time
+            </button>
+
+            <button
+                class="filter-btn"
+                data-period="today"
+                onclick="setPeriod('today',this)">
+                Today
+            </button>
+
+            <button
+                class="filter-btn"
+                data-period="week"
+                onclick="setPeriod('week',this)">
+                This Week
+            </button>
+
+            <button
+                class="filter-btn"
+                data-period="month"
+                onclick="setPeriod('month',this)">
+                This Month
+            </button>
+
+            <button
+                class="filter-btn"
+                data-period="custom"
+                onclick="setPeriod('custom',this)">
+                Custom
+            </button>
+
+        </div>
+
+
+        <div class="custom-dates" id="customDates">
+
+            <div class="field">
+                <label>Start Date</label>
+                <input type="date" id="startDate">
+            </div>
+
+            <div class="field">
+                <label>End Date</label>
+                <input type="date" id="endDate">
+            </div>
+
+            <button class="apply-btn" onclick="applyCustomDate()">
+                Apply Report
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="report-info" id="reportInfo">
+        Showing: All Time
+    </div>
+
+
+    <div class="notice" id="costNotice" style="display:none;"></div>
+
+
+    <!-- SUMMARY CARDS -->
+    <div class="cards">
+
+        <div class="card">
+            <div class="card-title">TOTAL SALES</div>
+            <div class="card-value" id="totalSales">AED 0.00</div>
+            <div class="card-sub">Before VAT</div>
+        </div>
+
+
+        <div class="card cost-card">
+            <div class="card-title">TOTAL COST</div>
+            <div class="card-value" id="totalCost">AED 0.00</div>
+            <div class="card-sub">Recorded purchase cost</div>
+        </div>
+
+
+        <div class="card profit-card">
+            <div class="card-title">TOTAL PROFIT</div>
+            <div class="card-value" id="totalProfit">AED 0.00</div>
+            <div class="card-sub">Based on recorded costs</div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-title">TOTAL PAID</div>
+            <div class="card-value" id="totalPaid">AED 0.00</div>
+            <div class="card-sub">Customer payments</div>
+        </div>
+
+
+        <div class="card pending-card">
+            <div class="card-title">PENDING</div>
+            <div class="card-value" id="totalPending">AED 0.00</div>
+            <div class="card-sub">Outstanding amount</div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-title">BATTERIES SOLD</div>
+            <div class="card-value" id="batteriesSold">0</div>
+            <div class="card-sub">Battery invoices</div>
+        </div>
+
+    </div>
+
+
+    <!-- CHART -->
+    <div class="chart-box">
+
+        <div class="section-title">
+            Sales Performance
+        </div>
+
+        <div class="chart" id="salesChart"></div>
+
+    </div>
+
+
+    <!-- INVOICE TABLE -->
+    <div class="table-box">
+
+        <div class="section-title">
+            Invoice-wise Report
+        </div>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Invoice #</th>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Type</th>
+                        <th>Sale</th>
+                        <th>Cost</th>
+                        <th>Profit</th>
+                        <th>Payment</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="reportTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================
+   ADMIN ACCESS
+========================================= */
+
+if(
+    localStorage.getItem("800PowerBatLoggedIn") !== "true" ||
+    localStorage.getItem("800PowerBatUserRole") !== "admin"
+){
+    window.location.href = "login.html";
+}
+
+
+/* =========================================
+   VARIABLES
+========================================= */
+
+let currentPeriod = "all";
+let currentStart = null;
+let currentEnd = null;
+
+
+/* =========================================
+   FORMAT MONEY
+========================================= */
+
+function formatMoney(value){
+
+    return "AED " + Number(value || 0).toLocaleString(
+        "en-AE",
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
+    );
+
+}
+
+
+/* =========================================
+   GET INVOICES
+========================================= */
+
+function getInvoices(){
+
+    try{
+
+        const data = JSON.parse(
+            localStorage.getItem("invoices") || "[]"
+        );
+
+        return Array.isArray(data) ? data : [];
+
+    }catch(error){
+
+        return [];
+
+    }
+
+}
+
+
+/* =========================================
+   GET INVOICE DATE
+========================================= */
+
+function getInvoiceDate(invoice){
+
+    if(invoice.createdAt){
+
+        const d = new Date(invoice.createdAt);
+
+        if(!isNaN(d.getTime())){
+            return d;
+        }
+
+    }
+
+    if(invoice.date){
+
+        const d = new Date(invoice.date);
+
+        if(!isNaN(d.getTime())){
+            return d;
+        }
+
+    }
+
+    return null;
+
+}
+
+
+/* =========================================
+   GET SALE
+========================================= */
+
+function getSale(invoice){
+
+    if(invoice.salePrice !== undefined){
+        return Number(invoice.salePrice) || 0;
+    }
+
+    if(invoice.subtotal !== undefined){
+        return Number(invoice.subtotal) || 0;
+    }
+
+    if(invoice.amount !== undefined){
+        return Number(invoice.amount) || 0;
+    }
+
+    return 0;
+
+}
+
+
+/* =========================================
+   GET COST
+========================================= */
+
+function getCost(invoice){
+
+    if(
+        invoice.costRecorded === true &&
+        invoice.costPrice !== undefined
+    ){
+
+        return Number(invoice.costPrice) || 0;
+
+    }
+
+    if(invoice.costPrice !== undefined){
+
+        const value = Number(invoice.costPrice);
+
+        if(value > 0){
+            return value;
+        }
+
+    }
+
+    if(invoice.purchasePrice !== undefined){
+
+        const value = Number(invoice.purchasePrice);
+
+        if(value > 0){
+            return value;
+        }
+
+    }
+
+    return null;
+
+}
+
+
+/* =========================================
+   GET PROFIT
+========================================= */
+
+function getProfit(invoice){
+
+    const sale = getSale(invoice);
+    const cost = getCost(invoice);
+
+    if(cost === null){
+        return null;
+    }
+
+    if(invoice.profit !== undefined){
+
+        return Number(invoice.profit) || 0;
+
+    }
+
+    return sale - cost;
+
+}
+
+
+/* =========================================
+   PAYMENT STATUS
+========================================= */
+
+function getPaymentStatus(invoice){
+
+    const status = String(
+        invoice.paymentStatus ||
+        invoice.payment ||
+        "PAID"
+    ).toUpperCase();
+
+    if(
+        status === "PENDING" ||
+        status === "UNPAID" ||
+        status === "DUE" ||
+        status === "OUTSTANDING"
+    ){
+
+        return "PENDING";
+
+    }
+
+    return "PAID";
+
+}
+
+
+/* =========================================
+   PAID AMOUNT
+========================================= */
+
+function getPaidAmount(invoice){
+
+    const sale = getSale(invoice);
+    const vat = Number(invoice.vat || 0);
+    const total = Number(
+        invoice.total !== undefined
+        ? invoice.total
+        : sale + vat
+    ) || 0;
+
+    if(invoice.paidAmount !== undefined){
+
+        return Math.max(
+            0,
+            Math.min(
+                total,
+                Number(invoice.paidAmount) || 0
+            )
+        );
+
+    }
+
+    if(getPaymentStatus(invoice) === "PAID"){
+        return total;
+    }
+
+    return 0;
+
+}
+
+
+/* =========================================
+   PENDING AMOUNT
+========================================= */
+
+function getPendingAmount(invoice){
+
+    const sale = getSale(invoice);
+    const vat = Number(invoice.vat || 0);
+
+    const total = Number(
+        invoice.total !== undefined
+        ? invoice.total
+        : sale + vat
+    ) || 0;
+
+    if(invoice.pendingAmount !== undefined){
+
+        return Math.max(
+            0,
+            Number(invoice.pendingAmount) || 0
+        );
+
+    }
+
+    return Math.max(
+        0,
+        total - getPaidAmount(invoice)
+    );
+
+}
+
+
+/* =========================================
+   BATTERY CHECK
+========================================= */
+
+function isBatteryInvoice(invoice){
+
+    const type = String(
+        invoice.invoiceType ||
+        invoice.type ||
+        ""
+    ).toLowerCase();
+
+    if(type.includes("battery")){
+        return true;
+    }
+
+    if(
+        invoice.batteryBrand ||
+        invoice.batteryModel ||
+        invoice.warranty
+    ){
+        return true;
+    }
+
+    const description = String(
+        invoice.description ||
+        invoice.service ||
+        ""
+    ).toLowerCase();
+
+    if(description.includes("battery")){
+        return true;
+    }
+
+    return false;
+
+}
+
+
+/* =========================================
+   DATE ONLY
+========================================= */
+
+function dateOnly(date){
+
+    const d = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+    );
+
+    return d;
+
+}
+
+
+/* =========================================
+   CHECK PERIOD
+========================================= */
+
+function invoiceMatchesPeriod(invoice){
+
+    const date = getInvoiceDate(invoice);
+
+    if(!date){
+        return false;
+    }
+
+    if(currentPeriod === "all"){
+        return true;
+    }
+
+    const invoiceDay = dateOnly(date);
+
+
+    if(currentPeriod === "today"){
+
+        const today = dateOnly(new Date());
+
+        return invoiceDay.getTime() === today.getTime();
+
+    }
+
+
+    if(currentPeriod === "week"){
+
+        const today = dateOnly(new Date());
+
+        const day = today.getDay();
+
+        const diff = day === 0 ? 6 : day - 1;
+
+        const monday = new Date(today);
+
+        monday.setDate(
+            today.getDate() - diff
+        );
+
+        const sunday = new Date(monday);
+
+        sunday.setDate(
+            monday.getDate() + 6
+        );
+
+        return (
+            invoiceDay >= monday &&
+            invoiceDay <= sunday
+        );
+
+    }
+
+
+    if(currentPeriod === "month"){
+
+        const now = new Date();
+
+        return (
+            date.getFullYear() === now.getFullYear() &&
+            date.getMonth() === now.getMonth()
+        );
+
+    }
+
+
+    if(currentPeriod === "custom"){
+
+        if(!currentStart || !currentEnd){
+            return true;
+        }
+
+        return (
+            invoiceDay >= currentStart &&
+            invoiceDay <= currentEnd
+        );
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================
+   PERIOD BUTTON
+========================================= */
+
+function setPeriod(period,button){
+
+    currentPeriod = period;
+
+    document
+        .querySelectorAll(".filter-btn")
+        .forEach(btn=>{
+            btn.classList.remove("active");
+        });
+
+    button.classList.add("active");
+
+
+    const customBox =
+        document.getElementById("customDates");
+
+    if(period === "custom"){
+
+        customBox.classList.add("show");
+
+        return;
+
+    }
+
+    customBox.classList.remove("show");
+
+    updateReport();
+
+}
+
+
+/* =========================================
+   CUSTOM DATE
+========================================= */
+
+function applyCustomDate(){
+
+    const start =
+        document.getElementById("startDate").value;
+
+    const end =
+        document.getElementById("endDate").value;
+
+
+    if(!start || !end){
+
+        alert("Please select both start and end dates.");
+
+        return;
+
+    }
+
+
+    const startDate =
+        new Date(start + "T00:00:00");
+
+    const endDate =
+        new Date(end + "T23:59:59");
+
+
+    if(startDate > endDate){
+
+        alert("End date cannot be before start date.");
+
+        return;
+
+    }
+
+
+    currentStart = dateOnly(startDate);
+    currentEnd = dateOnly(endDate);
+
+    updateReport();
+
+}
+
+
+/* =========================================
+   REPORT TITLE
+========================================= */
+
+function getReportTitle(){
+
+    if(currentPeriod === "all"){
+        return "All Time";
+    }
+
+    if(currentPeriod === "today"){
+        return "Today";
+    }
+
+    if(currentPeriod === "week"){
+        return "This Week";
+    }
+
+    if(currentPeriod === "month"){
+        return "This Month";
+    }
+
+    if(currentPeriod === "custom"){
+
+        if(currentStart && currentEnd){
+
+            return (
+                currentStart.toLocaleDateString() +
+                " - " +
+                currentEnd.toLocaleDateString()
+            );
+
+        }
+
+        return "Custom Date";
+
+    }
+
+    return "";
+
+}
+
+
+/* =========================================
+   UPDATE REPORT
+========================================= */
+
+function updateReport(){
+
+    const allInvoices = getInvoices();
+
+    const invoices = allInvoices
+        .filter(invoiceMatchesPeriod)
+        .sort((a,b)=>{
+
+            const da = getInvoiceDate(a);
+            const db = getInvoiceDate(b);
+
+            return (
+                (db ? db.getTime() : 0) -
+                (da ? da.getTime() : 0)
+            );
+
+        });
+
+
+    let totalSales = 0;
+    let totalCost = 0;
+    let totalProfit = 0;
+    let totalPaid = 0;
+    let totalPending = 0;
+    let batteriesSold = 0;
+
+    let unknownCostCount = 0;
+
+
+    invoices.forEach(invoice=>{
+
+        const sale = getSale(invoice);
+        const cost = getCost(invoice);
+        const profit = getProfit(invoice);
+
+        totalSales += sale;
+
+        if(cost !== null){
+
+            totalCost += cost;
+
+        }else{
+
+            unknownCostCount++;
+
+        }
+
+        if(profit !== null){
+
+            totalProfit += profit;
+
+        }
+
+        totalPaid += getPaidAmount(invoice);
+
+        totalPending += getPendingAmount(invoice);
+
+
+        if(isBatteryInvoice(invoice)){
+
+            batteriesSold++;
+
+        }
+
+    });
+
+
+    document.getElementById("totalSales").textContent =
+        formatMoney(totalSales);
+
+    document.getElementById("totalCost").textContent =
+        formatMoney(totalCost);
+
+    document.getElementById("totalProfit").textContent =
+        formatMoney(totalProfit);
+
+    document.getElementById("totalPaid").textContent =
+        formatMoney(totalPaid);
+
+    document.getElementById("totalPending").textContent =
+        formatMoney(totalPending);
+
+    document.getElementById("batteriesSold").textContent =
+        batteriesSold;
+
+
+    document.getElementById("reportInfo").textContent =
+        "Showing: " +
+        getReportTitle() +
+        " • " +
+        invoices.length +
+        " invoice(s)";
+
+
+    const notice =
+        document.getElementById("costNotice");
+
+
+    if(unknownCostCount > 0){
+
+        notice.style.display = "block";
+
+        notice.innerHTML =
+            "<strong>Cost information:</strong> " +
+            unknownCostCount +
+            " invoice(s) do not have a recorded battery purchase/cost price. " +
+            "Those invoices are not included in Total Cost or Total Profit.";
+
+    }else{
+
+        notice.style.display = "none";
+
+    }
+
+
+    renderTable(invoices);
+    renderChart(invoices);
+
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+function renderTable(invoices){
+
+    const tbody =
+        document.getElementById("reportTable");
+
+    tbody.innerHTML = "";
+
+
+    if(invoices.length === 0){
+
+        tbody.innerHTML =
+            '<tr><td colspan="8" class="empty">' +
+            'No invoices found for this period.' +
+            '</td></tr>';
+
+        return;
+
+    }
+
+
+    invoices.forEach(invoice=>{
+
+        const tr =
+            document.createElement("tr");
+
+
+        const date =
+            getInvoiceDate(invoice);
+
+        const dateText =
+            date
+            ? date.toLocaleDateString("en-AE")
+            : "-";
+
+
+        const invoiceNumber =
+            invoice.invoiceNumber ||
+            invoice.number ||
+            invoice.id ||
+            "-";
+
+
+        const customer =
+            invoice.customerName ||
+            invoice.customer ||
+            "Walk-in Customer";
+
+
+        const type =
+            invoice.invoiceType ||
+            invoice.type ||
+            "Service";
+
+
+        const sale =
+            getSale(invoice);
+
+
+        const cost =
+            getCost(invoice);
+
+
+        const profit =
+            getProfit(invoice);
+
+
+        const paymentStatus =
+            getPaymentStatus(invoice);
+
+
+        let costHTML = "-";
+
+        if(cost !== null){
+
+            costHTML =
+                formatMoney(cost);
+
+        }
+
+
+        let profitHTML = "-";
+
+        if(profit !== null){
+
+            profitHTML =
+                '<span class="profit-positive">' +
+                formatMoney(profit) +
+                '</span>';
+
+        }else{
+
+            profitHTML =
+                '<span class="profit-unknown">Not Recorded</span>';
+
+        }
+
+
+        let paymentHTML;
+
+        if(paymentStatus === "PAID"){
+
+            paymentHTML =
+                '<span class="paid">PAID</span>';
+
+        }else{
+
+            paymentHTML =
+                '<span class="pending">PENDING</span>';
+
+        }
+
+
+        tr.innerHTML = `
+
+            <td><strong>${escapeHTML(invoiceNumber)}</strong></td>
+
+            <td>${escapeHTML(dateText)}</td>
+
+            <td>${escapeHTML(customer)}</td>
+
+            <td>${escapeHTML(type)}</td>
+
+            <td>${formatMoney(sale)}</td>
+
+            <td>${costHTML}</td>
+
+            <td>${profitHTML}</td>
+
+            <td>${paymentHTML}</td>
+
+        `;
+
+
+        tbody.appendChild(tr);
+
+    });
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   CHART
+========================================= */
+
+function renderChart(invoices){
+
+    const chart =
+        document.getElementById("salesChart");
+
+    chart.innerHTML = "";
+
+
+    if(invoices.length === 0){
+
+        chart.innerHTML =
+            '<div style="width:100%;text-align:center;color:#7b858f;padding-top:80px;">' +
+            'No sales data available.' +
+            '</div>';
+
+        return;
+
+    }
+
+
+    const grouped = {};
+
+
+    invoices.forEach(invoice=>{
+
+        const date =
+            getInvoiceDate(invoice);
+
+        if(!date){
+            return;
+        }
+
+
+        let key;
+
+
+        if(currentPeriod === "today"){
+
+            key = date.toLocaleTimeString(
+                "en-AE",
+                {
+                    hour:"2-digit",
+                    minute:"2-digit"
+                }
+            );
+
+        }else{
+
+            key =
+                date.toLocaleDateString(
+                    "en-AE",
+                    {
+                        day:"2-digit",
+                        month:"short"
+                    }
+                );
+
+        }
+
+
+        if(!grouped[key]){
+            grouped[key] = 0;
+        }
+
+
+        grouped[key] += getSale(invoice);
+
+    });
+
+
+    let entries =
+        Object.entries(grouped);
+
+
+    entries.sort((a,b)=>{
+
+        return b[1] - a[1];
+
+    });
+
+
+    entries = entries.slice(0,12);
+
+    entries.reverse();
+
+
+    const max =
+        Math.max(
+            ...entries.map(item=>item[1]),
+            1
+        );
+
+
+    entries.forEach(item=>{
+
+        const label = item[0];
+        const value = item[1];
+
+
+        const group =
+            document.createElement("div");
+
+        group.className = "bar-group";
+
+
+        const height =
+            Math.max(
+                5,
+                (value / max) * 180
+            );
+
+
+        group.innerHTML = `
+
+            <div
+                class="bar"
+                style="height:${height}px"
+            >
+
+                <div class="bar-value">
+                    ${formatMoney(value)}
+                </div>
+
+            </div>
+
+            <div class="bar-label">
+                ${escapeHTML(label)}
+            </div>
+
+        `;
+
+
+        chart.appendChild(group);
+
+    });
+
+}
+
+
+/* =========================================
+   BACK
+========================================= */
+
+function goBack(){
+
+    window.location.href = "index.html";
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        updateReport();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
