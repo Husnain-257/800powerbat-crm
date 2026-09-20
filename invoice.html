@@ -1,5 +1,6 @@
-<!-- Is code mein sirf customer connection add kiya gaya hai.
-     Existing invoice design aur existing functionality same rakhi gayi hai. -->
+<!-- Is code mein Owner Reports ke liye
+     Sale Price + Cost Price + Profit data add kiya gaya hai.
+     Existing invoice design aur functionality same rakhi gayi hai. -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -1834,6 +1835,21 @@ function loadSavedCustomer(){
     customer.address || "";
 
 
+    const customerTRN =
+    document.getElementById(
+        "customerTRN"
+    );
+
+    if(customerTRN){
+
+        customerTRN.value =
+        customer.trn ||
+        customer.customerTRN ||
+        "";
+
+    }
+
+
     const carBrand =
     document.getElementById(
         "carBrand"
@@ -1988,6 +2004,80 @@ function generateInvoiceNumber(){
 
 
 /* =========================
+   BATTERY COST PRICE
+   OWNER REPORTS
+========================= */
+
+/*
+   Battery Stock mein cost ka naam
+   agar in mein se koi bhi ho to
+   automatically read hoga:
+
+   costPrice
+   purchasePrice
+   buyPrice
+   cost
+   buyingPrice
+   purchase_cost
+   purchase_price
+*/
+
+function getBatteryCostPrice(battery){
+
+    if(!battery){
+        return 0;
+    }
+
+
+    const possibleCosts = [
+
+        battery.costPrice,
+
+        battery.purchasePrice,
+
+        battery.buyPrice,
+
+        battery.cost,
+
+        battery.buyingPrice,
+
+        battery.purchase_cost,
+
+        battery.purchase_price
+
+    ];
+
+
+    for(
+        let i=0;
+        i<possibleCosts.length;
+        i++
+    ){
+
+        const value =
+        Number(
+            possibleCosts[i]
+        );
+
+
+        if(
+            Number.isFinite(value) &&
+            value >= 0
+        ){
+
+            return value;
+
+        }
+
+    }
+
+
+    return 0;
+
+}
+
+
+/* =========================
    SAVE INVOICE TO HISTORY
 ========================= */
 
@@ -2132,7 +2222,8 @@ function readBatteryStock(){
                     size:"D23",
                     warranty:"18 Months",
                     quantity:10,
-                    sellingPrice:550
+                    sellingPrice:550,
+                    costPrice:0
                 }
 
             ];
@@ -2415,6 +2506,7 @@ function loadBatteryInfo(){
     ).textContent =
     battery.warranty || "—";
 
+
     if(battery.sellingPrice){
 
         document.getElementById(
@@ -2423,6 +2515,7 @@ function loadBatteryInfo(){
         battery.sellingPrice;
 
     }
+
 
     const quantity =
     Number(battery.quantity) || 0;
@@ -2595,7 +2688,33 @@ function generateInvoice(){
 
     let price=0;
 
+    /*
+       NEW:
+       Cost price for Owner Reports
+    */
+
+    let costPrice=0;
+
+    /*
+       NEW:
+       Battery object is captured
+       BEFORE stock quantity is deducted.
+    */
+
+    let selectedBattery=null;
+
+
     if(type === "battery"){
+
+        /*
+           Get selected battery first.
+           This is important because after
+           deduction the stock quantity changes.
+        */
+
+        selectedBattery =
+        findBattery();
+
 
         price =
         Number(
@@ -2603,6 +2722,22 @@ function generateInvoice(){
                 "sellingPrice"
             ).value
         ) || 550;
+
+
+        /*
+           Get purchase/cost price
+           from Battery Stock.
+        */
+
+        costPrice =
+        getBatteryCostPrice(
+            selectedBattery
+        );
+
+
+        /*
+           Deduct one battery from stock.
+        */
 
         deductBatteryFromStock();
 
@@ -2614,6 +2749,17 @@ function generateInvoice(){
                 "servicePrice"
             ).value
         ) || 0;
+
+
+        /*
+           No separate service cost currently
+           exists in this invoice system.
+
+           Therefore service cost is 0 until
+           service-cost tracking is added.
+        */
+
+        costPrice=0;
 
     }
 
@@ -2627,6 +2773,22 @@ function generateInvoice(){
 
     const total =
     subtotal+vat;
+
+
+    /*
+       IMPORTANT:
+       Profit is calculated before VAT.
+
+       Example:
+       Sale = 550
+       Cost = 350
+       Profit = 200
+
+       VAT is not counted as profit.
+    */
+
+    const profit =
+    subtotal - costPrice;
 
 
     const invoiceNumber =
@@ -2747,12 +2909,15 @@ function generateInvoice(){
         ).value ||
         "55d23L";
 
-        const battery =
-        findBattery();
+
+        /*
+           Use the same battery that was
+           selected before stock deduction.
+        */
 
         batterySizeValue =
-        battery
-        ? battery.size || "—"
+        selectedBattery
+        ? selectedBattery.size || "—"
         : "—";
 
 
@@ -2976,11 +3141,73 @@ function generateInvoice(){
         ? warrantyPeriodValue + " Months"
         : "",
 
-        subtotal: subtotal,
 
-        vat: vat,
+        /* =========================
+           OWNER REPORT DATA
+        ========================= */
 
-        total: total,
+        /*
+           Sale price before VAT
+        */
+
+        salePrice:
+        Number(subtotal),
+
+
+        /*
+           Selling price alias
+           for compatibility
+        */
+
+        sellingPrice:
+        Number(subtotal),
+
+
+        /*
+           Actual battery purchase/cost price
+        */
+
+        costPrice:
+        Number(costPrice),
+
+
+        /*
+           Purchase price alias
+        */
+
+        purchasePrice:
+        Number(costPrice),
+
+
+        /*
+           Profit = Sale - Cost
+        */
+
+        profit:
+        Number(profit),
+
+
+        /*
+           Tells Owner Reports whether
+           an actual cost was recorded.
+        */
+
+        costRecorded:
+        Number(costPrice) > 0,
+
+
+        /* =========================
+           NORMAL INVOICE DATA
+        ========================= */
+
+        subtotal:
+        Number(subtotal),
+
+        vat:
+        Number(vat),
+
+        total:
+        Number(total),
 
         payment: "PAID",
 
@@ -3005,13 +3232,12 @@ function generateInvoice(){
 
     renderHistory();
 
-
 }
 
 
 /* =========================
    LOAD SELECTED PREVIOUS INVOICE
-   ========================= */
+========================= */
 
 function loadSelectedInvoice(){
 
@@ -3306,9 +3532,13 @@ function loadSelectedInvoice(){
             document.getElementById(
                 "sellingPrice"
             ).value =
-            invoice.subtotal != null
-            ? invoice.subtotal
-            : "";
+            invoice.salePrice != null
+            ? invoice.salePrice
+            : (
+                invoice.subtotal != null
+                ? invoice.subtotal
+                : ""
+            );
 
 
             let warrantyNumber =
@@ -3327,12 +3557,6 @@ function loadSelectedInvoice(){
             ).value =
             warrantyNumber || "";
 
-
-            /*
-               Restore saved battery information
-               even if the battery is no longer
-               available in current stock.
-            */
 
             document.getElementById(
                 "batterySizeInfo"
@@ -3607,6 +3831,7 @@ function loadSelectedInvoice(){
         Number(
             invoice.subtotal ||
             invoice.amount ||
+            invoice.salePrice ||
             0
         );
 
@@ -3674,7 +3899,7 @@ function loadSelectedInvoice(){
 
 
         /* =========================
-           SHOW EXISTING INVOICE DESIGN
+           SHOW EXISTING INVOICE
         ========================= */
 
         document.getElementById(
@@ -3685,12 +3910,6 @@ function loadSelectedInvoice(){
 
         invoiceGenerated=true;
 
-
-        /*
-           Remove temporary selected invoice
-           so refreshing this page does not
-           create/open the same invoice again.
-        */
 
         localStorage.removeItem(
             "selectedInvoice"
@@ -3848,12 +4067,6 @@ function(){
         "servicePrice"
     ).style.display="none";
 
-    /*
-       NEW:
-       If Previous Invoices page sends
-       a saved invoice, open that exact
-       invoice inside the existing design.
-    */
 
     loadSelectedInvoice();
 
